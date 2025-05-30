@@ -1,6 +1,6 @@
 import React from "react";
 import { AppWindow, Headphones, Users, Gem, Zap, Briefcase, LayoutDashboard } from "lucide-react";
-import Card from "../Card";
+import Card from "./Card.jsx";
 
 export default function ServicesGrid() {
   const services = [

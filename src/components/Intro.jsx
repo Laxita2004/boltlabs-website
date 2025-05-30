@@ -1,9 +1,9 @@
 import React from "react";
-import intro from "../../assets/intro.png";
+import intro from "../assets/intro.png";
 
 export default function DigitalPartnerCard() {
   return (
-    <div className="w-full min-h-screen bg-gray-900 p-0 m-0">
+    <div className="w-full min-h-screen bg-gray-900 pt-24 md:pt-28 p-0 m-0">
       <div className="w-full grid grid-cols-1 md:grid-cols-2 items-center">
         {/* Left text section */}
         <div className="px-6 py-10 md:px-16 md:py-20">
@@ -16,7 +16,7 @@ export default function DigitalPartnerCard() {
         </div>
 
         {/* Right image/illustration section */}
-        <div className="flex justify-center items-center px-6">
+        <div className="flex justify-center items-center px-6 pt-10 md:pt-20">
           <img
             src={intro}
             alt="Team working illustration"

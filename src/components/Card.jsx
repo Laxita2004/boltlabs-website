@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Card({ icon, title, subtitle }) {
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-shadow duration-300 cursor-pointer">
+    <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer">
       <div className="w-10 h-10 bg-gray-100 rounded-md flex items-center justify-center mb-4">
         {icon}
       </div>

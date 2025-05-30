@@ -7,7 +7,7 @@ import {
   FaFax,
   FaMapMarkerAlt,
 } from "react-icons/fa";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo.svg";
 
 export default function Footer() {
   return (

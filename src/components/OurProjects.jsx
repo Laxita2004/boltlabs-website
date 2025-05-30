@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import sample1 from "../../assets/sample1.jpg";
-import sample2 from "../../assets/sample2.jpg";
-import sample3 from "../../assets/sample3.jpg";
+import sample1 from "../assets/sample1.jpg";
+import sample2 from "../assets/sample2.jpg";
+import sample3 from "../assets/sample3.jpg";
 
 const projects = [
   {
@@ -51,17 +51,16 @@ export default function StackedCarousel() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center px-4 py-10">
-      <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">
+    <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center px-4 py-10 ">
+      <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-left ">
         Our <span className="text-teal-400">Projects</span>
-      </h2>
+      </h2><br />
 
       {/* Container that changes width on hover */}
       <motion.div
-        initial={{ width: "20rem" }}
-        whileHover={{ width: "24rem" }}
+        whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.3 }}
-        className="relative h-96 overflow-hidden rounded-xl shadow-lg bg-gray-800"
+        className="relative w-[90%] max-w-6xl h-96 overflow-hidden rounded-xl shadow-lg bg-gray-800"
       >
         <AnimatePresence custom={direction} initial={false}>
           <motion.div
