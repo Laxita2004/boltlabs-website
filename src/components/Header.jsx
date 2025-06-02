@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
+import logo from '../images/logo.png'; 
 import {
   FaHome,
   FaInfoCircle,
@@ -9,7 +10,6 @@ import {
   FaBars,
   FaTimes,
 } from "react-icons/fa";
-import logo from "../../assets/logo.svg";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -32,13 +32,11 @@ export default function Header() {
     <header className="fixed top-0 left-0 w-full z-50 bg-[#0e1a24] shadow-md px-0 py-4">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6">
         {/* Logo */}
-        <div className="flex items-center flex-shrink-0">
-          <img
-            src={logo}
-            alt="Bolt Labs Logo"
-            className="h-12 md:h-14 w-auto min-w-[48px]"
-          />
-        </div>
+        <div className="flex items-center">
+         <div className="w-[160px] h-[50px]  text-green-400 flex items-center justify-center text-sm font-bold">
+          <img  src={logo} alt="BoltLab Logo" className="h-32 w-32 -mt-8" />
+       </div>
+       </div>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex bg-gray-700 rounded-full px-6 py-2 space-x-6 items-center shadow-inner">
