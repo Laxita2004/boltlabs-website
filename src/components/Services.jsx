@@ -1,60 +1,62 @@
 import React from "react";
-import { AppWindow, Headphones, Users, Gem, Zap, Briefcase, LayoutDashboard } from "lucide-react";
+import { LayoutDashboard, AppWindow, Headphones, Users, Gem, Zap, Briefcase } from "lucide-react";
 import Card from "./Card.jsx";
+import ScrollReveal from "./ScrollReveal.jsx";
 
 export default function ServicesGrid() {
   const services = [
     {
-      icon: <LayoutDashboard size={20} />, // Project Management
+      icon: <LayoutDashboard size={22} className="text-teal-400" />,
       title: "Project Management",
       subtitle: "30 options available",
     },
     {
-      icon: <AppWindow size={20} />, // Web & Mobile
+      icon: <AppWindow size={22} className="text-teal-400" />,
       title: "Web & Mobile Development",
       subtitle: "40 options available",
     },
     {
-      icon: <Headphones size={20} />, // Customer Support
+      icon: <Headphones size={22} className="text-teal-400" />,
       title: "Customer Support",
       subtitle: "17 options available",
     },
     {
-      icon: <Users size={20} />, // HR
+      icon: <Users size={22} className="text-teal-400" />,
       title: "Human Resources",
       subtitle: "21 options available",
     },
     {
-      icon: <Gem size={20} />, // Design
+      icon: <Gem size={22} className="text-teal-400" />,
       title: "Design & Creatives",
       subtitle: "13 options available",
     },
     {
-      icon: <Zap size={20} />, // Marketing
+      icon: <Zap size={22} className="text-teal-400" />,
       title: "Marketing & Communication",
       subtitle: "27 options available",
     },
     {
-      icon: <Briefcase size={20} />, // Biz Dev
+      icon: <Briefcase size={22} className="text-teal-400" />,
       title: "Business Development",
       subtitle: "22 options available",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-900 py-16 px-6 md:px-12">
-      <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-10">
-        Save Time <span className="text-teal-400">Managing</span> Your Business
-        <br /> With Our <span className="text-teal-400">Best Services</span>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-20 px-6 md:px-12 font-sans">
+      <h2 className="text-3xl md:text-5xl font-extrabold text-center text-white mb-16">
+        Save Time <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400">Managing</span> Your Business
+        <br /> With Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400">Best Services</span>
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {services.map((service, index) => (
-          <Card
-            key={index}
-            icon={service.icon}
-            title={service.title}
-            subtitle={service.subtitle}
-          />
+          <ScrollReveal key={index} delay={index * 0.15}>
+            <Card
+              icon={service.icon}
+              title={service.title}
+              subtitle={service.subtitle}
+            />
+          </ScrollReveal>
         ))}
       </div>
     </div>
