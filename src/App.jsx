@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import DomainTeam from "./pages/DomainTeam";
+import ProfilePage from './components/ProfilePage'
 
 
 function App() {
@@ -18,6 +19,8 @@ function App() {
           <Route path="/about" element={<About />} />
 
           <Route path="/team/:domain" element={<DomainTeam />} />
+          <Route path="/profile" element={<ProfilePage />} />
+
           <Route path="/contact" element={<Contact />} />
           {/* <Route path="/signin" element={<div>Sign In Page</div>} /> */}
 
