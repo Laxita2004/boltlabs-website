@@ -7,9 +7,9 @@ const Contact = () => {
     return (
         <div>
 
-            <Navbar />
+            {/* <Navbar /> */}
             <Content />
-            <Footer />
+            {/* <Footer /> */}
 
         </div>
     )

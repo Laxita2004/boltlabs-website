@@ -5,7 +5,7 @@ import address from "../assets/location.png";
 
 const Content = () => {
     return (
-        <div className="relative bg-[#141e28] text-white py-20 px-6 md:px-16 lg:px-24 xl:px-32 overflow-hidden">
+        <div className="relative bg-[#141e28] text-white py-20 px-6 md:px-16 lg:px-24 xl:px-32 overflow-hidden mt-10">
 
             {/* ✨ Decorative Background Elements */}
             <div className="absolute top-[-60px] right-[-80px] w-64 h-64 bg-[#33febf] opacity-10 rounded-full blur-[120px] z-0 animate-pulse"></div>

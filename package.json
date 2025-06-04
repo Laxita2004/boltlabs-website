@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "react-scripts start",
+    "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,6 +13,7 @@
   "description": "",
   "dependencies": {
     "@tailwindcss/vite": "^4.1.8",
+    "boltlabs": "file:",
     "lucide-react": "^0.512.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
