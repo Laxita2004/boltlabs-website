@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { FaSearch, FaLightbulb, FaRocket } from "react-icons/fa";
+import React from "react";
 
 const Process = () => {
   const steps = [
