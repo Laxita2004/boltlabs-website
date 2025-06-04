@@ -20,7 +20,6 @@ const About = () => {
         <Benefits />
         <CTA />
       </main>
-      <Footer />
     </div>
   );
 };
