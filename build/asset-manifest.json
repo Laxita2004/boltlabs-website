@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/static/css/main.c6092e7b.css",
+    "main.js": "/static/js/main.5c30092d.js",
+    "static/media/sample1.jpg": "/static/media/sample1.3db28c6530cdb7dde5d5.jpg",
+    "static/media/person.jpg": "/static/media/person.00e35c675a5fa16a8496.jpg",
+    "static/media/sample2.jpg": "/static/media/sample2.d54732a42ff29b2039fd.jpg",
+    "static/media/logobolt.svg": "/static/media/logobolt.abc89c1ad1fd2ad2a636fe6251f487f0.svg",
+    "static/media/logo.png": "/static/media/logo.16190444b293d308073c.png",
+    "static/media/intro.png": "/static/media/intro.c38cb88689e1f3d07e46.png",
+    "static/media/email.png": "/static/media/email.0927ed0277cfa887b829.png",
+    "static/media/emergency-call.png": "/static/media/emergency-call.32d08251bb118d301af1.png",
+    "index.html": "/index.html",
+    "main.c6092e7b.css.map": "/static/css/main.c6092e7b.css.map",
+    "main.5c30092d.js.map": "/static/js/main.5c30092d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c6092e7b.css",
+    "static/js/main.5c30092d.js"
+  ]
+}
