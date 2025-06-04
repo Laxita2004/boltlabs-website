@@ -1,24 +1,26 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Header from "./components/Header/Header";
+import { Routes, Route } from "react-router-dom";
+import Header from "./components/Header";
 import React from "react";
-import Footer from "./components/Footer/Footer";
+import Footer from "./components/Footer";
 import Home from "./pages/Home";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 
 function App() {
   return (
-    <Router>
+    <>
       <Header />
       <div className='min-h-[70vh]'>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<div>About Us</div>} />
-          <Route path="/team" element={<div>Our Team</div>} />
-          <Route path="/contact" element={<div>Contact Us</div>} />
-          <Route path="/signin" element={<div>Sign In Page</div>} />
+          <Route path="/about" element={<About />} />
+          {/* <Route path="/team" element={<div>Our Team</div>} /> */}
+          <Route path="/contact" element={<Contact />} />
+          {/* <Route path="/signin" element={<div>Sign In Page</div>} /> */}
         </Routes>
       </div>
       <Footer />
-    </Router>
+    </>
   );
 }
 
