@@ -5,6 +5,10 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Index from './pages/Index';
+
+// import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 
 function App() {
   return (
@@ -15,6 +19,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           {/* <Route path="/team" element={<div>Our Team</div>} /> */}
+
+          <Route path="/" element={<Index />} />
+          <Route path="/profile/:id" element={<Index />} />
+        
           <Route path="/contact" element={<Contact />} />
           {/* <Route path="/signin" element={<div>Sign In Page</div>} /> */}
         </Routes>
