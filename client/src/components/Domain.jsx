@@ -15,7 +15,7 @@ const Domain = () => {
     }, []);
     return (
 
-        <div className="bg-[#141e28] min-h-screen px-4 py-12 flex items-center justify-center">
+        <div className="bg-[#141e28] min-h-screen px-4 pt-0 flex items-center justify-center">
             <div className="max-w-6xl w-full text-center">
                 <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#33febf] to-teal-400 mb-4">
                     Our Domains

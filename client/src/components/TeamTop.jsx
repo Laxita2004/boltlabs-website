@@ -2,7 +2,7 @@ import React from 'react'
 
 const TeamTop = () => {
     return (
-        <div class="bg-[#141e28] min-h-screen flex items-center justify-center px-4 py-10">
+        <div class="bg-[#141e28] min-h-screen flex items-center justify-center px-4 pb-0">
             <div class="max-w-5xl w-full bg-[#1f2a38] rounded-3xl shadow-lg p-10 text-center">
 
 
