@@ -8,7 +8,6 @@ import Benefits from "../components/Benefits";
 import CTA from "../components/CTA";
 import Footer from "../components/Footer";
 import ParticleBackground from "../components/ParticleBackground";
-import React from "react";
 
 const About = () => {
   return (
