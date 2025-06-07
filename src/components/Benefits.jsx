@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { FaMapMarkerAlt, FaLayerGroup, FaBolt, FaChartLine } from "react-icons/fa";
+import React from "react";
 
 const Benefits = () => {
   const benefits = [

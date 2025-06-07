@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import React from "react";
 
 const Mission = () => {
   return (
@@ -23,20 +24,20 @@ const Mission = () => {
         >
           <p className="text-lg mb-6 text-gray-600">
             At <strong className="text-dark">Bolt Labs</strong>, we believe
-            technology should be an <strong className="text-dark">accelerator</strong>, 
-            not a barrier. Many local businesses have the vision and drive to grow 
+            technology should be an <strong className="text-dark">accelerator</strong>,
+            not a barrier. Many local businesses have the vision and drive to grow
             but lack the technical expertise to build the tools they need.
           </p>
           <p className="text-lg mb-6 text-gray-600">
             We provide <strong className="text-dark">customized technical support</strong>{" "}
-            to local businesses. Whether it's a web platform, automation tool, or digital 
-            strategy, our domain-specific teams deliver solutions that fit seamlessly into 
+            to local businesses. Whether it's a web platform, automation tool, or digital
+            strategy, our domain-specific teams deliver solutions that fit seamlessly into
             your operations—helping you{" "}
             <strong className="text-dark">scale smarter, faster, and more efficiently</strong>.
           </p>
           <p className="text-lg text-gray-600">
             We're not just service providers; we're your{" "}
-            <strong className="text-dark">long-term technology partners</strong> committed 
+            <strong className="text-dark">long-term technology partners</strong> committed
             to your success.
           </p>
         </motion.div>
