@@ -20,8 +20,8 @@ function App() {
           <Route path="/about" element={<About />} />
           {/* <Route path="/team" element={<div>Our Team</div>} /> */}
 
-          <Route path="/" element={<Index />} />
-          <Route path="/profile/:id" element={<Index />} />
+          <Route path="/team" element={<Index />} />
+          {/* <Route path="/profile/:id" element={<Index />} /> */}
         
           <Route path="/contact" element={<Contact />} />
           {/* <Route path="/signin" element={<div>Sign In Page</div>} /> */}
