@@ -1,3 +1,4 @@
+import React from 'react'; 
 import { motion } from "framer-motion";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
@@ -7,6 +8,7 @@ import Benefits from "../components/Benefits";
 import CTA from "../components/CTA";
 import Footer from "../components/Footer";
 import ParticleBackground from "../components/ParticleBackground";
+import React from "react";
 
 const About = () => {
   return (

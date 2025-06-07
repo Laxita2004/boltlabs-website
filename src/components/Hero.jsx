@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { FaBolt } from "react-icons/fa";
+import React from "react";
 
 const Hero = () => {
   return (
