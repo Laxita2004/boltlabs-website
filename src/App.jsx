@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import DomainTeam from "./pages/DomainTeam";
+import MemberProfile from './components/Domain/MemberProfile';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           {/* <Route path="/team" element={<div>Our Team</div>} /> */}
           <Route path="/contact" element={<Contact />} />
            <Route path="/team/:domain" element={<DomainTeam />} />
+           <Route path="/team/:domain/:memberId" element={<MemberProfile />} />
           {/* <Route path="/signin" element={<div>Sign In Page</div>} /> */}
         </Routes>
       </div>

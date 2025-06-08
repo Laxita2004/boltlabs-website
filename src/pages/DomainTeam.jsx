@@ -20,3 +20,4 @@ const DomainTeam = () => {
 };
 
 export default DomainTeam;
+
