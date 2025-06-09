@@ -1,92 +1,72 @@
 import React from "react";
 import {
-  FaBolt,
   FaTwitter,
   FaLinkedinIn,
-  FaFacebookF,
-  FaInstagram
+  FaInstagram,
+  FaPhone,
+  FaFax,
+  FaMapMarkerAlt,
 } from "react-icons/fa";
-import logo from "../images/logo.png";
+import logo from "../assets/logo.svg";
 
-const Footer = () => {
-  const links = {
-    company: [
-      { name: "About Us", url: "/about" },
-      { name: "Careers", url: "/careers" },
-      { name: "Case Studies", url: "/case-studies" },
-      { name: "Blog", url: "/blog" }
-    ],
-    services: [
-      { name: "Web Development", url: "/services/web" },
-      { name: "App Development", url: "/services/app" }
-    ],
-    contact: [
-      { name: "hello@boltlabs.in", url: "mailto:hello@boltlabs.in" },
-      { name: "+91-96466xxxxx", url: "tel:+9196466xxxxx" },
-      { name: "Visit Us", url: "/contact" },
-      { name: "Support", url: "/support" }
-    ]
-  };
-
-  const socialLinks = [
-    { icon: FaTwitter, url: "https://twitter.com/yourprofile" },
-    { icon: FaLinkedinIn, url: "https://linkedin.com/company/yourpage" },
-    { icon: FaFacebookF, url: "https://facebook.com/yourpage" },
-    { icon: FaInstagram, url: "https://instagram.com/yourprofile" }
-  ];
-
+export default function Footer() {
   return (
+<<<<<<< HEAD
     <footer className="bg-gray-900 text-white pt-20 pb-10">
       <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-10">
         <div className="footer-about">
           <div className="flex items-center text-2xl font-bold">
             <img src={logo} alt="BoltLab Logo" className="h-32 w-32 -mt-14" />
+=======
+    <footer className="bg-[#101820] text-white">
+      {/* Top section */}
+      <div className="container mx-auto px-4 py-8 md:flex justify-between items-center border-b border-gray-700">
+        {/* Logo and tagline */}
+        <div className="mb-6 md:mb-0">
+          <img src={logo} alt="Bolt Labs Logo" className="h-12 mb-2" />
+          <p className="text-sm text-teal-400 italic">Create. Innovate. Bolt</p>
+        </div>
+
+        {/* Contact Info */}
+        <div className="text-sm space-y-2">
+          <div className="flex items-center gap-2">
+            <FaMapMarkerAlt /> <span>Lorem Ipsum</span>
+>>>>>>> 24046e4136776e7b142abd497cd7b8255aa55859
           </div>
-          <p className="mb-6 text-gray-400">
-            Empowering local businesses with cutting-edge technology solutions
-            since 2025.
-          </p>
-          <div className="flex gap-4">
-            {socialLinks.map(({ icon: Icon, url }, index) => (
-              <a
-                key={index}
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-accent text-dark flex items-center justify-center hover:shadow-glow transition-all"
-              >
-                <Icon className="text-lg" />
-              </a>
-            ))}
+          <div className="flex items-center gap-2">
+            <FaPhone /> <a href="tel:1234567890">(123) 456-7890</a>
+          </div>
+          <div className="flex items-center gap-2">
+            <FaFax /> <a href="fax:1234567890">(123) 456-7890</a>
           </div>
         </div>
 
-        {Object.entries(links).map(([title, items]) => (
-          <div key={title} className="footer-links">
-            <h3 className="text-lg font-bold mb-6 capitalize">{title}</h3>
-            <ul className="space-y-3">
-              {items.map((item, index) => (
-                <li key={index}>
-                  <a
-                    href={item.url}
-                    className="text-gray-400 hover:text-accent transition-colors"
-                    target={item.url.startsWith("http") ? "_blank" : "_self"}
-                    rel="noopener noreferrer"
-                  >
-                    {item.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
+        {/* Social Media */}
+        <div className="text-sm mt-6 md:mt-0">
+          <p className="mb-2">Social Media</p>
+          <div className="flex gap-4 text-lg">
+            <a href="#" target="_blank" rel="noopener noreferrer">
+              <FaTwitter />
+            </a>
+            <a href="#" target="_blank" rel="noopener noreferrer">
+              <FaLinkedinIn />
+            </a>
+            <a href="#" target="_blank" rel="noopener noreferrer">
+              <FaInstagram />
+            </a>
           </div>
-        ))}
+        </div>
       </div>
 
-      <div className="container mx-auto px-6 mt-16 pt-6 border-t border-gray-800 text-center text-gray-500">
-        &copy; 2025 Bolt Labs. All rights reserved.
+      {/* Bottom section */}
+      <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between text-xs">
+        <div className="flex gap-4 mb-2 md:mb-0">
+          <a href="/about" className="hover:underline">ABOUT US</a>
+          <a href="/contact" className="hover:underline">CONTACT US</a>
+          <a href="/team" className="hover:underline">OUR TEAM</a>
+        </div>
+        <p>Copyright © 2025 BoltLabs</p>
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}
