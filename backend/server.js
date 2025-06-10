@@ -1,10 +1,13 @@
 // server.js
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import { createClient } from '@supabase/supabase-js';
 
 // Route files (make sure they use Supabase inside)
+
 import domainRoutes from './routes/domainRoutes.js';
 import teamRoutes from './routes/teamRoutes.js';
 import profileRoutes from './routes/profileRoutes.js';
@@ -16,7 +19,7 @@ dotenv.config();
 // Initialize Supabase client
 export const supabase = createClient(
   process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
+  process.env.SUPABASE_KEY
 );
 
 // Initialize Express app

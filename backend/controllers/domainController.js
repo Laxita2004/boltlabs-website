@@ -1,7 +1,7 @@
 // controllers/domainController.js
-const { supabase } = require('../lib/supabaseClient'); // your Supabase client
+import { supabase } from '../config/supabaseClient.js'; // your Supabase client
 
-const getAllDomains = async (req, res) => {
+export const getAllDomains = async (req, res) => {
   const { data, error } = await supabase
     .from('domains')
     .select('*')
@@ -15,4 +15,4 @@ const getAllDomains = async (req, res) => {
   res.status(200).json(data);
 };
 
-module.exports = { getAllDomains };
+

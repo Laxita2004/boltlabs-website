@@ -1,7 +1,8 @@
-const supabase = require('../supabaseClient');
+import { supabase } from '../config/supabaseClient.js';
+
 
 // Get all profile data from Supabase
-const getProfile = async (req, res) => {
+export const  getProfile = async (req, res) => {
   try {
     const { data, error } = await supabase
       .from('profile')
@@ -16,6 +17,4 @@ const getProfile = async (req, res) => {
   }
 };
 
-module.exports = {
-  getProfile,
-};
+

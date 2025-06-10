@@ -1,4 +1,5 @@
-import supabase from '../supabaseClient.js';
+import { supabase } from '../config/supabaseClient.js';
+
 
 // Get all team members by domain
 export const getDomainMembers = async (req, res) => {
@@ -71,6 +72,33 @@ export const getMemberProfile = async (req, res) => {
     });
   }
 };
+export const getDomains = async (req, res) => {
+  try {
+    const { data: domains, error } = await supabase
+      .from('team_members')
+      .select('domain')
+      .neq('domain', null); // optional: avoid nulls
+
+    if (error) throw error;
+
+    // Use Set to return unique domains
+    const uniqueDomains = [...new Set(domains.map(member => member.domain))];
+
+    res.status(200).json({
+      success: true,
+      count: uniqueDomains.length,
+      data: uniqueDomains
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch domains',
+      error: error.message
+    });
+  }
+};
+
 
 // Create a new team member
 export const createTeamMember = async (req, res) => {
