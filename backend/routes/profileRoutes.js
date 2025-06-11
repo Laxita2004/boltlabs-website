@@ -1,8 +1,11 @@
-const express = require('express');
+// routes/profileRoutes.js
+import express from 'express';
+import { getProfile } from '../controllers/profileController.js';
+
 const router = express.Router();
-const { getProfile } = require('../controllers/profileController');
 
 // GET /api/profile
 router.get('/', getProfile);
 
-module.exports = router; 
+export default router;
+

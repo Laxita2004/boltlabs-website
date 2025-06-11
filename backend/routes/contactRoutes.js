@@ -1,3 +1,4 @@
+
 const express = require('express');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
@@ -5,6 +6,7 @@ const { submitContact } = require('../controllers/contactController');
 
 // POST /api/contact
 router.post('/',
+
   [
     body('name').trim().notEmpty().withMessage('Name is required'),
     body('email').trim().isEmail().withMessage('Valid email is required'),
@@ -25,3 +27,4 @@ router.post('/',
 );
 
 module.exports = router; 
+
