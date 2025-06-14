@@ -14,15 +14,10 @@
   "description": "",
   "dependencies": {
     "@tailwindcss/vite": "^4.1.8",
-<<<<<<< HEAD:client/package.json
     "axios": "^1.9.0",
-    "boltlabs": "file:",
     "lucide-react": "^0.512.0",
-=======
     "framer-motion": "^12.15.0",
-    "lucide-react": "^0.511.0",
     "pg": "^8.16.0",
->>>>>>> 94f9afb70e7f2c9a135708c8f6685fb229676c80:package.json
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-icons": "^5.5.0",
