@@ -2,12 +2,11 @@ import { supabase } from '../server.js';
 import nodemailer from 'nodemailer';
 
 // Submit contact form controller
-export const submitContact = async (req, res) => {
+const submitContact = async (req, res) => {
   console.log('1. Received contact form submission:', req.body);
 
   try {
     const { name, email, message } = req.body;
-
     // Basic validation
     if (!name || !email || !message) {
       console.log('2. Missing required fields');
@@ -16,7 +15,6 @@ export const submitContact = async (req, res) => {
         error: 'Missing required fields'
       });
     }
-
     // Insert submission into Supabase
     const { data, error } = await supabase.from('contact_submissions').insert([
       {
@@ -79,3 +77,8 @@ export const submitContact = async (req, res) => {
     });
   }
 };
+
+module.exports = {
+  submitContact
+}; 
+

@@ -1,3 +1,4 @@
+
 import { supabase } from '../config/supabaseClient.js';
 
 
@@ -13,8 +14,8 @@ export const  getProfile = async (req, res) => {
     res.json(data);
   } catch (error) {
     console.error('Error fetching profile data from Supabase:', error);
+
     res.status(500).json({ error: 'Failed to fetch profile data' });
   }
 };
-
 
