@@ -64,7 +64,7 @@ export default function Header() {
 
         {/* Sign In */}
         <NavLink
-          to="/signin"
+          to="/signup"
           className={({ isActive }) =>
             `hidden md:flex items-center space-x-2 text-sm font-semibold px-3 py-1 rounded-lg transition-colors duration-200 ${isActive
               ? "bg-green-500 text-white shadow-md"
@@ -73,7 +73,7 @@ export default function Header() {
           }
         >
           <FaUserCircle className="text-xl" />
-          <span>SIGN IN</span>
+          <span>SIGN UP</span>
         </NavLink>
       </div>
 
@@ -96,7 +96,7 @@ export default function Header() {
           ))}
           {/* Sign In for mobile */}
           <NavLink
-            to="/signin"
+            to="/signup"
             onClick={() => setMenuOpen(false)}
             className={({ isActive }) =>
               `flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-lg transition-colors duration-200 ${isActive
@@ -106,7 +106,7 @@ export default function Header() {
             }
           >
             <FaUserCircle className="text-xl" />
-            <span>SIGN IN</span>
+            <span>SIGN UP</span>
           </NavLink>
         </div>
       )}
