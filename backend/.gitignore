@@ -37,3 +37,5 @@ logs/
 
 # Ignore Postman export files (optional)
 *.postman_collection.json
+
+/generated/prisma
