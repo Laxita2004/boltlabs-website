@@ -1,0 +1,109 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  user_id    String   @id @default(uuid())
+  name       String
+  email      String   @unique
+  password   String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  services         Service[]
+  serviceRequests  ServiceRequest[]
+}
+
+model Admin {
+  admin_id String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
+}
+
+model Domain {
+  domain_id String   @id @default(uuid())
+  name      String   @unique
+
+  members          MemberDomain[]
+  services         Service[]
+  serviceRequests  ServiceRequest[]
+}
+
+model Member {
+  member_id String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+
+  domains   MemberDomain[]
+  services  MemberService[]
+}
+
+model MemberDomain {
+  member_id String
+  domain_id String
+
+  member Member @relation(fields: [member_id], references: [member_id], onDelete: Cascade)
+  domain Domain @relation(fields: [domain_id], references: [domain_id], onDelete: Cascade)
+
+  @@id([member_id, domain_id])
+}
+
+model Service {
+  service_id String   @id @default(uuid())
+  user_id    String
+  service    String
+  domain_id  String
+  idea_date  DateTime @default(now())
+
+  user       User     @relation(fields: [user_id], references: [user_id])
+  domain     Domain   @relation(fields: [domain_id], references: [domain_id])
+  payments   Payment[]
+  members    MemberService[]
+}
+
+model Payment {
+  payment_id       String   @id @default(uuid())
+  payment_provider String
+  service_id       String
+  payment_date     DateTime @default(now())
+
+  service          Service  @relation(fields: [service_id], references: [service_id])
+}
+
+model ServiceRequest {
+  req_id       String   @id @default(uuid())
+  user_id      String
+  service      String
+  domain_id    String
+  request_date DateTime @default(now())
+
+  user         User     @relation(fields: [user_id], references: [user_id])
+  domain       Domain   @relation(fields: [domain_id], references: [domain_id])
+}
+
+enum WorkStatus {
+  pending
+  in_progress
+  completed
+}
+
+model MemberService {
+  member_id  String
+  service_id String
+  status     WorkStatus @default(pending)
+
+  member     Member     @relation(fields: [member_id], references: [member_id], onDelete: Cascade)
+  service    Service    @relation(fields: [service_id], references: [service_id], onDelete: Cascade)
+
+  @@id([member_id, service_id])
+}
+
