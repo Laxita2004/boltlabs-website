@@ -12,6 +12,7 @@ import domainRoutes from './routes/domainRoutes.js';
 import teamRoutes from './routes/teamRoutes.js';
 import profileRoutes from './routes/profileRoutes.js';
 import contactRoutes from './routes/contactRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
 
 // Load environment variables
 dotenv.config();
@@ -34,6 +35,7 @@ app.use('/api/domains', domainRoutes);
 app.use('/api/team', teamRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Global error handler
 app.use((err, req, res, next) => {
