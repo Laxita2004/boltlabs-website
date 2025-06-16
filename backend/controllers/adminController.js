@@ -130,7 +130,7 @@ export const respondToRequest = async (req, res) => {
   error ? res.status(400).json({ error }) : res.json(data[0]);
 };
 
-// Fetch services with filters
+// Fetch services 
 export const fetchServices = async (req, res) => {
   let query = supabase
     .from("services")
