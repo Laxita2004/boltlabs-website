@@ -1,4 +1,5 @@
 
+
 import { prisma } from '../lib/prisma.js';
 import bcrypt from 'bcryptjs'; // For password hashing
 // 1. Fetch Domains
@@ -248,3 +249,8 @@ export const fetchServices = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch services', details: err.message });
   }
 };
+
+
+
+
+  

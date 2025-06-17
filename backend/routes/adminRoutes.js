@@ -1,4 +1,5 @@
 
+
 import express from 'express';
 import {
   fetchDomains,
@@ -34,5 +35,4 @@ router.post('/requests/:req_id/respond', respondToRequest);
 
 // Service routes
 router.get('/services', fetchServices);
-
 export default router;
