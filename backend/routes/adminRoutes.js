@@ -1,29 +1,38 @@
+
+
 import express from 'express';
 import {
-  fetchDomains, createDomain, deleteDomain,
-  fetchMembers, createMember, deleteMember,
-  fetchRequests, respondToRequest,
+  fetchDomains,
+  createDomain,
+  deleteDomain,
+  fetchMembers,
+  deleteMember,
+  createMember,
+  fetchRequests,
+  respondToRequest,
   fetchServices
 } from '../controllers/adminController.js';
-import { isAdmin } from '../middlewares/auth.js';
+import { authenticate, authorizeAdmin } from '../middlewares/auth.js';
 
 const router = express.Router();
 
+// Apply admin auth middleware to all routes
+router.use(authenticate, authorizeAdmin);
+
 // Domain routes
-router.get('/domains', isAdmin, fetchDomains);
-router.post('/domains', isAdmin, createDomain);
-router.delete('/domains/:id', isAdmin, deleteDomain);
+router.get('/domains', fetchDomains);
+router.post('/domains', createDomain);
+router.delete('/domains/:domain_id', deleteDomain);
 
 // Member routes
-router.get('/members', isAdmin, fetchMembers);
-router.post('/members', isAdmin, createMember);
-router.delete('/members/:id', isAdmin, deleteMember);
+router.get('/members', fetchMembers);
+router.post('/members', createMember);
+router.delete('/members/:member_id', deleteMember);
 
 // Request routes
-router.get('/requests', isAdmin, fetchRequests);
-router.post('/requests/:id/respond', isAdmin, respondToRequest);
+router.get('/requests', fetchRequests);
+router.post('/requests/:req_id/respond', respondToRequest);
 
 // Service routes
-router.get('/services', isAdmin, fetchServices);
-
+router.get('/services', fetchServices);
 export default router;

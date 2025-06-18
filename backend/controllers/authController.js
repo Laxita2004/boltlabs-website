@@ -20,6 +20,8 @@ export const signup = async (req, res) => {
     const token = generateToken({ id: user.user_id, role: 'user' });
     res.status(201).json({ token });
 
+
+
   } catch (err) {
     res.status(500).json({ error: 'Signup failed', details: err.message });
   }
