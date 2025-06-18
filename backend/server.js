@@ -1,22 +1,16 @@
-
-
 import dotenv from "dotenv";
-dotenv.config();
-
 import express from "express";
 import cors from "cors";
 import { createClient } from "@supabase/supabase-js";
 
-// Route files (make sure they use Supabase inside)
-
-
-// import domainRoutes from "./routes/domainRoutes.js";
-// import teamRoutes from "./routes/teamRoutes.js";
-// import profileRoutes from "./routes/profileRoutes.js";
-// import contactRoutes from "./routes/contactRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import domainRoutes from "./routes/domainRoutes.js";
+import teamRoutes from "./routes/teamRoutes.js";
+import profileRoutes from "./routes/profileRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
+
 // Load environment variables
 dotenv.config();
 
@@ -30,72 +24,17 @@ export const supabase = createClient(
 const app = express();
 
 // Middleware
-app.use(cors({ origin: process.env.CLIENT_URL || "*" }));
-app.use(express.json());
-
-// API Routes
-// app.use("/api/domains", domainRoutes);
-// app.use("/api/team", teamRoutes);
-// app.use("/api/profile", profileRoutes);
-// app.use("/api/contact", contactRoutes);
-app.use("/api/user", userRoutes);
-app.use("/api/admin", adminRoutes);
-app.use("/api/auth", authRoutes);
-
-import domainRoutes from "./routes/domainRoutes.js";
-import teamRoutes from "./routes/teamRoutes.js";
-import profileRoutes from "./routes/profileRoutes.js";
-import contactRoutes from "./routes/contactRoutes.js";
-import userRoutes from "./routes/userRoutes.js";
-
-import express from 'express';
-import cors from 'cors';
-
-import dotenv from 'dotenv';
-import authRoutes from './routes/authRoutes.js';
-
-import { createClient } from '@supabase/supabase-js';
-
-// Route files (make sure they use Supabase inside)
-
-import domainRoutes from './routes/domainRoutes.js';
-import teamRoutes from './routes/teamRoutes.js';
-import profileRoutes from './routes/profileRoutes.js';
-import contactRoutes from './routes/contactRoutes.js';
-import adminRoutes from './routes/adminRoutes.js';
- 
-
-
-dotenv.config();
-
-const app = express();
-
-
-// Middleware
-app.use(cors({ origin: process.env.CLIENT_URL || "*" }));
-
 app.use(cors());
-
 app.use(express.json());
 
-
-// Auth routes
-app.use('/api/auth', authRoutes);
-
 // API Routes
-
+app.use('/api/auth', authRoutes);
 app.use("/api/domains", domainRoutes);
 app.use("/api/team", teamRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/user", userRoutes);
-
-app.use('/api/domains', domainRoutes);
-app.use('/api/team', teamRoutes);
-app.use('/api/profile', profileRoutes);
-app.use('/api/contact', contactRoutes);
 app.use('/api/admin', adminRoutes);
-
 
 // Global error handler
 app.use((err, req, res, next) => {
@@ -103,14 +42,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: "Something went wrong on the server!" });
 });
 
-
 // Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`✅ Supabase-powered server is running on port ${PORT}`);
-});
-
-
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
