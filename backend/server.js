@@ -6,16 +6,14 @@ import express from "express";
 import cors from "cors";
 import { createClient } from "@supabase/supabase-js";
 
-// Route files (make sure they use Supabase inside)
-
+// Route imports
+import authRoutes from './routes/authRoutes.js';
 import domainRoutes from "./routes/domainRoutes.js";
 import teamRoutes from "./routes/teamRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
-
-// Load environment variables
-dotenv.config();
 
 // Initialize Supabase client
 export const supabase = createClient(
@@ -23,21 +21,21 @@ export const supabase = createClient(
   process.env.SUPABASE_KEY
 );
 
-//Initialize Express app
+// Initialize Express app
 const app = express();
 
 // Middleware
 app.use(cors({ origin: process.env.CLIENT_URL || "*" }));
 app.use(express.json());
 
-//API Routes
+// API Routes
+app.use("/api/auth", authRoutes);
 app.use("/api/domains", domainRoutes);
 app.use("/api/team", teamRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/contact", contactRoutes);
+app.use("/api/admin", adminRoutes);
 app.use("/api/user", userRoutes);
-
-
 
 // Global error handler
 app.use((err, req, res, next) => {
@@ -50,8 +48,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`✅ Supabase-powered server is running on port ${PORT}`);
 });
-
-
-
-
-
