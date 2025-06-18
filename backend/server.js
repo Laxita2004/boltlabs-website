@@ -23,19 +23,21 @@ export const supabase = createClient(
   process.env.SUPABASE_KEY
 );
 
-// Initialize Express app
+//Initialize Express app
 const app = express();
 
 // Middleware
 app.use(cors({ origin: process.env.CLIENT_URL || "*" }));
 app.use(express.json());
 
-// API Routes
+//API Routes
 app.use("/api/domains", domainRoutes);
 app.use("/api/team", teamRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/user", userRoutes);
+
+
 
 // Global error handler
 app.use((err, req, res, next) => {
@@ -48,3 +50,8 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`✅ Supabase-powered server is running on port ${PORT}`);
 });
+
+
+
+
+
