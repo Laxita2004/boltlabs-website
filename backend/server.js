@@ -20,9 +20,11 @@ const startServer = async () => {
     res.status(500).json({ error: 'Something went wrong on the server!' });
   });
 
+
   // ✅ Start the server
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 };
 
 startServer();
+
