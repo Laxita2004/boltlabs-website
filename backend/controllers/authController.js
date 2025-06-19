@@ -7,7 +7,6 @@ import jwt from 'jsonwebtoken';
 // 🔐 Signup – Only for Users
 export const signup = async (req, res) => {
   const { name, email, password } = req.body;
-
   try {
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) return res.status(400).json({ error: 'Email already in use' });
@@ -53,7 +52,12 @@ export const login = async (req, res) => {
     if (!valid) return res.status(401).json({ error: 'Invalid credentials' });
 
     const token = generateToken({ id: user[idKey], role });
-    res.json({ token, firstLogin: user.firstLogin });
+
+    res.json({
+      token,
+      role,                  // ✅ Added role to the response
+      firstLogin: user.firstLogin || false
+    });
 
   } catch (err) {
     res.status(500).json({ error: 'Login failed', details: err.message });
@@ -124,3 +128,6 @@ export const changePassword = async (req, res) => {
     res.status(500).json({ error: 'Password update failed', details: err.message });
   }
 };
+
+
+//token ke sath sath role bhi send karna hai
