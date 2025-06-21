@@ -7,7 +7,10 @@ import {
   changePassword
 } from '../controllers/authController.js';
 
-import { protect, authorizeRoles } from '../middlewares/authMiddleware.js';
+import {
+  authenticateUser,       // ✅ replaces "protect"
+  authorizeRoles
+} from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
@@ -26,8 +29,8 @@ router.post('/reset-password', resetPassword);
 // 🧩 Member changing password after first login
 router.post(
   '/change-password',
-  protect,
-  authorizeRoles('member'), // only members can use this route
+  authenticateUser,               // ✅ ensures valid token
+  authorizeRoles('member'),       // ✅ only member can access
   changePassword
 );
 
