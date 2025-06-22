@@ -1,13 +1,32 @@
 import React from "react";
-import intro from "../assets/intro.png";
+import boltlabsVideo from "../assets/boltlabs.mp4";
 
 export default function DigitalPartnerCard() {
   return (
-    <div className="w-full min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center px-6 md:px-12 py-24">
-      <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 items-center gap-12">
-        {/* Left text section */}
-        <div className="space-y-6">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-white leading-tight">
+    <div className="relative w-full min-h-screen overflow-hidden">
+      {/* 🔹 Video Background */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute top-0 left-0 w-full h-full object-cover object-left scale-[1.6] md:scale-100 transition-transform duration-700 ease-in-out z-0"
+      >
+        <source src={boltlabsVideo} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
+      {/* 🔹 Overlay */}
+      <div className="absolute inset-0 z-10">
+        <div className="block md:hidden w-full h-full bg-black/60" />
+        <div className="hidden md:block w-full h-full bg-gradient-to-r from-black via-black/60 to-transparent" />
+      </div>
+
+      {/* 🔹 Content Grid */}
+      <div className="relative z-20 grid grid-cols-1 md:grid-cols-2 items-center min-h-screen px-6 md:px-16">
+        {/* Left Text Section */}
+        <div className="space-y-6 text-white text-center md:text-left max-w-2xl mx-auto md:mx-0">
+          <h2 className="text-4xl md:text-5xl font-extrabold leading-tight">
             Your{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400 italic">
               Digital Partner
@@ -31,17 +50,8 @@ export default function DigitalPartnerCard() {
           </div>
         </div>
 
-        {/* Right image section */}
-        <div className="flex justify-center">
-          <div className="relative w-full max-w-md">
-            <div className="absolute inset-0 rounded-3xl bg-teal-500 blur-3xl opacity-20 animate-pulse" />
-            <img
-              src={intro}
-              alt="Team working illustration"
-              className="relative z-10 w-full h-auto object-contain rounded-2xl shadow-xl"
-            />
-          </div>
-        </div>
+        {/* Right half is left intentionally empty so the video shows */}
+        <div className="hidden md:block" />
       </div>
     </div>
   );
