@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import logo from "../assets/logobolt.svg";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const toggleMenu = () => setIsOpen(!isOpen);
+    const navigate = useNavigate();
 
     return (
         <nav className="relative bg-[#141e28] text-white px-6 py-4 shadow-lg z-50 overflow-hidden">
@@ -35,7 +37,10 @@ const Navbar = () => {
 
                 {/* Right Side Buttons */}
                 <div className="flex items-center space-x-4">
-                    <button className="hidden md:block bg-gradient-to-r from-[#33febf] to-[#2be0aa] text-[#141e28] px-5 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 hover:shadow-lg">
+                    <button
+                        className="hidden md:block bg-gradient-to-r from-[#33febf] to-[#2be0aa] text-[#141e28] px-5 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 hover:shadow-lg"
+                        onClick={() => navigate('/signup')}
+                    >
                         Sign In
                     </button>
                     <button
@@ -62,7 +67,10 @@ const Navbar = () => {
                     <a href="#team" className="block text-white hover:text-[#33febf] font-medium transition">
                         Team
                     </a>
-                    <button className="w-full bg-gradient-to-r from-[#33febf] to-[#2be0aa] text-[#141e28] py-2 rounded-full font-semibold hover:shadow-md hover:scale-105 transition">
+                    <button
+                        className="w-full bg-gradient-to-r from-[#33febf] to-[#2be0aa] text-[#141e28] py-2 rounded-full font-semibold hover:shadow-md hover:scale-105 transition"
+                        onClick={() => { setIsOpen(false); navigate('/signup'); }}
+                    >
                         Sign In
                     </button>
                 </div>

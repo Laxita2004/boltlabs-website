@@ -91,15 +91,19 @@ model ServiceRequest {
 }
 
 enum WorkStatus {
-  pending
-  in_progress
-  completed
+  ASSIGNED
+  IN_PROGRESS
+  COMPLETED
+  REJECTED
 }
 
 model MemberService {
   member_id  String
   service_id String
-  status     WorkStatus @default(pending)
+  status     WorkStatus @default(ASSIGNED)
+  completedAt DateTime?
+  rating     Int?
+  feedback   String?
 
   member     Member     @relation(fields: [member_id], references: [member_id], onDelete: Cascade)
   service    Service    @relation(fields: [service_id], references: [service_id], onDelete: Cascade)
