@@ -1,69 +1,50 @@
 import React from 'react'
 import profile from '../assets/profile.png'
+import iot from '../assets/iot.png'
+import management from '../assets/management.png'
+import socialmedia from '../assets/social-media.png'
+import software from '../assets/software-engineer.png'
+import curve from '../assets/curve.png'
+import customercare from '../assets/customer-service.png'
+import { motion } from "framer-motion";
+
+
+const domains = [
+    { img: software, title: "Web-Development", desc: "Building web solutions that are clean, efficient, and user-first." },
+    { img: curve, title: "Graphics", desc: "Shaping ideas into visuals that speak louder than words." },
+    { img: iot, title: "Internet of Things", desc: "Connecting the physical and digital to create smarter experiences." },
+    { img: management, title: "Management", desc: "Driving clarity, coordination, and execution across every initiative." },
+    { img: socialmedia, title: "Social Media", desc: "Telling impactful stories through powerful visuals and sound." },
+    { img: customercare, title: "Customer Care", desc: "Here to listen, support, and deliver a seamless experience for every user." },
+];
 
 const Domain = () => {
     return (
-        <div className="bg-[#141e28] min-h-screen px-4 py-12 flex items-center justify-center">
-            <div className="max-w-6xl w-full text-center">
-                {/* Section Header */}
-                <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#33febf] to-teal-400 mb-4">
-                    Our Domains
-                </h1>
-                <span className="text-gray-300 text-lg max-w-3xl mx-auto block mb-12">
-                    From technology to strategy, our domains represent the pillars of our excellence and innovation
-                </span>
+        <div className="bg-[#141e28] py-24 px-4 flex items-center justify-center relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-teal-500/10 to-[#33febf]/10 blur-3xl" />
+            <div className="max-w-6xl w-full text-center relative z-10">
+                <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#33febf] to-teal-400 mb-4">Our Domains</h1>
+                <p className="text-gray-300 text-lg max-w-3xl mx-auto mb-14">From technology to strategy, our domains represent the pillars of our excellence and innovation</p>
 
-                {/* Cards Grid */}
-                <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-
-                    {/* Card */}
-                    <div className="bg-[#1f2a38] border border-[#33febf] rounded-2xl p-6 shadow-md text-white hover:shadow-lg transition">
-                        <img src={profile} alt="team-lead" className="w-20 h-20 rounded-full mx-auto mb-4" />
-                        <h2 className="text-xl font-semibold text-[#33febf]">Web-Development</h2>
-                        <h3 className="text-sm text-gray-400 mb-2">Head of Web-D</h3>
-                        <span className="text-gray-300 text-sm">Building web solutions that are clean, efficient, and user-first.</span>
-                    </div>
-
-                    <div className="bg-[#1f2a38] border border-[#33febf] rounded-2xl p-6 shadow-md text-white hover:shadow-lg transition">
-                        <img src={profile} alt="team-lead" className="w-20 h-20 rounded-full mx-auto mb-4" />
-                        <h2 className="text-xl font-semibold text-[#33febf]">Graphics</h2>
-                        <h3 className="text-sm text-gray-400 mb-2">Head of Graphics</h3>
-                        <span className="text-gray-300 text-sm">Shaping ideas into visuals that speak louder than words.</span>
-                    </div>
-
-                    <div className="bg-[#1f2a38] border border-[#33febf] rounded-2xl p-6 shadow-md text-white hover:shadow-lg transition">
-                        <img src={profile} alt="team-lead" className="w-20 h-20 rounded-full mx-auto mb-4" />
-                        <h2 className="text-xl font-semibold text-[#33febf]">Internet of Things</h2>
-                        <h3 className="text-sm text-gray-400 mb-2">Head of IoT</h3>
-                        <span className="text-gray-300 text-sm">Connecting the physical and digital to create smarter experiences.</span>
-                    </div>
-
-                    <div className="bg-[#1f2a38] border border-[#33febf] rounded-2xl p-6 shadow-md text-white hover:shadow-lg transition">
-                        <img src={profile} alt="team-lead" className="w-20 h-20 rounded-full mx-auto mb-4" />
-                        <h2 className="text-xl font-semibold text-[#33febf]">Management</h2>
-                        <h3 className="text-sm text-gray-400 mb-2">Head of Management</h3>
-                        <span className="text-gray-300 text-sm">Driving clarity, coordination, and execution across every initiative.</span>
-                    </div>
-
-                    <div className="bg-[#1f2a38] border border-[#33febf] rounded-2xl p-6 shadow-md text-white hover:shadow-lg transition">
-                        <img src={profile} alt="team-lead" className="w-20 h-20 rounded-full mx-auto mb-4" />
-                        <h2 className="text-xl font-semibold text-[#33febf]">Social Media</h2>
-                        <h3 className="text-sm text-gray-400 mb-2">Head of Media</h3>
-                        <span className="text-gray-300 text-sm">Telling impactful stories through powerful visuals and sound.</span>
-                    </div>
-
-                    <div className="bg-[#1f2a38] border border-[#33febf] rounded-2xl p-6 shadow-md text-white hover:shadow-lg transition">
-                        <img src={profile} alt="team-lead" className="w-20 h-20 rounded-full mx-auto mb-4" />
-                        <h2 className="text-xl font-semibold text-[#33febf]">Customer Care</h2>
-                        <h3 className="text-sm text-gray-400 mb-2">Head of Care</h3>
-                        <span className="text-gray-300 text-sm">Here to listen, support, and deliver a seamless experience for every user.</span>
-                    </div>
-
+                <div className="grid gap-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                    {domains.map((d, i) => (
+                        <motion.div
+                            key={i}
+                            whileHover={{ y: -8, scale: 1.05 }}
+                            className="bg-[#1f2a38] border border-[#33febf] rounded-2xl p-6 shadow-lg text-white backdrop-blur-md hover:shadow-xl transition relative group overflow-hidden"
+                        >
+                            <div className="absolute inset-0 group-hover:bg-[#33febf]/5 transition" />
+                            <img src={d.img} alt={d.title} className="w-20 h-20 rounded-full mx-auto mb-4 border-2 border-[#33febf]" />
+                            <h2 className="text-xl font-semibold text-[#33febf] mb-2">{d.title}</h2>
+                            <p className="text-gray-300 text-sm">{d.desc}</p>
+                        </motion.div>
+                    ))}
                 </div>
             </div>
         </div>
+    );
+};
 
-    )
-}
 
-export default Domain
+export default Domain;
+
