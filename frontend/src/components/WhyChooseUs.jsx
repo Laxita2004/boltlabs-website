@@ -6,7 +6,7 @@ export default function WhyChooseUs() {
   const items = [
     {
       icon: <Bell size={28} />,
-      text: "We prioritize prompt communication and streamlined processes so you’re always in the loop.",
+      text: "We prioritize prompt communication and streamlined processes so you're always in the loop.",
     },
     {
       icon: <Headphones size={28} />,
@@ -34,7 +34,7 @@ export default function WhyChooseUs() {
         {/* Right: Icons + text list */}
         <div className="flex flex-col gap-8 md:gap-12 text-gray-300 max-w-xl">
           {items.map((item, idx) => (
-            <ScrollReveal key={idx} delay={idx * 0.2} direction="right" duration={0.9}>
+            <ScrollReveal key={item.text} delay={idx * 0.2} direction="right" duration={0.9}>
               <div className="flex items-start gap-6 group cursor-default">
                 <div className="text-teal-400 mt-1 transition-transform group-hover:scale-110">
                   {item.icon}

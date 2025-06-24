@@ -6,7 +6,6 @@ export default function ScrollReveal({
   delay = 0,
   duration = 0.8,
   direction = "up", // 'up', 'down', 'left', 'right'
-  style = {},
   className = "",
 }) {
   // Determine initial transform based on direction
@@ -36,8 +35,7 @@ export default function ScrollReveal({
       whileInView="animate"
       viewport={{ once: true, amount: 0.3 }}
       variants={variants}
-      className={`rounded-lg shadow-lg bg-slate-900/90 backdrop-blur-md ${className}`}
-      style={{ ...style, willChange: "transform, opacity" }}
+      className={className}
     >
       {children}
     </motion.div>

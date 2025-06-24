@@ -3,7 +3,7 @@ import { LayoutDashboard, AppWindow, Headphones, Users, Gem, Zap, Briefcase } fr
 import Card from "./Card.jsx";
 import ScrollReveal from "./ScrollReveal.jsx";
 
-export default function ServicesGrid() {
+export default function Services() {
   const services = [
     {
       icon: <LayoutDashboard size={22} className="text-teal-400" />,
@@ -50,7 +50,7 @@ export default function ServicesGrid() {
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {services.map((service, index) => (
-          <ScrollReveal key={index} delay={index * 0.15}>
+          <ScrollReveal key={service.title} delay={index * 0.15}>
             <Card
               icon={service.icon}
               title={service.title}

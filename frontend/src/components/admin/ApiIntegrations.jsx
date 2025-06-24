@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 const ApiIntegrations = () => {
   const [apiSettings, setApiSettings] = useState({
-    weblockUrl: "https://api.example.com/weblock",
+    webhookUrl: "https://api.example.com/webhook",
     rateLimit: 1000,
     analyticsTracking: true,
     apiKey: "sk_1234567890abcdef1234567890abcdef"
@@ -24,26 +24,26 @@ const ApiIntegrations = () => {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h2 className="text-2xl font-bold text-gray-800 mb-2">API & Integrations</h2>
-      <p className="text-gray-600 mb-6">Manage API keys and third-party integrations</p>
+      <h2 className="text-2xl font-bold text-white mb-2">API & Integrations</h2>
+      <p className="text-gray-400 mb-6">Manage API keys and third-party integrations</p>
       
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+      <form onSubmit={handleSubmit} className="bg-[#1F2937] p-6 rounded-lg shadow-lg border border-gray-700/50">
         <div className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Weblock URL
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              Webhook URL
             </label>
             <input
               type="url"
-              name="weblockUrl"
-              value={apiSettings.weblockUrl}
+              name="webhookUrl"
+              value={apiSettings.webhookUrl}
               onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-md"
+              className="w-full p-2 bg-[#0e1a24] border border-gray-600 rounded-md text-white focus:ring-teal-500 focus:border-teal-500"
             />
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               API Rate Limit (requests/hour)
             </label>
             <input
@@ -53,7 +53,7 @@ const ApiIntegrations = () => {
               onChange={handleChange}
               min="100"
               max="10000"
-              className="w-32 p-2 border border-gray-300 rounded-md"
+              className="w-32 p-2 bg-[#0e1a24] border border-gray-600 rounded-md text-white focus:ring-teal-500 focus:border-teal-500"
             />
           </div>
           
@@ -63,17 +63,17 @@ const ApiIntegrations = () => {
               name="analyticsTracking"
               checked={apiSettings.analyticsTracking}
               onChange={handleChange}
-              className="h-4 w-4 text-blue-600 rounded"
+              className="h-4 w-4 text-teal-500 bg-gray-700 border-gray-600 rounded focus:ring-teal-600"
             />
-            <label className="ml-3 block text-sm font-medium text-gray-700">
+            <label className="ml-3 block text-sm font-medium text-gray-300">
               Enable Analytics Tracking
             </label>
           </div>
           
           <div>
-            <h3 className="text-lg font-medium text-gray-800 mb-3">API Keys</h3>
-            <div className="bg-gray-50 p-4 rounded-md">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+            <h3 className="text-lg font-medium text-white mb-3">API Keys</h3>
+            <div className="bg-[#0e1a24] p-4 rounded-md border border-gray-700/50">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Production API Key
               </label>
               <div className="flex items-center">
@@ -81,18 +81,18 @@ const ApiIntegrations = () => {
                   type="text"
                   value={apiSettings.apiKey}
                   readOnly
-                  className="flex-1 p-2 border border-gray-300 rounded-md bg-white"
+                  className="flex-1 p-2 border border-gray-600 rounded-md bg-gray-800 text-gray-300"
                 />
                 <button
                   type="button"
-                  className="ml-2 px-3 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+                  className="ml-2 px-3 py-2 bg-gray-600 text-gray-200 rounded-md hover:bg-gray-500"
                   onClick={() => navigator.clipboard.writeText(apiSettings.apiKey)}
                 >
                   Copy
                 </button>
               </div>
-              <p className="mt-2 text-sm text-gray-500">
-                API Documentation: <a href={apiSettings.weblockUrl} className="text-blue-600 hover:underline">{apiSettings.weblockUrl}</a>
+              <p className="mt-2 text-sm text-gray-400">
+                API Documentation: <a href={apiSettings.webhookUrl} className="text-teal-400 hover:underline">{apiSettings.webhookUrl}</a>
               </p>
             </div>
           </div>
@@ -100,7 +100,7 @@ const ApiIntegrations = () => {
         
         <button
           type="submit"
-          className="mt-6 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          className="mt-6 px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"
         >
           Save Changes
         </button>
