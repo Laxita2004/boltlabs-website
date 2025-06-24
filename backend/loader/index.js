@@ -1,19 +1,17 @@
-// loaders/index.js
+// loader/index.js
+import authRoutes from '../routes/authRoutes.js';
+import adminRoutes from '../routes/adminRoutes.js';
+import userRoutes from '../routes/userRoutes.js';
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
-import authRoutes from '../routes/authRoutes.js';
 
-dotenv.config();
-
-export default async function loader(app) {
-  // Middlewares
+const loader = async (app) => {
   app.use(cors());
   app.use(express.json());
 
-  // Routes
-  app.use('/api/auth', authRoutes);
+  app.use('/api/auth', authRoutes);     // Public
+  app.use('/api/admin', adminRoutes);   // Protected by middleware inside
+  app.use('/api/user', userRoutes);     // Protected by middleware inside
+};
 
-  // You can add more loaders here in the future (e.g., DB, jobs, etc.)
-  console.log('✅ All loaders initialized');
-}
+export default loader;
