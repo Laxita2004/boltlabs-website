@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js'; // ✅ you missed this imp
 import loader from './loader/index.js';
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import adminRoutes from "./routes/adminRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
@@ -31,12 +32,17 @@ try {
 
 export { supabase };
 =======
+=======
+>>>>>>> b99f4bc2cdd06eb7ee6fe1ece5598060d5097c7c
 // ✅ Initialize Supabase client
 export const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_KEY
 );
+<<<<<<< HEAD
 >>>>>>> f19fce643e1a6aecb525368da1e716b1f4920822
+=======
+>>>>>>> b99f4bc2cdd06eb7ee6fe1ece5598060d5097c7c
 
 // ✅ Initialize Express app
 const app = express();
@@ -44,6 +50,7 @@ const app = express();
 const startServer = async () => {
   await loader(app); // Initialize routes, middlewares etc.
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -60,11 +67,14 @@ app.use("/api/user", userRoutes);
 app.use('/api/admin', adminRoutes);
 app.use("/api/team-member", teamMemberRoutes);
 =======
+=======
+>>>>>>> b99f4bc2cdd06eb7ee6fe1ece5598060d5097c7c
   // ✅ Global error handler
   app.use((err, req, res, next) => {
     console.error('Server Error:', err.stack);
     res.status(500).json({ error: 'Something went wrong on the server!' });
   });
+<<<<<<< HEAD
 >>>>>>> f19fce643e1a6aecb525368da1e716b1f4920822
 
 
@@ -76,11 +86,18 @@ app.listen(PORT, () => {
   console.log(`🌐 Health check: http://localhost:${PORT}/api/health`);
 });
 =======
+=======
+
+
+>>>>>>> b99f4bc2cdd06eb7ee6fe1ece5598060d5097c7c
   // ✅ Start the server
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 };
 
 startServer();
+<<<<<<< HEAD
 >>>>>>> f19fce643e1a6aecb525368da1e716b1f4920822
+=======
+>>>>>>> b99f4bc2cdd06eb7ee6fe1ece5598060d5097c7c
 
