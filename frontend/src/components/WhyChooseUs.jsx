@@ -25,12 +25,12 @@ export default function WhyChooseUs() {
 
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
         {/* Left: Heading with subtle geometric overlay */}
-        <div className="relative flex-shrink-0 w-72 md:w-96 h-72 md:h-96 flex items-center justify-center">
-          <div className="absolute inset-0 bg-gradient-to-br from-teal-400 to-cyan-500 opacity-20 rounded-3xl transform rotate-12 scale-110" />
+        {/* <div className="relative flex-shrink-0 w-72 md:w-96 h-72 md:h-96 flex items-center justify-center"> */}
+          {/* <div className="absolute inset-0 bg-gradient-to-br from-teal-400 to-cyan-500 opacity-20 rounded-3xl transform rotate-12 scale-110" /> */}
           <h2 className="relative text-white text-5xl md:text-6xl font-extrabold leading-tight text-center md:text-left drop-shadow-lg">
             Why <br /> Choose <br /> Us?
           </h2>
-        </div>
+        {/* </div> */}
         {/* Right: Icons + text list */}
         <div className="flex flex-col gap-8 md:gap-12 text-gray-300 max-w-xl">
           {items.map((item, idx) => (
