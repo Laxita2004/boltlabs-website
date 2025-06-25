@@ -13,11 +13,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-<<<<<<< HEAD
     "@heroicons/react": "^2.2.0",
-=======
-    "@heroicons/react": "^1.0.6",
->>>>>>> e6ca5cf40778afe93bc39038dd8c4a703697c90a
     "@tailwindcss/vite": "^4.1.8",
     "axios": "^1.9.0",
     "framer-motion": "^12.19.1",
@@ -30,7 +26,6 @@
     "swiper": "^11.2.8"
   },
   "devDependencies": {
-    "@eslint/js": "^9.25.0",
     "@tailwindcss/postcss": "^4.1.10",
     "@vitejs/plugin-react": "^4.6.0",
     "autoprefixer": "^10.4.21",
@@ -40,7 +35,7 @@
     "eslint-plugin-react-refresh": "^0.4.19",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.8",
-    "vite": "^7.0.0"
+    "vite": "^6.3.5"
   },
   "browserslist": {
     "production": [
