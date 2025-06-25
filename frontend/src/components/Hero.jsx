@@ -25,18 +25,18 @@ const Hero = () => {
             digital age.
           </p>
           <div className="flex flex-wrap gap-4">
-            <a
-              href="./login"
+            <button
+              onClick={() => navigate('/login')}
               className="bg-[#141E28] text-white px-6 py-3 rounded-full font-semibold border-2 border-[#141E28] hover:bg-transparent hover:text-[#141E28] transition-all hover:shadow-[0_0_20px_rgba(51,254,191,0.4)]"
             >
               Get Started
-            </a>
-            <a
-              href="#"
+            </button>
+            <button
+              type="button"
               className="bg-transparent text-[#141E28] px-6 py-3 rounded-full font-semibold border-2 border-[#141E28] hover:bg-[#141E28]/5 transition-all"
             >
               Learn More
-            </a>
+            </button>
           </div>
         </motion.div>
       </div>

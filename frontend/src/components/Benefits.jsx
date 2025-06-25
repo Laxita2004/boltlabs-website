@@ -39,7 +39,7 @@ const Benefits = () => {
           viewport={{ once: true }}
           className="text-3xl md:text-4xl font-bold text-center mb-12"
         >
-          Why <span className="text-[#33FEBF]">Choose Us</span>
+          What makes <span className="text-[#33FEBF]">us stand out</span>
         </motion.h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
