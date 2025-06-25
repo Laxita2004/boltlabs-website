@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import logo from "../assets/logo.png";
 import {
@@ -201,6 +201,7 @@ export default function Header() {
           </div>
         </div>
       )}
+      </div>
     </motion.header>
   );
 }

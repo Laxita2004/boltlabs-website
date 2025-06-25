@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LockClosedIcon, EnvelopeIcon } from '@heroicons/react/24/solid';
+import { FaLock, FaEnvelope } from 'react-icons/fa'
 
 const LoginForm = () => {
   const [email, setEmail] = useState('admin@example.com');
@@ -35,7 +35,7 @@ const LoginForm = () => {
         </label>
         <div className="mt-1 relative rounded-md shadow-sm">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <EnvelopeIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+            <FaEnvelope className="h-5 w-5 text-gray-400" aria-hidden="true" />
           </div>
           <input
             id="email"
@@ -56,7 +56,7 @@ const LoginForm = () => {
         </label>
         <div className="mt-1 relative rounded-md shadow-sm">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <LockClosedIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+            <FaLock className="h-5 w-5 text-gray-400" aria-hidden="true" />
           </div>
           <input
             id="password"
