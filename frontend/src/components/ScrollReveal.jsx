@@ -7,24 +7,44 @@ export default function ScrollReveal({
   duration = 0.8,
   direction = "up", // 'up', 'down', 'left', 'right'
   className = "",
+  style = {},
+  easing = [0.25, 0.1, 0.25, 1], // Custom easing curve
+  staggerChildren = 0, // Delay between children animations
 }) {
   // Determine initial transform based on direction
+  const getInitialTransform = () => {
+    switch (direction) {
+      case 'up':
+        return { y: distance };
+      case 'down':
+        return { y: -distance };
+      case 'left':
+        return { x: distance };
+      case 'right':
+        return { x: -distance };
+      case 'zoom':
+        return { scale: 0.9 };
+      default:
+        return {};
+    }
+  };
+
   const variants = {
     initial: {
-      opacity: 0,
-      y: direction === "up" ? 40 : direction === "down" ? -40 : 0,
-      x: direction === "left" ? 40 : direction === "right" ? -40 : 0,
-      scale: 0.95,
+      ...getInitialTransform(),
+      opacity: opacityEffect ? 0 : 1,
+      scale: scaleEffect ? 0.95 : 1,
     },
     animate: {
-      opacity: 1,
       y: 0,
       x: 0,
       scale: 1,
+      opacity: 1,
       transition: {
         duration,
-        ease: [0.25, 0.1, 0.25, 1],
         delay,
+        ease: easing,
+        staggerChildren,
       },
     },
   };
@@ -33,12 +53,16 @@ export default function ScrollReveal({
     <motion.div
       initial="initial"
       whileInView="animate"
-      viewport={{ once: true, amount: 0.3 }}
+      viewport={{ once, amount: viewportAmount }}
       variants={variants}
-      className={className}
+      className={`${className}`}
+      style={{ 
+        ...style, 
+        willChange: "transform, opacity",
+        transformStyle: "preserve-3d", // For better hardware acceleration
+      }}
     >
       {children}
     </motion.div>
   );
 }
-

@@ -1,6 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import logo from '../assets/logobolt.svg';
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+import { motion } from "framer-motion";
+import logo from "../assets/logo.png";
 import {
   FaHome,
   FaInfoCircle,
@@ -33,9 +34,11 @@ export default function Header() {
   }, []);
 
   const navLinkBase =
-    "flex items-center gap-2 text-sm px-4 py-2 rounded-md transition-colors duration-200";
-  const activeClasses = "bg-[#33FEBF] text-white shadow-md";
-  const inactiveClasses = "text-gray-200 hover:bg-[#33FEBF] hover:text-white";
+    "flex items-center gap-2 text-sm px-4 py-2 rounded-md transition-all";
+  const activeClasses =
+    "bg-gradient-to-r from-[#33FEBF] to-[#0ff] text-white shadow-md";
+  const inactiveClasses =
+    "text-gray-200 hover:bg-gradient-to-r hover:from-[#33FEBF] hover:to-[#0ff] hover:text-white";
 
   const navItems = [
     { to: "/", label: "HOME", icon: <FaHome /> },
@@ -50,31 +53,44 @@ export default function Header() {
   };
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-[#0e1a24] shadow-md px-0 py-4">
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-6">
-        {/* Logo */}
-        <div className="flex items-center">
-          <div className="w-[160px] h-[50px]  text-green-400 flex items-center justify-center text-sm font-bold">
-            <img src={logo} alt="BoltLab Logo" className="h-32 w-32 -mt-8" />
+    <motion.header
+      initial={{ y: -40, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="fixed top-0 left-0 w-full z-50 backdrop-blur-lg bg-[#0e1a24]/80 border-b border-gray-700 shadow-sm"
+    >
+      {/* OUTER WRAPPER WITH PADDING */}
+      <div className="w-full px-4 md:px-6 py-3">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          {/* Logo */}
+          <div className="flex items-center">
+            <div className="w-[160px] h-[50px] flex items-center justify-center">
+              <img
+                src={logo}
+                alt="BoltLab Logo"
+                className="h-26 w-auto -mt-6"
+              />
+            </div>
           </div>
-        </div>
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex bg-gray-700 rounded-full px-6 py-2 space-x-6 items-center shadow-inner">
-          {navItems.map(({ to, label, icon }) => (
-            <NavLink
-              key={to}
-              to={to}
-              end={to === "/"}
-              className={({ isActive }) =>
-                `${navLinkBase} ${isActive ? activeClasses : inactiveClasses}`
-              }
-            >
-              {icon}
-              <span>{label}</span>
-            </NavLink>
-          ))}
-        </nav>
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex bg-gray-800 rounded-full px-5 py-2 space-x-4 items-center shadow-inner border border-gray-700">
+            {navItems.map(({ to, label, icon }) => (
+              <NavLink
+                key={to}
+                to={to}
+                end={to === "/"}
+                className={({ isActive }) =>
+                  `${navLinkBase} ${
+                    isActive ? activeClasses : inactiveClasses
+                  }`
+                }
+              >
+                {icon}
+                <span>{label}</span>
+              </NavLink>
+            ))}
+          </nav>
 
         {/* Mobile Hamburger */}
         <div className="md:hidden">
@@ -185,6 +201,6 @@ export default function Header() {
           </div>
         </div>
       )}
-    </header>
+    </motion.header>
   );
 }
