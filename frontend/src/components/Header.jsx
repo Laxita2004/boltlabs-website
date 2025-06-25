@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import logo from '../assets/logobolt.svg';
+import { motion } from "framer-motion";
+import logo from "../assets/logo.png";
 import {
   FaHome,
   FaInfoCircle,
@@ -17,9 +18,11 @@ export default function Header() {
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   const navLinkBase =
-    "flex items-center gap-2 text-sm px-4 py-2 rounded-md transition-colors duration-200";
-  const activeClasses = "bg-[#33FEBF] text-white shadow-md";
-  const inactiveClasses = "text-gray-200 hover:bg-[#33FEBF] hover:text-white";
+    "flex items-center gap-2 text-sm px-4 py-2 rounded-md transition-all";
+  const activeClasses =
+    "bg-gradient-to-r from-[#33FEBF] to-[#0ff] text-white shadow-md";
+  const inactiveClasses =
+    "text-gray-200 hover:bg-gradient-to-r hover:from-[#33FEBF] hover:to-[#0ff] hover:text-white";
 
   const navItems = [
     { to: "/", label: "HOME", icon: <FaHome /> },
@@ -29,87 +32,108 @@ export default function Header() {
   ];
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-[#0e1a24] shadow-md px-0 py-4">
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-6">
-        {/* Logo */}
-        <div className="flex items-center">
-          <div className="w-[160px] h-[50px]  text-green-400 flex items-center justify-center text-sm font-bold">
-            <img src={logo} alt="BoltLab Logo" className="h-32 w-32 -mt-8" />
+    <motion.header
+      initial={{ y: -40, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="fixed top-0 left-0 w-full z-50 backdrop-blur-lg bg-[#0e1a24]/80 border-b border-gray-700 shadow-sm"
+    >
+      {/* OUTER WRAPPER WITH PADDING */}
+      <div className="w-full px-4 md:px-6 py-3">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          {/* Logo */}
+          <div className="flex items-center">
+            <div className="w-[160px] h-[50px] flex items-center justify-center">
+              <img
+                src={logo}
+                alt="BoltLab Logo"
+                className="h-26 w-auto -mt-6"
+              />
+            </div>
           </div>
-        </div>
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex bg-gray-700 rounded-full px-6 py-2 space-x-6 items-center shadow-inner">
-          {navItems.map(({ to, label, icon }) => (
-            <NavLink
-              key={to}
-              to={to}
-              end={to === "/"}
-              className={({ isActive }) =>
-                `${navLinkBase} ${isActive ? activeClasses : inactiveClasses}`
-              }
-            >
-              {icon}
-              <span>{label}</span>
-            </NavLink>
-          ))}
-        </nav>
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex bg-gray-800 rounded-full px-5 py-2 space-x-4 items-center shadow-inner border border-gray-700">
+            {navItems.map(({ to, label, icon }) => (
+              <NavLink
+                key={to}
+                to={to}
+                end={to === "/"}
+                className={({ isActive }) =>
+                  `${navLinkBase} ${
+                    isActive ? activeClasses : inactiveClasses
+                  }`
+                }
+              >
+                {icon}
+                <span>{label}</span>
+              </NavLink>
+            ))}
+          </nav>
 
-        {/* Mobile Hamburger */}
-        <div className="md:hidden">
-          <button onClick={toggleMenu} className="text-gray-200 text-2xl">
-            {menuOpen ? <FaTimes /> : <FaBars />}
-          </button>
-        </div>
-
-        {/* Sign In */}
-        <NavLink
-          to="/signup"
-          className={({ isActive }) =>
-            `hidden md:flex items-center space-x-2 text-sm font-semibold px-3 py-1 rounded-lg transition-colors duration-200 ${isActive
-              ? "bg-green-500 text-white shadow-md"
-              : "text-green-400 hover:bg-green-600 hover:text-white"
-            }`
-          }
-        >
-          <FaUserCircle className="text-xl" />
-          <span>SIGN UP</span>
-        </NavLink>
-      </div>
-
-      {/* Mobile Dropdown Menu */}
-      {menuOpen && (
-        <div className="md:hidden px-6 pb-4 mt-2 bg-[#0e1a24] border-t border-gray-700 space-y-3">
-          {navItems.map(({ to, label, icon }) => (
-            <NavLink
-              key={to}
-              to={to}
-              end={to === "/"}
-              onClick={() => setMenuOpen(false)} // close menu on click
-              className={({ isActive }) =>
-                `${navLinkBase} ${isActive ? activeClasses : inactiveClasses}`
-              }
-            >
-              {icon}
-              <span>{label}</span>
-            </NavLink>
-          ))}
-          {/* Sign In for mobile */}
+          {/* Sign In */}
           <NavLink
-            to="/signup"
-            onClick={() => setMenuOpen(false)}
+            to="/login"
             className={({ isActive }) =>
-              `flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-lg transition-colors duration-200 ${isActive
-                ? "bg-green-500 text-white shadow-md"
-                : "text-green-400 hover:bg-green-600 hover:text-white"
+              `hidden md:flex items-center space-x-2 text-sm font-semibold px-5 py-2 rounded-full transition-all ${
+                isActive
+                  ? "bg-gradient-to-r from-green-400 to-teal-500 text-white shadow-lg"
+                  : "text-green-400 hover:bg-green-600 hover:text-white"
               }`
             }
           >
             <FaUserCircle className="text-xl" />
-            <span>SIGN UP</span>
+            <span>SIGN IN</span>
+          </NavLink>
+
+          {/* Mobile Hamburger */}
+          <div className="md:hidden">
+            <button
+              onClick={toggleMenu}
+              className="text-gray-200 text-2xl cursor-pointer"
+            >
+              {menuOpen ? <FaTimes /> : <FaBars />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Dropdown Menu */}
+      {menuOpen && (
+        <div className="md:hidden px-4 py-4 bg-[#0e1a24] border-t border-gray-700 space-y-3">
+          {navItems.map(({ to, label, icon }) => (
+            <NavLink
+              key={to}
+              to={to}
+              end={to === "/"}
+              onClick={() => setMenuOpen(false)}
+              className={({ isActive }) =>
+                `${navLinkBase} ${
+                  isActive ? activeClasses : inactiveClasses
+                }`
+              }
+            >
+              {icon}
+              <span>{label}</span>
+            </NavLink>
+          ))}
+
+          <NavLink
+            to="/login"
+            onClick={() => setMenuOpen(false)}
+            className={({ isActive }) =>
+              `flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-lg transition-all ${
+                isActive
+                  ? "bg-green-500 text-white shadow-md"
+                  : "text-green-400 hover:bg-green-600 hover:text-white"
+              }`
+            }
+          >
+            <FaUserCircle className="text-xl" />
+            <span>SIGN IN</span>
           </NavLink>
         </div>
       )}
-    </header>
+    </motion.header>
   );
 }
