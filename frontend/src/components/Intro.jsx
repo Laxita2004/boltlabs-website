@@ -1,8 +1,7 @@
 import React from "react";
 import boltlabsVideo from "../assets/boltlabs.mp4";
-import { useNavigate } from "react-router-dom";
-export default function DigitalPartnerCard() {
-  const navigate=useNavigate();
+
+export default function Intro() {
   return (
     <div className="relative w-full min-h-screen overflow-hidden">
       {/* 🔹 Video Background */}
@@ -12,6 +11,7 @@ export default function DigitalPartnerCard() {
         loop
         playsInline
         className="absolute top-0 left-0 w-full h-full object-cover object-left scale-[1.6] md:scale-100 transition-transform duration-700 ease-in-out z-0"
+        title="Promotional video for BoltLabs"
       >
         <source src={boltlabsVideo} type="video/mp4" />
         Your browser does not support the video tag.
@@ -45,8 +45,8 @@ export default function DigitalPartnerCard() {
             personal touch, so you can focus on what matters: your business.
           </p>
           <div>
-            <button onClick={()=>navigate('./login')}  className=" cursor-pointer mt-4 px-6 py-3 rounded-full bg-teal-500 hover:bg-teal-400 transition text-white text-sm font-semibold shadow-lg">
-              Let’s Grow Together
+            <button className="mt-4 px-6 py-3 rounded-full bg-teal-500 hover:bg-teal-400 transition text-white text-sm font-semibold shadow-lg">
+              Let's Grow Together
             </button>
           </div>
         </div>

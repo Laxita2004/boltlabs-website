@@ -32,16 +32,6 @@ const projects = [
     desc: "Duis aute irure dolor in reprehenderit in voluptate.",
     img: sample3,
   },
-  {
-    title: "Project 2",
-    desc: "Ut enim ad minim veniam, quis nostrud exercitation.",
-    img: sample2,
-  },
-  {
-    title: "Project 3",
-    desc: "Duis aute irure dolor in reprehenderit in voluptate.",
-    img: sample3,
-  },
 ];
 
 export default function OurProjects() {
@@ -86,7 +76,7 @@ export default function OurProjects() {
         className="relative w-full px-4 sm:px-6 md:px-12"
       >
         {projects.map((project, idx) => (
-          <SwiperSlide key={idx}>
+          <SwiperSlide key={`${project.title}-${idx}`}>
             <div className="relative w-full h-[400px] rounded-3xl overflow-hidden shadow-2xl">
               <img
                 src={project.img}
@@ -104,12 +94,14 @@ export default function OurProjects() {
 
         {/* Navigation Buttons */}
         <button
+          type="button"
           className="prev-btn absolute left-0 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-teal-500/80 text-white p-2 rounded-full z-20 transition"
           aria-label="Previous"
         >
           <ChevronLeft className="w-6 h-6" />
         </button>
         <button
+          type="button"
           className="next-btn absolute right-0 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-teal-500/80 text-white p-2 rounded-full z-20 transition"
           aria-label="Next"
         >

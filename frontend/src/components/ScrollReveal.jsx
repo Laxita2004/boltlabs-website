@@ -5,12 +5,7 @@ export default function ScrollReveal({
   children,
   delay = 0,
   duration = 0.8,
-  direction = "up", // 'up', 'down', 'left', 'right', 'zoom'
-  distance = 40, // Distance in pixels for movement
-  scaleEffect = true, // Whether to include scale animation
-  opacityEffect = true, // Whether to include fade animation
-  viewportAmount = 0.3, // How much of the element needs to be visible to trigger
-  once = true, // Whether animation should happen only once
+  direction = "up", // 'up', 'down', 'left', 'right'
   className = "",
   style = {},
   easing = [0.25, 0.1, 0.25, 1], // Custom easing curve

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Layout from './components/Layout';
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -11,8 +10,9 @@ import Team from "./pages/Team";
 import Index from './pages/Index';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
+import UserDashboard from './pages/UserDashboard';
+import EditProfile from './pages/EditProfile';
 import AdminDashboard, { DashboardOverview } from './components/admin/AdminDashboard';
-import ClientManagement from './components/admin/ClientManagement';
 import UserManagement from './components/admin/UserManagement';
 import ProjectManagement from './components/admin/ProjectManagement';
 import DomainManagement from './components/admin/DomainManagement';
@@ -35,17 +35,16 @@ const App = () => {
   return (
     <>
       <Header />
-      <div className='min-h-[70vh] bg-gray-50'>
+      <main className='min-h-screen'>
         <Routes>
           {/* Public routes */}
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-
-           <Route element={<Layout showHeader={false} />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          </Route>
+          <Route path="/dashboard" element={<UserDashboard />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
 
           {/* Our Team section */}
           <Route path="/team" element={<Team />} />
@@ -55,7 +54,6 @@ const App = () => {
           {/* Admin dashboard with nested routes */}
           <Route path="/admin" element={<AdminDashboard />}>
             <Route index element={<DashboardOverview />} />
-            <Route path="clients" element={<ClientManagement />} />
             <Route path="users" element={<UserManagement />} />
             <Route path="projects" element={<ProjectManagement />} />
             <Route path="domains" element={<DomainManagement />} />
@@ -77,7 +75,7 @@ const App = () => {
           {/* Redirect unknown routes to home */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </div>
+      </main>
       <Footer />
     </>
   );

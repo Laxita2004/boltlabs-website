@@ -3,10 +3,7 @@ import { motion } from "framer-motion";
 import { LayoutDashboard, AppWindow, Headphones, Users, Gem, Zap, Briefcase } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-export default function ServicesGrid() {
-  const navigate = useNavigate();
-  const [hoveredCard, setHoveredCard] = useState(null);
-
+export default function Services() {
   const services = [
     {
       icon: <LayoutDashboard size={28} />,
@@ -63,32 +60,20 @@ export default function ServicesGrid() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-20 px-6 md:px-12 font-sans overflow-hidden relative">
-      {/* Floating background elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(15)].map((_, i) => (
-          <motion.div
-            key={i}
-            animate={{
-              y: [0, Math.random() * 100 - 50],
-              x: [0, Math.random() * 100 - 50],
-              opacity: [0.02, 0.08, 0.02],
-              rotate: [0, 180]
-            }}
-            transition={{
-              duration: Math.random() * 15 + 15,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut"
-            }}
-            className="absolute rounded-full bg-teal-400/10 blur-xl"
-            style={{
-              width: `${Math.random() * 400 + 100}px`,
-              height: `${Math.random() * 400 + 100}px`,
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`
-            }}
-          />
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-20 px-6 md:px-12 font-sans">
+      <h2 className="text-3xl md:text-5xl font-extrabold text-center text-white mb-16">
+        Save Time <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400">Managing</span> Your Business
+        <br /> With Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400">Best Services</span>
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {services.map((service, index) => (
+          <ScrollReveal key={service.title} delay={index * 0.15}>
+            <Card
+              icon={service.icon}
+              title={service.title}
+              subtitle={service.subtitle}
+            />
+          </ScrollReveal>
         ))}
       </div>
 

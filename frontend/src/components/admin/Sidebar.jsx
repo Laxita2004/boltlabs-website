@@ -2,10 +2,10 @@ import { NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
   return (
-    <div className="w-64 bg-white shadow-md">
-      <div className="p-4 border-b">
-        <h1 className="text-xl font-bold text-gray-800">Settings</h1>
-        <p className="text-sm text-gray-600">Manage your admin panel configuration</p>
+    <div className="w-64 bg-[#1F2937] border-r border-gray-700/50">
+      <div className="p-4 border-b border-gray-700/50">
+        <h1 className="text-xl font-bold text-white">Settings</h1>
+        <p className="text-sm text-gray-400">Manage your admin panel configuration</p>
       </div>
       
       <nav className="p-4">
@@ -16,7 +16,7 @@ const Sidebar = () => {
               <NavLink 
                 to="company"
                 className={({ isActive }) => 
-                  `block px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100'}`
+                  `block px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-teal-500/10 text-teal-300' : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'}`
                 }
               >
                 Company Information
@@ -26,7 +26,7 @@ const Sidebar = () => {
               <NavLink 
                 to="profile"
                 className={({ isActive }) => 
-                  `block px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100'}`
+                  `block px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-teal-500/10 text-teal-300' : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'}`
                 }
               >
                 User Profile
@@ -36,7 +36,7 @@ const Sidebar = () => {
               <NavLink 
                 to="notifications"
                 className={({ isActive }) => 
-                  `block px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100'}`
+                  `block px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-teal-500/10 text-teal-300' : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'}`
                 }
               >
                 Notifications
@@ -46,7 +46,7 @@ const Sidebar = () => {
               <NavLink 
                 to="security"
                 className={({ isActive }) => 
-                  `block px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100'}`
+                  `block px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-teal-500/10 text-teal-300' : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'}`
                 }
               >
                 Security
@@ -56,7 +56,7 @@ const Sidebar = () => {
               <NavLink 
                 to="appearance"
                 className={({ isActive }) => 
-                  `block px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100'}`
+                  `block px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-teal-500/10 text-teal-300' : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'}`
                 }
               >
                 Appearance
@@ -66,7 +66,7 @@ const Sidebar = () => {
               <NavLink 
                 to="api"
                 className={({ isActive }) => 
-                  `block px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100'}`
+                  `block px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-teal-500/10 text-teal-300' : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'}`
                 }
               >
                 API & Integrations
