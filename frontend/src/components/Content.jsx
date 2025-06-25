@@ -38,25 +38,36 @@ const Content = () => {
                 <div className="flex flex-col lg:flex-row bg-gradient-to-br from-[#1e2a38] to-[#202f3e] rounded-3xl overflow-hidden shadow-2xl border border-[#33febf]/30">
 
                     {/* 📞 Contact Info */}
-                    <div className="lg:w-1/2 p-10 bg-[#161f29] flex flex-col justify-center relative">
+                    <div className="lg:w-1/2 p-10 bg-[#141e28] flex flex-col justify-center relative">
                         <h2 className="text-2xl font-bold mb-6 text-white">Get in Touch</h2>
+
                         <div className="space-y-6 text-sm text-gray-200">
-                            <div className="flex items-center gap-4">
-                                <img src={call} alt="phone-icon" className="h-6 w-6" />
+
+                            <div className="flex items-center gap-4 group">
+                                <img src={call} alt="Phone Icon" className="h-6 w-6 invert group-hover:scale-110 transition" />
                                 <span>+91 00000 00000</span>
                             </div>
-                            <div className="flex items-center gap-4">
-                                <img src={email} alt="mail-icon" className="h-6 w-6" />
+
+                            <div className="flex items-center gap-4 group">
+                                <img src={email} alt="Email Icon" className="h-6 w-6 invert group-hover:scale-110 transition" />
                                 <span>boltlabs@gmail.com</span>
                             </div>
-                            <div className="flex items-center gap-4">
-                                <img src={address} alt="location-icon" className="h-6 w-6" />
+
+                            <div className="flex items-center gap-4 group">
+                                <img src={address} alt="Location Icon" className="h-6 w-6 invert group-hover:scale-110 transition" />
                                 <span>Y.N. Road, SGSITS, Indore</span>
                             </div>
+
                         </div>
+
                         <div className="mt-10 h-[1px] w-full bg-[#33febf]/30" />
-                        <p className="text-sm mt-6 text-[#9adcd1] italic">We're here to help you grow online 🌐</p>
+
+                        <p className="text-sm mt-6 text-[#9adcd1] italic">
+                            We're here to help you grow online 🌐
+                        </p>
                     </div>
+
+
 
                     {/* 📝 Contact Form */}
                     <div className="lg:w-1/2 p-10 bg-[#141e28]">

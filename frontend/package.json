@@ -13,7 +13,11 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+<<<<<<< HEAD
+    "@heroicons/react": "^2.2.0",
+=======
     "@heroicons/react": "^1.0.6",
+>>>>>>> e6ca5cf40778afe93bc39038dd8c4a703697c90a
     "@tailwindcss/vite": "^4.1.8",
     "axios": "^1.9.0",
     "framer-motion": "^12.19.1",
