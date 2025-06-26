@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import { FaBolt } from "react-icons/fa";
-import React from "react";
-
+import { useNavigate } from "react-router-dom";
 const Hero = () => {
+  const navigate=useNavigate();
   return (
-    <section className="min-h-screen flex items-center pt-20">
+    <section className="min-h-screen flex items-center pt-20 bg-white text-[#141E28]">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -13,9 +13,9 @@ const Hero = () => {
         >
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
             Empowering{" "}
-            <span className="text-accent relative">
+            <span className="text-[#33FEBF] relative inline-block">
               Local Businesses
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-accent scale-x-0 hover:scale-x-100 origin-right transition-transform duration-300"></span>
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#33FEBF] scale-x-0 group-hover:scale-x-100 origin-right transition-transform duration-300"></span>
             </span>{" "}
             with Tech
           </h1>
@@ -26,14 +26,14 @@ const Hero = () => {
           </p>
           <div className="flex flex-wrap gap-4">
             <a
-              href="#"
-              className="bg-dark text-white px-6 py-3 rounded-full font-semibold border-2 border-dark hover:bg-transparent hover:text-dark transition-all hover:shadow-glow"
+              href="./login"
+              className="bg-[#141E28] text-white px-6 py-3 rounded-full font-semibold border-2 border-[#141E28] hover:bg-transparent hover:text-[#141E28] transition-all hover:shadow-[0_0_20px_rgba(51,254,191,0.4)]"
             >
               Get Started
             </a>
             <a
               href="#"
-              className="bg-transparent text-dark px-6 py-3 rounded-full font-semibold border-2 border-dark hover:bg-dark/5 transition-all"
+              className="bg-transparent text-[#141E28] px-6 py-3 rounded-full font-semibold border-2 border-[#141E28] hover:bg-[#141E28]/5 transition-all"
             >
               Learn More
             </a>

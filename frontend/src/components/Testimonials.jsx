@@ -8,16 +8,6 @@ const testimonials = [
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     image: person,
   },
-  {
-    name: 'Alexander',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    image: person,
-  },
-  {
-    name: 'Alexander',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    image: person,
-  },
 ];
 
 const Testimonials = () => {
@@ -30,7 +20,7 @@ const Testimonials = () => {
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-7xl mx-auto">
         {testimonials.map((testimonial, index) => (
-          <ScrollReveal key={index} delay={index * 0.15}>
+          <ScrollReveal key={`${testimonial.name}-${index}`} delay={index * 0.15}>
             <div className="relative bg-white/5 border border-white/10 rounded-3xl p-8 flex flex-col items-center text-center shadow-xl hover:shadow-2xl hover:scale-105 transition-transform duration-300">
               <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-gradient-to-r from-teal-400 to-cyan-400 opacity-20 blur-xl"></div>
               <img

@@ -24,13 +24,13 @@ const Security = () => {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h2 className="text-2xl font-bold text-gray-800 mb-2">Security Settings</h2>
-      <p className="text-gray-600 mb-6">Configure security policies and access controls</p>
+      <h2 className="text-2xl font-bold text-white mb-2">Security Settings</h2>
+      <p className="text-gray-400 mb-6">Configure security policies and access controls</p>
       
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+      <form onSubmit={handleSubmit} className="bg-[#1F2937] p-6 rounded-lg shadow-lg border border-gray-700/50">
         <div className="space-y-6">
           <div>
-            <h3 className="text-lg font-medium text-gray-800 mb-3">Password Policy</h3>
+            <h3 className="text-lg font-medium text-white mb-3">Password Policy</h3>
             <div className="space-y-4">
               <div className="flex items-center">
                 <input
@@ -39,9 +39,9 @@ const Security = () => {
                   value="low"
                   checked={securitySettings.passwordPolicy === "low"}
                   onChange={handleChange}
-                  className="h-4 w-4 text-blue-600"
+                  className="h-4 w-4 text-teal-500 bg-gray-700 border-gray-600 focus:ring-teal-600"
                 />
-                <label className="ml-3 block text-sm font-medium text-gray-700">
+                <label className="ml-3 block text-sm font-medium text-gray-300">
                   Low (minimum 6 characters)
                 </label>
               </div>
@@ -52,9 +52,9 @@ const Security = () => {
                   value="medium"
                   checked={securitySettings.passwordPolicy === "medium"}
                   onChange={handleChange}
-                  className="h-4 w-4 text-blue-600"
+                  className="h-4 w-4 text-teal-500 bg-gray-700 border-gray-600 focus:ring-teal-600"
                 />
-                <label className="ml-3 block text-sm font-medium text-gray-700">
+                <label className="ml-3 block text-sm font-medium text-gray-300">
                   Medium (8 characters, mixed case)
                 </label>
               </div>
@@ -65,9 +65,9 @@ const Security = () => {
                   value="high"
                   checked={securitySettings.passwordPolicy === "high"}
                   onChange={handleChange}
-                  className="h-4 w-4 text-blue-600"
+                  className="h-4 w-4 text-teal-500 bg-gray-700 border-gray-600 focus:ring-teal-600"
                 />
-                <label className="ml-3 block text-sm font-medium text-gray-700">
+                <label className="ml-3 block text-sm font-medium text-gray-300">
                   High (12 characters, special characters)
                 </label>
               </div>
@@ -75,7 +75,7 @@ const Security = () => {
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Max Login Attempts
             </label>
             <input
@@ -85,7 +85,7 @@ const Security = () => {
               onChange={handleChange}
               min="1"
               max="10"
-              className="w-24 p-2 border border-gray-300 rounded-md"
+              className="w-24 p-2 bg-[#0e1a24] border border-gray-600 rounded-md text-white focus:ring-teal-500 focus:border-teal-500"
             />
           </div>
           
@@ -96,9 +96,9 @@ const Security = () => {
                 name="whitelistEnabled"
                 checked={true}
                 readOnly
-                className="h-4 w-4 text-blue-600 rounded"
+                className="h-4 w-4 text-teal-500 bg-gray-700 border-gray-600 rounded"
               />
-              <label className="ml-3 block text-sm font-medium text-gray-700">
+              <label className="ml-3 block text-sm font-medium text-gray-300">
                 Whitelist IPs (comma separated)
               </label>
             </div>
@@ -107,7 +107,7 @@ const Security = () => {
               value={securitySettings.whitelistIps}
               onChange={handleChange}
               rows="2"
-              className="mt-2 w-full p-2 border border-gray-300 rounded-md"
+              className="mt-2 w-full p-2 bg-[#0e1a24] border border-gray-600 rounded-md text-white focus:ring-teal-500 focus:border-teal-500"
             ></textarea>
           </div>
           
@@ -117,9 +117,9 @@ const Security = () => {
               name="requireHttps"
               checked={securitySettings.requireHttps}
               onChange={handleChange}
-              className="h-4 w-4 text-blue-600 rounded"
+              className="h-4 w-4 text-teal-500 bg-gray-700 border-gray-600 rounded focus:ring-teal-600"
             />
-            <label className="ml-3 block text-sm font-medium text-gray-700">
+            <label className="ml-3 block text-sm font-medium text-gray-300">
               Require HTTPS Only
             </label>
           </div>
@@ -127,7 +127,7 @@ const Security = () => {
         
         <button
           type="submit"
-          className="mt-6 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          className="mt-6 px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"
         >
           Save Changes
         </button>
