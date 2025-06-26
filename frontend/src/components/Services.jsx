@@ -97,6 +97,7 @@ export default function Services() {
     },
   };
   const [hoveredCard, setHoveredCard] = useState(null);
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-20 px-6 md:px-12 font-sans">
@@ -174,9 +175,17 @@ export default function Services() {
                   stiffness: 100,
                 }}
                 viewport={{ once: true, margin: "-50px" }}
-                className="group relative h-full"
+                className="group relative h-full cursor-pointer"
                 onMouseEnter={() => setHoveredCard(index)}
                 onMouseLeave={() => setHoveredCard(null)}
+                onClick={() => {
+                  const token = localStorage.getItem('token');
+                  if (token) {
+                    navigate('/request-service');
+                  } else {
+                    navigate('/login');
+                  }
+                }}
               >
                 {/* Gradient Background */}
                 <motion.div
@@ -280,33 +289,6 @@ export default function Services() {
             );
           })}
         </div>
-
-        {/* CTA Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mt-20"
-        >
-          <motion.button
-            whileHover={{
-              scale: 1.05,
-              background: "linear-gradient(45deg, #0d9488, #0891b2)",
-            }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => navigate("/login")}
-            className="px-10 py-4 rounded-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white font-semibold text-lg shadow-lg shadow-cyan-500/20 hover:shadow-xl hover:shadow-cyan-500/30 transition-all duration-300 relative overflow-hidden"
-          >
-            <span className="relative z-10 cursor-pointer">
-              Explore All Services
-            </span>
-            <motion.span
-              className="absolute inset-0 bg-gradient-to-r from-teal-600 to-cyan-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              initial={{ opacity: 0 }}
-            />
-          </motion.button>
-        </motion.div>
       </div>
     </div>
   );

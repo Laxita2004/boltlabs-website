@@ -1,11 +1,8 @@
+import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-<<<<<<< HEAD
 import { LockClosedIcon, EnvelopeIcon } from "@heroicons/react/24/outline";
 
-=======
-import { FaLock, FaEnvelope } from 'react-icons/fa'
->>>>>>> e6ca5cf40778afe93bc39038dd8c4a703697c90a
 
 const LoginForm = () => {
   const [email, setEmail] = useState('admin@example.com');
@@ -18,7 +15,13 @@ const LoginForm = () => {
     console.log('Login attempted with:', { email, password });
     // For demo purposes, navigate to dashboard if credentials match
     if (email === 'admin@example.com' && password === 'admin123') {
-      navigate('/dashboard'); // You'll need to create this route
+      // Set token and user info in localStorage
+      localStorage.setItem('token', 'demo-token');
+      // For demo, use the part before @ as the name
+      const name = email.split('@')[0];
+      localStorage.setItem('userName', name.charAt(0).toUpperCase() + name.slice(1));
+      localStorage.setItem('userEmail', email);
+      window.location.reload(); // Refresh to show user icon in header
     }
   };
 

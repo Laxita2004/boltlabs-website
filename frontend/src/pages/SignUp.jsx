@@ -24,8 +24,11 @@ const SignUp = () => {
       return;
     }
     setError('');
-    // Add your sign up logic here
-    console.log('Form submitted:', form);
+    // On successful sign up:
+    localStorage.setItem('token', 'demo-token'); // Set a token
+    localStorage.setItem('userName', form.name); // Store user name
+    localStorage.setItem('userEmail', form.email); // Store user email
+    window.location.reload(); // Refresh to show user icon in header
   };
 
   return (

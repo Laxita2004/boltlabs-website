@@ -148,21 +148,13 @@ const AdminDashboard = () => {
              <FiGlobe className="mr-3" />
              <span>Domain Management</span>
           </Link>
-
-          {/* <Link 
-            to="/admin/support" 
-            className="flex items-center px-4 py-3 rounded-lg hover:bg-gray-100 text-gray-600 transition"
-          >
-            <FiMessageSquare className="mr-3" />
-            <span>Support</span>
-          </Link>
           <Link 
-            to="/admin/templates" 
-            className="flex items-center px-4 py-3 rounded-lg hover:bg-gray-100 text-gray-600 transition"
+             to="/admin/service-requests" 
+             className="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700/50 text-gray-400 hover:text-white transition"
           >
-            <FiFileText className="mr-3" />
-            <span>Templates</span>
-          </Link> */}
+             <FiMessageSquare className="mr-3" />
+             <span>Service Requests</span>
+          </Link>
           <Link 
             to="/admin/settings" 
             className="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700/50 text-gray-400 hover:text-white transition"
