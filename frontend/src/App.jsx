@@ -12,6 +12,7 @@ import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 import UserDashboard from './pages/UserDashboard';
 import EditProfile from './pages/EditProfile';
+import MemberPage from './pages/MemberPage';
 import AdminDashboard, { DashboardOverview } from './components/admin/AdminDashboard';
 import UserManagement from './components/admin/UserManagement';
 import ProjectManagement from './components/admin/ProjectManagement';
@@ -51,6 +52,8 @@ const App = () => {
           <Route path="/team/:domain" element={<DomainTeam />} />
           <Route path="/team/:domain/:memberId" element={<Index />} />
 
+
+
           {/* Admin dashboard with nested routes */}
           <Route path="/admin" element={<AdminDashboard />}>
             <Route index element={<DashboardOverview />} />
@@ -60,7 +63,7 @@ const App = () => {
 
             {/* <Route path="settings" element={<SettingsLayout />} /> */}
 
-             <Route path="settings" element={<SettingsLayout />}>
+            <Route path="settings" element={<SettingsLayout />}>
               <Route index element={<Navigate to="company" replace />} />
               <Route path="company" element={<CompanySettings />} />
               <Route path="profile" element={<UserProfile />} />
@@ -68,9 +71,22 @@ const App = () => {
               <Route path="security" element={<Security />} />
               <Route path="appearance" element={<Appearance />} />
               <Route path="api" element={<ApiIntegrations />} />
-             </Route>
+            </Route>
 
           </Route>
+
+          {/* Route for members only */}
+
+          <Route
+            path="/member"
+            element={
+              localStorage.getItem('token') && localStorage.getItem('role') === 'member' ? (
+                <MemberPage />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            }
+          />
 
           {/* Redirect unknown routes to home */}
           <Route path="*" element={<Navigate to="/" replace />} />
