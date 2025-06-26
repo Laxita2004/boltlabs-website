@@ -16,7 +16,7 @@ import AdminDashboard, { DashboardOverview } from './components/admin/AdminDashb
 import UserManagement from './components/admin/UserManagement';
 import ProjectManagement from './components/admin/ProjectManagement';
 import DomainManagement from './components/admin/DomainManagement';
-
+import ServiceRequests from './components/admin/ServiceRequests';
 
 import SettingsLayout from './components/admin/SettingsLayout';
 import CompanySettings from './components/admin/CompanySettings';
@@ -43,7 +43,7 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/dashboard" element={<UserDashboard />} />
+          <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/edit-profile" element={<EditProfile />} />
 
           {/* Our Team section */}
@@ -57,6 +57,7 @@ const App = () => {
             <Route path="users" element={<UserManagement />} />
             <Route path="projects" element={<ProjectManagement />} />
             <Route path="domains" element={<DomainManagement />} />
+            <Route path="service-requests" element={<ServiceRequests />} />
 
             {/* <Route path="settings" element={<SettingsLayout />} /> */}
 

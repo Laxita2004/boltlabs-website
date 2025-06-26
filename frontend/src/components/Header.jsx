@@ -126,6 +126,17 @@ export default function Header() {
                   </div>
                   <nav className="p-2">
                     <Link
+                      to="/user-dashboard"
+                      onClick={() => setIsUserMenuOpen(false)}
+                      className="flex items-center p-3 rounded-lg hover:bg-gray-700/50 transition-colors"
+                    >
+                      <BarChart2 className="h-5 w-5 text-gray-400" />
+                      <div className="ml-3">
+                        <p className="text-sm font-semibold text-white">User Dashboard</p>
+                        <p className="text-xs text-gray-400">Go to your dashboard</p>
+                      </div>
+                    </Link>
+                    <Link
                       to="/edit-profile"
                       onClick={() => setIsUserMenuOpen(false)}
                       className="flex items-center p-3 rounded-lg hover:bg-gray-700/50 transition-colors"
