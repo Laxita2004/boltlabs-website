@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -16,8 +17,6 @@ import AdminDashboard, { DashboardOverview } from './components/admin/AdminDashb
 import UserManagement from './components/admin/UserManagement';
 import ProjectManagement from './components/admin/ProjectManagement';
 import DomainManagement from './components/admin/DomainManagement';
-
-
 import SettingsLayout from './components/admin/SettingsLayout';
 import CompanySettings from './components/admin/CompanySettings';
 import UserProfile from './components/admin/UserProfile';
@@ -25,12 +24,9 @@ import Notifications from './components/admin/Notifications';
 import Security from './components/admin/Security';
 import Appearance from './components/admin/Appearance';
 import ApiIntegrations from './components/admin/ApiIntegrations';
-
-
-// const ProtectedRoute = ({ children }) => {
-//   const isAuthenticated = localStorage.getItem('admin_token');
-//   return isAuthenticated ? children : <Navigate to="/login" replace />;
-// };
+// import MemberHome from './pages/MemberHome';
+import FirstLoginChange from './pages/FirstLoginChange';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const App = () => {
   return (
@@ -38,29 +34,50 @@ const App = () => {
       <Header />
       <main className='min-h-screen'>
         <Routes>
-          {/* Public routes */}
+          {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/edit-profile" element={<EditProfile />} />
 
-          {/* Our Team section */}
+          {/* Team Routes */}
           <Route path="/team" element={<Team />} />
           <Route path="/team/:domain" element={<DomainTeam />} />
           <Route path="/team/:domain/:memberId" element={<Index />} />
 
-          {/* Admin dashboard with nested routes */}
-          <Route path="/admin" element={<AdminDashboard />}>
+          {/* User Dashboard */}
+          <Route path="/dashboard" element={
+            <ProtectedRoute allowedRoles={['user']}>
+              <UserDashboard />
+            </ProtectedRoute>
+          } />
+
+          {/* Member Dashboard */}
+          <Route path="/member-home" element={
+            <ProtectedRoute allowedRoles={['member']}>
+              {/* <MemberHome /> */}
+            </ProtectedRoute>
+          } />
+
+          {/* First Login Password Change */}
+          <Route path="/first-login-change" element={
+            <ProtectedRoute allowedRoles={['member']}>
+              <FirstLoginChange />
+            </ProtectedRoute>
+          } />
+
+          {/* Admin Routes */}
+          <Route path="/admin" element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }>
             <Route index element={<DashboardOverview />} />
             <Route path="users" element={<UserManagement />} />
             <Route path="projects" element={<ProjectManagement />} />
             <Route path="domains" element={<DomainManagement />} />
-
-            {/* <Route path="settings" element={<SettingsLayout />} /> */}
-
             <Route path="settings" element={<SettingsLayout />}>
               <Route index element={<Navigate to="company" replace />} />
               <Route path="company" element={<CompanySettings />} />
@@ -70,16 +87,11 @@ const App = () => {
               <Route path="appearance" element={<Appearance />} />
               <Route path="api" element={<ApiIntegrations />} />
             </Route>
-
           </Route>
 
-          {/* Redirect unknown routes to home */}
+          {/* Catch-all redirect */}
           <Route path="*" element={<Navigate to="/" replace />} />
-
         </Routes>
-
-
-
       </main>
       <Footer />
     </>
