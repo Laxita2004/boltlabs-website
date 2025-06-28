@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect} from "react";
-import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate, NavLink, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import logo from "../assets/logo.png";
 import {
@@ -47,8 +47,13 @@ export default function Header() {
     { to: "/contact", label: "CONTACT US", icon: <FaPhone /> },
   ];
 
+  const isLoggedIn = Boolean(localStorage.getItem('token'));
+  const userName = localStorage.getItem('userName') || 'User';
+  const userEmail = localStorage.getItem('userEmail') || '';
+
   const handleLogout = () => {
     setIsUserMenuOpen(false);
+    localStorage.removeItem('token');
     navigate('/login');
   };
 
@@ -101,59 +106,61 @@ export default function Header() {
 
         {/* Auth Section */}
         <div className="hidden md:flex items-center">
-          <div className="relative" ref={userMenuRef}>
-            <button onClick={toggleUserMenu} className="focus:outline-none">
-              <FaUserCircle className="text-3xl text-teal-400 hover:text-teal-300 transition-colors" />
-            </button>
-            {isUserMenuOpen && (
-              <div className="absolute right-0 mt-3 w-64 bg-[#1F2937] rounded-xl shadow-2xl overflow-hidden z-50 ring-1 ring-white/10">
-                <div className="p-4 border-b border-gray-700/50">
-                  <div className="flex items-center">
-                    <div className="p-2 bg-teal-500/80 rounded-full">
-                      <UserIcon className="h-6 w-6 text-white" />
-                    </div>
-                    <div className="ml-4">
-                      <p className="font-semibold text-white">John Doe</p>
-                      <p className="text-sm text-gray-400">john@example.com</p>
+          {isLoggedIn && (
+            <div className="relative" ref={userMenuRef}>
+              <button onClick={toggleUserMenu} className="focus:outline-none">
+                <FaUserCircle className="text-3xl text-teal-400 hover:text-teal-300 transition-colors" />
+              </button>
+              {isUserMenuOpen && (
+                <div className="absolute right-0 mt-3 w-64 bg-[#1F2937] rounded-xl shadow-2xl overflow-hidden z-50 ring-1 ring-white/10">
+                  <div className="p-4 border-b border-gray-700/50">
+                    <div className="flex items-center">
+                      <div className="p-2 bg-teal-500/80 rounded-full">
+                        <UserIcon className="h-6 w-6 text-white" />
+                      </div>
+                      <div className="ml-4">
+                        <p className="font-semibold text-white">{userName}</p>
+                        <p className="text-sm text-gray-400">{userEmail}</p>
+                      </div>
                     </div>
                   </div>
+                  <nav className="p-2">
+                    <Link
+                      to="/user-dashboard"
+                      onClick={() => setIsUserMenuOpen(false)}
+                      className="flex items-center p-3 rounded-lg hover:bg-gray-700/50 transition-colors"
+                    >
+                      <BarChart2 className="h-5 w-5 text-gray-400" />
+                      <div className="ml-3">
+                        <p className="text-sm font-semibold text-white">User Dashboard</p>
+                        <p className="text-xs text-gray-400">Go to your dashboard</p>
+                      </div>
+                    </Link>
+                    <Link
+                      to="/edit-profile"
+                      onClick={() => setIsUserMenuOpen(false)}
+                      className="flex items-center p-3 rounded-lg hover:bg-gray-700/50 transition-colors"
+                    >
+                      <Settings className="h-5 w-5 text-gray-400" />
+                      <div className="ml-3">
+                        <p className="text-sm font-semibold text-white">Edit Profile</p>
+                        <p className="text-xs text-gray-400">Update your information</p>
+                      </div>
+                    </Link>
+                  </nav>
+                  <div className="p-2 border-t border-gray-700/50">
+                    <button
+                      onClick={handleLogout}
+                      className="w-full flex items-center p-3 rounded-lg hover:bg-gray-700/50 text-red-500 hover:text-red-400 transition-colors"
+                    >
+                      <LogOut className="h-5 w-5" />
+                      <span className="ml-3 text-sm font-semibold">Logout</span>
+                    </button>
+                  </div>
                 </div>
-                <nav className="p-2">
-                  <Link
-                    to="/dashboard"
-                    onClick={() => setIsUserMenuOpen(false)}
-                    className="flex items-center p-3 rounded-lg hover:bg-gray-700/50 transition-colors"
-                  >
-                    <BarChart2 className="h-5 w-5 text-gray-400" />
-                    <div className="ml-3">
-                      <p className="text-sm font-semibold text-white">User Dashboard</p>
-                      <p className="text-xs text-gray-400">Service history & status</p>
-                    </div>
-                  </Link>
-                  <Link
-                    to="/edit-profile"
-                    onClick={() => setIsUserMenuOpen(false)}
-                    className="flex items-center p-3 rounded-lg hover:bg-gray-700/50 transition-colors"
-                  >
-                    <Settings className="h-5 w-5 text-gray-400" />
-                    <div className="ml-3">
-                      <p className="text-sm font-semibold text-white">Edit Profile</p>
-                      <p className="text-xs text-gray-400">Update your information</p>
-                    </div>
-                  </Link>
-                </nav>
-                <div className="p-2 border-t border-gray-700/50">
-                  <button
-                    onClick={handleLogout}
-                    className="w-full flex items-center p-3 rounded-lg hover:bg-gray-700/50 text-red-500 hover:text-red-400 transition-colors"
-                  >
-                    <LogOut className="h-5 w-5" />
-                    <span className="ml-3 text-sm font-semibold">Logout</span>
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 

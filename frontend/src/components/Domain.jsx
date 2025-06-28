@@ -7,6 +7,7 @@ import software from '../assets/software-engineer.png'
 import curve from '../assets/curve.png'
 import customercare from '../assets/customer-service.png'
 import { motion } from "framer-motion";
+import { Link } from 'react-router-dom';
 
 
 const domains = [
@@ -18,6 +19,10 @@ const domains = [
     { img: customercare, title: "Customer Care", desc: "Here to listen, support, and deliver a seamless experience for every user." },
 ];
 
+function slugify(title) {
+  return title.toLowerCase().replace(/ /g, '-').replace(/[^a-z0-9-]/g, '');
+}
+
 const Domain = () => {
     return (
         <div className="bg-[#141e28] py-24 px-4 flex items-center justify-center relative overflow-hidden">
@@ -28,16 +33,17 @@ const Domain = () => {
 
                 <div className="grid gap-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                     {domains.map((d, i) => (
-                        <motion.div
-                            key={i}
-                            whileHover={{ y: -8, scale: 1.05 }}
-                            className="bg-[#1f2a38] border border-[#33febf] rounded-2xl p-6 shadow-lg text-white backdrop-blur-md hover:shadow-xl transition relative group overflow-hidden"
-                        >
-                            <div className="absolute inset-0 group-hover:bg-[#33febf]/5 transition" />
-                            <img src={d.img} alt={d.title} className="w-20 h-20 rounded-full mx-auto mb-4 border-2 border-[#33febf]" />
-                            <h2 className="text-xl font-semibold text-[#33febf] mb-2">{d.title}</h2>
-                            <p className="text-gray-300 text-sm">{d.desc}</p>
-                        </motion.div>
+                        <Link to={`/team/${slugify(d.title)}`} key={i} className="block">
+                          <motion.div
+                              whileHover={{ y: -8, scale: 1.05 }}
+                              className="bg-[#1f2a38] border border-[#33febf] rounded-2xl p-6 shadow-lg text-white backdrop-blur-md hover:shadow-xl transition relative group overflow-hidden"
+                          >
+                              <div className="absolute inset-0 group-hover:bg-[#33febf]/5 transition" />
+                              <img src={d.img} alt={d.title} className="w-20 h-20 rounded-full mx-auto mb-4 border-2 border-[#33febf]" />
+                              <h2 className="text-xl font-semibold text-[#33febf] mb-2">{d.title}</h2>
+                              <p className="text-gray-300 text-sm">{d.desc}</p>
+                          </motion.div>
+                        </Link>
                     ))}
                 </div>
             </div>

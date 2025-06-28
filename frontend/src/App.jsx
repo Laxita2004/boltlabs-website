@@ -17,6 +17,8 @@ import AdminDashboard, { DashboardOverview } from './components/admin/AdminDashb
 import UserManagement from './components/admin/UserManagement';
 import ProjectManagement from './components/admin/ProjectManagement';
 import DomainManagement from './components/admin/DomainManagement';
+import ServiceRequests from './components/admin/ServiceRequests';
+
 import SettingsLayout from './components/admin/SettingsLayout';
 import CompanySettings from './components/admin/CompanySettings';
 import UserProfile from './components/admin/UserProfile';
@@ -27,6 +29,7 @@ import ApiIntegrations from './components/admin/ApiIntegrations';
 // import MemberHome from './pages/MemberHome';
 import FirstLoginChange from './pages/FirstLoginChange';
 import ProtectedRoute from './components/ProtectedRoute';
+import ForgotPassword from './pages/ForgotPassword';
 
 const App = () => {
   return (
@@ -40,8 +43,9 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/edit-profile" element={<EditProfile />} />
-
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           {/* Team Routes */}
           <Route path="/team" element={<Team />} />
           <Route path="/team/:domain" element={<DomainTeam />} />
@@ -78,6 +82,10 @@ const App = () => {
             <Route path="users" element={<UserManagement />} />
             <Route path="projects" element={<ProjectManagement />} />
             <Route path="domains" element={<DomainManagement />} />
+            <Route path="service-requests" element={<ServiceRequests />} />
+
+            {/* <Route path="settings" element={<SettingsLayout />} /> */}
+
             <Route path="settings" element={<SettingsLayout />}>
               <Route index element={<Navigate to="company" replace />} />
               <Route path="company" element={<CompanySettings />} />
