@@ -21,7 +21,7 @@ const LoginForm = () => {
       const name = email.split('@')[0];
       localStorage.setItem('userName', name.charAt(0).toUpperCase() + name.slice(1));
       localStorage.setItem('userEmail', email);
-      window.location.reload(); // Refresh to show user icon in header
+      navigate('/admin'); // Redirect to admin panel
     }
   };
 

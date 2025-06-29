@@ -16,8 +16,7 @@ const Footer = () => {
         {/* Logo & Description */}
         <div>
           <div className="flex items-center mb-4">
-            <img src={logo} alt="BoltLabs Logo" className="h-10 mr-2" />
-            <span className="text-2xl font-bold tracking-wide">BOLT<span className="text-[#33FEBF]">LABS</span></span>
+            <img src={logo} alt="BoltLabs Logo" className="h-10" />
           </div>
           <p className="text-gray-300 mb-6 text-sm">
             Empowering local businesses with cutting-edge technology solutions since 2025.

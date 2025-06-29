@@ -1,121 +1,233 @@
-import React from 'react';
-import { Calendar, Eye, CheckCircle2, Loader, Clock, Star } from 'lucide-react';
+import React, { useState } from 'react';
+import { User, PlusCircle, Clock } from 'lucide-react';
 
-const StatusBadge = ({ status }) => {
-  const statusStyles = {
-    Completed: 'bg-green-500/10 text-green-400 border-green-500/20',
-    'In-Progress': 'bg-blue-500/10 text-blue-400 border-blue-500/20',
-    Pending: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20',
-  };
-  const statusIcons = {
-    Completed: <CheckCircle2 size={14} />,
-    'In-Progress': <Loader size={14} className="animate-spin" />,
-    Pending: <Clock size={14} />,
-  };
-  return (
-    <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium border ${statusStyles[status]}`}>
-      {statusIcons[status]}
-      {status}
-    </span>
-  );
+const TABS = [
+  { id: 'profile', label: 'Profile', icon: User },
+  { id: 'new-request', label: 'New Request', icon: PlusCircle },
+  { id: 'history', label: 'Request History', icon: Clock },
+];
+
+const dummyDomains = [
+  { domain_id: '1', name: 'Web Development' },
+  { domain_id: '2', name: 'API Integration' },
+];
+
+const priorities = ['Low', 'Medium', 'High'];
+
+const requestHistory = [
+  {
+    id: 1,
+    service: 'Web Development',
+    domain: 'E-commerce',
+    description: 'Need a complete e-commerce website with payment integration',
+    date: '6/25/2024',
+    priority: 'High',
+    status: 'In Progress',
+  },
+  {
+    id: 2,
+    service: 'API Integration',
+    domain: 'Healthcare',
+    description: 'Integration with third-party medical records API',
+    date: '6/20/2024',
+    priority: 'Medium',
+    status: 'Completed',
+  },
+];
+
+const badgeColors = {
+  High: 'bg-red-600 text-white',
+  Medium: 'bg-yellow-400 text-gray-900',
+  Low: 'bg-blue-400 text-white',
+  'In Progress': 'bg-blue-600 text-white',
+  Completed: 'bg-green-500 text-white',
 };
 
-const ServiceRequestCard = ({ request }) => (
-  <div className="bg-[#1F2937]/50 rounded-2xl p-6 border border-gray-700/50 hover:border-teal-400/50 transition-all duration-300">
-    <div className="flex justify-between items-start">
-      <h3 className="text-lg font-semibold text-white">{request.title}</h3>
-      <StatusBadge status={request.status} />
-    </div>
-    <div className="mt-4 space-y-3 text-sm text-gray-400">
-      <p className="flex items-center gap-2"><Calendar size={16} /> <span>{request.date}</span></p>
-      <p>Provider: {request.provider}</p>
-      <p>Cost: ${request.cost}</p>
-    </div>
-    <div className="mt-4 text-right">
-      <a href="#" className="inline-flex items-center gap-2 text-teal-400 hover:text-teal-300 font-semibold text-sm">
-        <Eye size={16} /> View Details
-      </a>
-    </div>
-  </div>
-);
+const UserPanel = () => {
+  const [activeTab, setActiveTab] = useState('profile');
+  const [form, setForm] = useState({
+    serviceType: '',
+    domain: '',
+    priority: 'Medium',
+    description: '',
+  });
+  const [profile, setProfile] = useState({
+    name: 'John Doe',
+    email: 'john.doe@example.com',
+  });
 
-const UserDashboard = () => {
-  const serviceRequests = [
-    { title: 'Plumbing Repair', date: '2024-06-20', provider: 'Mike Johnson', cost: 150, status: 'Completed' },
-    { title: 'Electrical Installation', date: '2024-06-18', provider: 'Sarah Wilson', cost: 300, status: 'In-Progress' },
-    { title: 'AC Maintenance', date: '2024-06-15', provider: 'David Brown', cost: 120, status: 'Pending' },
-  ];
+  const handleChange = e => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-  const recentWork = [
-    { title: 'Home Cleaning', client: 'Alice Cooper', date: '2024-06-19', cost: 80, rating: 5 },
-    { title: 'Garden Maintenance', client: 'Bob Smith', date: '2024-06-17', cost: 120, rating: 4 },
-  ];
+  const handleSubmit = e => {
+    e.preventDefault();
+    alert('Request submitted! (frontend only)');
+    setForm({ serviceType: '', domain: '', priority: 'Medium', description: '' });
+  };
 
   return (
     <div className="bg-[#0e1a24] text-white min-h-screen pt-32 p-4 sm:p-6 md:p-8">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         <header className="mb-8">
-          <h1 className="text-4xl font-bold text-white">User Dashboard</h1>
-          <p className="text-gray-400 mt-1">Manage your services and track your activity</p>
+          <h1 className="text-4xl font-bold text-white">User Panel</h1>
+          <p className="text-gray-400 mt-1">Manage your profile and service requests</p>
         </header>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <main className="lg:col-span-2 space-y-8">
-            <section>
-              <h2 className="text-2xl font-semibold text-white mb-4">Service Requests</h2>
+        <div className="border-b border-slate-700 mb-6">
+          <nav className="flex space-x-8">
+            {TABS.map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                  activeTab === tab.id
+                    ? 'border-teal-400 text-teal-400'
+                    : 'border-transparent text-gray-400 hover:text-gray-300'
+                }`}
+              >
+                <tab.icon size={16} />
+                {tab.label}
+              </button>
+            ))}
+          </nav>
+        </div>
+        <div className="bg-[#19202A] rounded-2xl p-8 border border-gray-700/50">
+          {activeTab === 'new-request' && (
+            <div>
+              <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
+                <PlusCircle /> New Service Request
+              </h2>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium mb-1">Service Type</label>
+                  <input
+                    type="text"
+                    name="serviceType"
+                    value={form.serviceType}
+                    onChange={handleChange}
+                    placeholder="e.g., Web Development, API Integration"
+                    className="w-full bg-[#232B39] border border-gray-600 rounded-lg text-white px-4 py-3 focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Domain</label>
+                  <select
+                    name="domain"
+                    value={form.domain}
+                    onChange={handleChange}
+                    className="w-full bg-[#232B39] border border-gray-600 rounded-lg text-white px-4 py-3"
+                    required
+                  >
+                    <option value="">Select a domain</option>
+                    {dummyDomains.map(domain => (
+                      <option key={domain.domain_id} value={domain.domain_id}>{domain.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Priority</label>
+                  <select
+                    name="priority"
+                    value={form.priority}
+                    onChange={handleChange}
+                    className="w-full bg-[#232B39] border border-gray-600 rounded-lg text-white px-4 py-3"
+                  >
+                    {priorities.map(p => (
+                      <option key={p} value={p}>{p}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Description</label>
+                  <textarea
+                    name="description"
+                    value={form.description}
+                    onChange={handleChange}
+                    placeholder="Describe your service requirements in detail..."
+                    className="w-full bg-[#232B39] border border-gray-600 rounded-lg text-white px-4 py-3 min-h-[100px]"
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition"
+                >
+                  <span className="mr-2">Submit Request</span>
+                </button>
+              </form>
+            </div>
+          )}
+          {activeTab === 'profile' && (
+            <div className="bg-[#232B39] rounded-xl p-8 border border-gray-700/50">
+              <h2 className="text-2xl font-semibold mb-6">Profile Information</h2>
+              <form
+                onSubmit={e => {
+                  e.preventDefault();
+                  alert('Profile updated! (frontend only)');
+                }}
+                className="grid grid-cols-1 md:grid-cols-2 gap-6"
+              >
+                <div>
+                  <label className="block text-sm font-medium mb-1">Name</label>
+                  <input
+                    type="text"
+                    className="w-full bg-[#2d3748] border border-gray-600 rounded-lg text-white px-4 py-3"
+                    value={profile.name}
+                    onChange={e => setProfile({ ...profile, name: e.target.value })}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Email</label>
+                  <input
+                    type="email"
+                    className="w-full bg-[#2d3748] border border-gray-600 rounded-lg text-white px-4 py-3"
+                    value={profile.email}
+                    onChange={e => setProfile({ ...profile, email: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className="col-span-2 mt-4">
+                  <button
+                    type="submit"
+                    className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-6 rounded-lg"
+                  >
+                    Update Profile
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
+          {activeTab === 'history' && (
+            <div className="bg-[#232B39] rounded-xl p-8 border border-gray-700/50">
+              <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
+                <Clock /> Request History
+              </h2>
               <div className="space-y-6">
-                {serviceRequests.map(req => <ServiceRequestCard key={req.title} request={req} />)}
-              </div>
-            </section>
-          </main>
-
-          <aside className="space-y-8">
-            <section className="bg-[#1F2937]/50 rounded-2xl p-6 border border-gray-700/50">
-              <h2 className="text-xl font-semibold text-white mb-4">Current Status</h2>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center text-gray-300">
-                  <span>Active Requests</span>
-                  <span className="font-bold text-blue-400 text-lg">2</span>
-                </div>
-                <div className="flex justify-between items-center text-gray-300">
-                  <span>Completed This Month</span>
-                  <span className="font-bold text-green-400 text-lg">5</span>
-                </div>
-                <div className="flex justify-between items-center text-gray-300">
-                  <span>Total Spent</span>
-                  <span className="font-bold text-white text-lg">$570</span>
-                </div>
-              </div>
-            </section>
-
-            <section className="bg-[#1F2937]/50 rounded-2xl p-6 border border-gray-700/50">
-              <h2 className="text-xl font-semibold text-white mb-4">Recent Work Provided</h2>
-              <div className="space-y-6">
-                {recentWork.map(work => (
-                  <div key={work.title} className="flex items-start gap-4">
-                    <div className="w-1 bg-teal-400 rounded-full h-16 mt-1"></div>
-                    <div>
-                      <div className="flex justify-between items-center">
-                         <h3 className="font-semibold text-white">{work.title}</h3>
-                         <p className="font-bold text-green-400">${work.cost}</p>
+                {requestHistory.map(req => (
+                  <div key={req.id} className="bg-[#374151] rounded-lg p-6 border border-gray-600/30 flex flex-col gap-2">
+                    <div className="flex flex-wrap justify-between items-center mb-2">
+                      <div>
+                        <div className="font-bold text-lg text-white">{req.service}</div>
+                        <div className="text-gray-300 text-sm">Domain: <span className="font-medium">{req.domain}</span></div>
                       </div>
-                      <p className="text-sm text-gray-400">Client: {work.client}</p>
-                      <p className="text-xs text-gray-500">{work.date}</p>
-                      <div className="flex items-center gap-1 mt-1">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} size={16} className={i < work.rating ? 'text-yellow-400' : 'text-gray-600'} fill={i < work.rating ? 'currentColor' : 'none'} />
-                        ))}
+                      <div className="flex gap-2 mt-2 md:mt-0">
+                        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${badgeColors[req.priority]}`}>{req.priority}</span>
+                        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${badgeColors[req.status]}`}>{req.status}</span>
                       </div>
                     </div>
+                    <div className="text-gray-200 mb-2">{req.description}</div>
+                    <div className="text-gray-400 text-xs">Submitted on {req.date}</div>
                   </div>
                 ))}
               </div>
-            </section>
-          </aside>
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default UserDashboard; 
+export default UserPanel; 

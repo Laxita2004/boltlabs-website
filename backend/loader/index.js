@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from '../routes/authRoutes.js';
 import userRoutes from '../routes/userRoutes.js';
+import adminRoutes from '../routes/adminRoutes.js';
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ export default async function loader(app) {
   // Routes
   app.use('/api/auth', authRoutes);
   app.use('/api/user', userRoutes);
+  app.use('/api/admin', adminRoutes);
 
   // You can add more loaders here in the future (e.g., DB, jobs, etc.)
   console.log('✅ All loaders initialized');

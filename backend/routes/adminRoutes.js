@@ -1,5 +1,3 @@
-
-
 import express from 'express';
 import {
   fetchDomains,
@@ -16,7 +14,22 @@ import { authenticate, authorizeAdmin } from '../middlewares/auth.js';
 
 const router = express.Router();
 
-// Apply admin auth middleware to all routes
+// Public test endpoints (no auth required)
+router.get('/test', (req, res) => {
+  res.json({ message: 'Admin routes are working!' });
+});
+
+router.get('/health', (req, res) => {
+  res.json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    message: 'Backend server is running'
+  });
+});
+
+// Apply admin auth middleware to all routes except test and health
+router.use('/test', (req, res, next) => next());
+router.use('/health', (req, res, next) => next());
 router.use(authenticate, authorizeAdmin);
 
 // Domain routes
@@ -35,4 +48,5 @@ router.post('/requests/:req_id/respond', respondToRequest);
 
 // Service routes
 router.get('/services', fetchServices);
+
 export default router;
