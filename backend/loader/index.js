@@ -3,6 +3,9 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import authRoutes from '../routes/authRoutes.js';
+import userRoutes from '../routes/userRoutes.js';
+import adminRoutes from '../routes/adminRoutes.js';
 
 // Load env variables
 dotenv.config();
@@ -20,6 +23,8 @@ const loader = async (app) => {
 
   // Auth Routes – No authentication required
   app.use('/api/auth', authRoutes);
+  app.use('/api/user', userRoutes);
+  app.use('/api/admin', adminRoutes);
 
   // ✅ Protected Routes – Login required
   app.use('/api/admin', adminRoutes);

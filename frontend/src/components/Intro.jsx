@@ -32,12 +32,16 @@ export default function Intro() {
           <h2 className="text-4xl md:text-5xl font-extrabold leading-tight">
             Your{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400 italic">
-              Digital Partner
+              Digital{" "}
+            </span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400 italic">
+              Partner
             </span>{" "}
             in{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400 italic">
-              Growth.
+              Growth
             </span>
+            .
           </h2>
           <p className="text-gray-300 text-lg leading-relaxed">
             Providing powerful tech and creative solutions tailored for small businesses.
