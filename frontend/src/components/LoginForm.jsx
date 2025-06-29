@@ -1,11 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-<<<<<<< HEAD
-import { LockClosedIcon, EnvelopeIcon } from "@heroicons/react/24/outline";
-
-=======
 import { FaLock, FaEnvelope } from 'react-icons/fa'
->>>>>>> e6ca5cf40778afe93bc39038dd8c4a703697c90a
 
 const LoginForm = () => {
   const [email, setEmail] = useState('admin@example.com');
