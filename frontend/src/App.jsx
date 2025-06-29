@@ -13,6 +13,7 @@ import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 import UserDashboard from './pages/UserDashboard';
 import EditProfile from './pages/EditProfile';
+import MemberPage from './pages/MemberPage';
 import AdminDashboard, { DashboardOverview } from './components/admin/AdminDashboard';
 import UserManagement from './components/admin/UserManagement';
 import ProjectManagement from './components/admin/ProjectManagement';
@@ -95,9 +96,23 @@ const App = () => {
               <Route path="appearance" element={<Appearance />} />
               <Route path="api" element={<ApiIntegrations />} />
             </Route>
+
           </Route>
 
-          {/* Catch-all redirect */}
+          {/* Route for members only */}
+
+          <Route
+            path="/member"
+            element={
+              localStorage.getItem('token') && localStorage.getItem('role') === 'member' ? (
+                <MemberPage />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            }
+          />
+
+          {/* Redirect unknown routes to home */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

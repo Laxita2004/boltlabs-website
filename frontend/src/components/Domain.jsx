@@ -33,19 +33,31 @@ const Domain = () => {
 
                 <div className="grid gap-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                     {domains.map((d, i) => (
-                        <Link to={`/team/${slugify(d.title)}`} key={i} className="block">
-                          <motion.div
-                              whileHover={{ y: -8, scale: 1.05 }}
-                              className="bg-[#1f2a38] border border-[#33febf] rounded-2xl p-6 shadow-lg text-white backdrop-blur-md hover:shadow-xl transition relative group overflow-hidden"
-                          >
-                              <div className="absolute inset-0 group-hover:bg-[#33febf]/5 transition" />
-                              <img src={d.img} alt={d.title} className="w-20 h-20 rounded-full mx-auto mb-4 border-2 border-[#33febf]" />
-                              <h2 className="text-xl font-semibold text-[#33febf] mb-2">{d.title}</h2>
-                              <p className="text-gray-300 text-sm">{d.desc}</p>
-                          </motion.div>
-                        </Link>
+                        <motion.div
+                            key={i}
+                            whileHover={{ y: -8, scale: 1.05 }}
+                            className="bg-[#1f2a38] border border-[#33febf] rounded-2xl p-6 shadow-lg text-white backdrop-blur-md hover:shadow-xl transition relative group overflow-hidden"
+                        >
+                            <div className="absolute inset-0 group-hover:bg-[#33febf]/5 transition" />
+
+                            {/* Enhanced Icon Container */}
+                            <div className="relative w-24 h-24 mx-auto mb-4 flex items-center justify-center rounded-full bg-[#33febf]/15 border-2 border-[#33febf] shadow-md">
+                                <img
+                                    src={d.img}
+                                    alt={d.title}
+                                    className="w-16 h-16 object-contain z-10"
+                                />
+                                <div className="absolute inset-0 rounded-full group-hover:ring-4 group-hover:ring-[#33febf]/40 transition" />
+                            </div>
+
+                            <h2 className="text-xl font-semibold text-[#33febf] mb-2">{d.title}</h2>
+                            <p className="text-gray-300 text-sm">{d.desc}</p>
+                        </motion.div>
                     ))}
                 </div>
+
+
+
             </div>
         </div>
     );
