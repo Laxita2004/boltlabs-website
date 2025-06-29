@@ -1,12 +1,14 @@
 // schema.prisma
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  schemas  = ["public", "auth"]
 }
 
 model User {
@@ -19,6 +21,8 @@ model User {
 
   services         Service[]
   serviceRequests  ServiceRequest[]
+
+  @@schema("public")
 }
 
 model Admin {
@@ -26,6 +30,8 @@ model Admin {
   name     String
   email    String @unique
   password String
+
+  @@schema("public")
 }
 
 model Domain {
@@ -35,16 +41,21 @@ model Domain {
   members          MemberDomain[]
   services         Service[]
   serviceRequests  ServiceRequest[]
+
+  @@schema("public")
 }
 
 model Member {
-  member_id String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  password  String
+  member_id  String   @id @default(uuid())
+  name       String
+  email      String   @unique
+  password   String
+  firstLogin Boolean  @default(true)
 
   domains   MemberDomain[]
   services  MemberService[]
+
+  @@schema("public")
 }
 
 model MemberDomain {
@@ -55,6 +66,7 @@ model MemberDomain {
   domain Domain @relation(fields: [domain_id], references: [domain_id], onDelete: Cascade)
 
   @@id([member_id, domain_id])
+  @@schema("public")
 }
 
 model Service {
@@ -64,10 +76,12 @@ model Service {
   domain_id  String
   idea_date  DateTime @default(now())
 
-  user       User     @relation(fields: [user_id], references: [user_id])
-  domain     Domain   @relation(fields: [domain_id], references: [domain_id])
-  payments   Payment[]
-  members    MemberService[]
+  user     User     @relation(fields: [user_id], references: [user_id])
+  domain   Domain   @relation(fields: [domain_id], references: [domain_id])
+  payments Payment[]
+  members  MemberService[]
+
+  @@schema("public")
 }
 
 model Payment {
@@ -76,7 +90,9 @@ model Payment {
   service_id       String
   payment_date     DateTime @default(now())
 
-  service          Service  @relation(fields: [service_id], references: [service_id])
+  service Service @relation(fields: [service_id], references: [service_id])
+
+  @@schema("public")
 }
 
 model ServiceRequest {
@@ -86,8 +102,25 @@ model ServiceRequest {
   domain_id    String
   request_date DateTime @default(now())
 
-  user         User     @relation(fields: [user_id], references: [user_id])
-  domain       Domain   @relation(fields: [domain_id], references: [domain_id])
+  user   User   @relation(fields: [user_id], references: [user_id])
+  domain Domain @relation(fields: [domain_id], references: [domain_id])
+
+  @@schema("public")
+}
+
+model MemberService {
+  member_id   String
+  service_id  String
+  status      WorkStatus @default(ASSIGNED)
+  completedAt DateTime?
+  rating      Int?
+  feedback    String?
+
+  member  Member  @relation(fields: [member_id], references: [member_id], onDelete: Cascade)
+  service Service @relation(fields: [service_id], references: [service_id], onDelete: Cascade)
+
+  @@id([member_id, service_id])
+  @@schema("public")
 }
 
 enum WorkStatus {
@@ -95,19 +128,6 @@ enum WorkStatus {
   IN_PROGRESS
   COMPLETED
   REJECTED
+
+  @@schema("public")
 }
-
-model MemberService {
-  member_id  String
-  service_id String
-  status     WorkStatus @default(ASSIGNED)
-  completedAt DateTime?
-  rating     Int?
-  feedback   String?
-
-  member     Member     @relation(fields: [member_id], references: [member_id], onDelete: Cascade)
-  service    Service    @relation(fields: [service_id], references: [service_id], onDelete: Cascade)
-
-  @@id([member_id, service_id])
-}
-

@@ -1,6 +1,6 @@
 import express from 'express';
 import * as teamMemberController from '../controllers/teamMemberController.js';
-import { authenticateTeamMember } from '../middlewares/authMiddleware.js';
+// import { authenticateTeamMember } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 

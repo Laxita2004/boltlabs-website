@@ -1,4 +1,3 @@
-// Controller for Team Member Panel APIs
 import * as teamMemberService from '../services/teamMemberService.js';
 
 export const getCurrentTasks = async (req, res, next) => {

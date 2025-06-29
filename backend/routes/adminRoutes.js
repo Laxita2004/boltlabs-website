@@ -1,5 +1,4 @@
-
-
+// routes/adminRoutes.js
 import express from 'express';
 import {
   fetchDomains,
@@ -12,27 +11,32 @@ import {
   respondToRequest,
   fetchServices
 } from '../controllers/adminController.js';
-import { authenticate, authorizeAdmin } from '../middlewares/auth.js';
+
+import {
+  authenticateUser,
+  authorizeRoles
+} from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
-// Apply admin auth middleware to all routes
-router.use(authenticate, authorizeAdmin);
+// ✅ Apply middleware to all admin routes
+router.use(authenticateUser, authorizeRoles('admin'));
 
-// Domain routes
+// 🌐 Domain Routes
 router.get('/domains', fetchDomains);
 router.post('/domains', createDomain);
 router.delete('/domains/:domain_id', deleteDomain);
 
-// Member routes
+// 👥 Member Routes
 router.get('/members', fetchMembers);
 router.post('/members', createMember);
 router.delete('/members/:member_id', deleteMember);
 
-// Request routes
+// 📩 Request Handling Routes
 router.get('/requests', fetchRequests);
 router.post('/requests/:req_id/respond', respondToRequest);
 
-// Service routes
+// 🧩 Service Routes
 router.get('/services', fetchServices);
+
 export default router;

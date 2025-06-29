@@ -7,6 +7,7 @@ import software from '../assets/software-engineer.png'
 import curve from '../assets/curve.png'
 import customercare from '../assets/customer-service.png'
 import { motion } from "framer-motion";
+import { Link } from 'react-router-dom';
 
 
 const domains = [
@@ -17,6 +18,10 @@ const domains = [
     { img: socialmedia, title: "Social Media", desc: "Telling impactful stories through powerful visuals and sound." },
     { img: customercare, title: "Customer Care", desc: "Here to listen, support, and deliver a seamless experience for every user." },
 ];
+
+function slugify(title) {
+  return title.toLowerCase().replace(/ /g, '-').replace(/[^a-z0-9-]/g, '');
+}
 
 const Domain = () => {
     return (
@@ -34,12 +39,25 @@ const Domain = () => {
                             className="bg-[#1f2a38] border border-[#33febf] rounded-2xl p-6 shadow-lg text-white backdrop-blur-md hover:shadow-xl transition relative group overflow-hidden"
                         >
                             <div className="absolute inset-0 group-hover:bg-[#33febf]/5 transition" />
-                            <img src={d.img} alt={d.title} className="w-20 h-20 rounded-full mx-auto mb-4 border-2 border-[#33febf]" />
+
+                            {/* Enhanced Icon Container */}
+                            <div className="relative w-24 h-24 mx-auto mb-4 flex items-center justify-center rounded-full bg-[#33febf]/15 border-2 border-[#33febf] shadow-md">
+                                <img
+                                    src={d.img}
+                                    alt={d.title}
+                                    className="w-16 h-16 object-contain z-10"
+                                />
+                                <div className="absolute inset-0 rounded-full group-hover:ring-4 group-hover:ring-[#33febf]/40 transition" />
+                            </div>
+
                             <h2 className="text-xl font-semibold text-[#33febf] mb-2">{d.title}</h2>
                             <p className="text-gray-300 text-sm">{d.desc}</p>
                         </motion.div>
                     ))}
                 </div>
+
+
+
             </div>
         </div>
     );

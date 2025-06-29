@@ -1,114 +1,144 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { FiHome, FiUsers, FiFolder, FiMessageSquare, FiFileText, FiSettings, FiLogOut, FiGlobe } from "react-icons/fi";
+import { useAdmin } from "../../hooks/useAdmin.js";
 
-const stats = [
-  {
-    label: "Total Clients",
-    value: "89",
-    change: "+155 from last month",
-  },
-  {
-    label: "Action Projects",
-    value: "24",
-    change: "+76 from last month",
-  },
-  {
-    label: "Team Members",
-    value: "-",
-    change: "+55 from last month",
-  },
-  {
-    label: "Complaint Projects",
-    value: "342",
-    change: "+195 from last month",
-  },
-];
+const DashboardOverview = () => {
+  const { 
+    loading, 
+    error, 
+    dashboardStats, 
+    requests, 
+    fetchDashboardStats, 
+    fetchRequests,
+    clearError 
+  } = useAdmin();
 
-const activities = [
-  {
-    title: "New client enhanced",
-    description: "RedStart Solutions",
-  },
-  {
-    title: "Project milestone completed",
-    description: "E-commerce Site for AEC Corp",
-  },
-  {
-    title: "New support ticket",
-    description: "Digital Marketing Pro",
-  },
-  {
-    title: "Template deployed",
-    description: "Restaurant Website",
-  },
-];
+  useEffect(() => {
+    fetchDashboardStats();
+    fetchRequests();
+  }, [fetchDashboardStats, fetchRequests]);
 
-const quickActions = [
-  "Add New Client",
-  "Create Project",
-  "Support Tickets",
-  "Template"
-];
+  // Generate recent activities from requests
+  const activities = requests.slice(0, 4).map((request, index) => ({
+    title: `New service request`,
+    description: `${request.service} - ${request.user?.name || 'Unknown User'}`,
+    timestamp: new Date(request.created_at).toLocaleDateString()
+  }));
 
-const DashboardOverview = () => (
-  <div className="bg-[#0e1a24] text-white p-6">
-    <div className="max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold text-white mb-2">BolltLabs Admin</h1>
-      
-      <div className="mb-10">
-        <h2 className="text-xl font-semibold text-gray-300 mb-6">Dashboard Overview</h2>
-        <p className="text-gray-400 mb-6">Monitor your BolltLabs business metrics and recent activity</p>
-        
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {stats.map((stat) => (
-            <div key={stat.label} className="bg-[#1F2937] p-6 rounded-lg shadow-lg border border-gray-700/50">
-              <h3 className="text-gray-400 font-medium mb-2">{stat.label}</h3>
-              <p className="text-3xl font-bold text-white mb-1">{stat.value}</p>
-              <p className="text-green-400 text-sm">{stat.change}</p>
+  const quickActions = [
+    "Add New Client",
+    "Create Project",
+    "Support Tickets",
+    "Template"
+  ];
+
+  if (loading) {
+    return (
+      <div className="bg-[#0e1a24] text-white p-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="animate-pulse">
+            <div className="h-8 bg-gray-700 rounded w-1/4 mb-6"></div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="bg-[#1F2937] p-6 rounded-lg h-32"></div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Quick Actions */}
-        <div className="bg-[#1F2937] p-6 rounded-lg shadow-lg border border-gray-700/50">
-          <h2 className="text-xl font-semibold text-white mb-6">Quick Actions</h2>
-          <ul className="space-y-3">
-            {quickActions.map((action, index) => (
-              <li key={index}>
-                <button className="w-full text-left px-4 py-2 bg-[#0e1a24] text-gray-300 rounded-md hover:bg-gray-700/50 transition-colors">
-                  {action}
-                </button>
-              </li>
-            ))}
-          </ul>
+    );
+  }
+
+  return (
+    <div className="bg-[#0e1a24] text-white p-6">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-3xl font-bold text-white mb-2">BolltLabs Admin</h1>
+        
+        {error && (
+          <div className="mb-4 p-4 bg-red-500/20 border border-red-500/50 rounded-lg">
+            <p className="text-red-300">{error}</p>
+            <button 
+              onClick={clearError}
+              className="mt-2 text-red-300 hover:text-red-100 underline"
+            >
+              Dismiss
+            </button>
+          </div>
+        )}
+        
+        <div className="mb-10">
+          <h2 className="text-xl font-semibold text-gray-300 mb-6">Dashboard Overview</h2>
+          <p className="text-gray-400 mb-6">Monitor your BolltLabs business metrics and recent activity</p>
+          
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="bg-[#1F2937] p-6 rounded-lg shadow-lg border border-gray-700/50">
+              <h3 className="text-gray-400 font-medium mb-2">Total Clients</h3>
+              <p className="text-3xl font-bold text-white mb-1">{dashboardStats.totalClients}</p>
+              <p className="text-green-400 text-sm">Active clients</p>
+            </div>
+            <div className="bg-[#1F2937] p-6 rounded-lg shadow-lg border border-gray-700/50">
+              <h3 className="text-gray-400 font-medium mb-2">Active Projects</h3>
+              <p className="text-3xl font-bold text-white mb-1">{dashboardStats.activeProjects}</p>
+              <p className="text-blue-400 text-sm">Currently running</p>
+            </div>
+            <div className="bg-[#1F2937] p-6 rounded-lg shadow-lg border border-gray-700/50">
+              <h3 className="text-gray-400 font-medium mb-2">Team Members</h3>
+              <p className="text-3xl font-bold text-white mb-1">{dashboardStats.teamMembers}</p>
+              <p className="text-purple-400 text-sm">Available members</p>
+            </div>
+            <div className="bg-[#1F2937] p-6 rounded-lg shadow-lg border border-gray-700/50">
+              <h3 className="text-gray-400 font-medium mb-2">Completed Projects</h3>
+              <p className="text-3xl font-bold text-white mb-1">{dashboardStats.completedProjects}</p>
+              <p className="text-green-400 text-sm">Successfully delivered</p>
+            </div>
+          </div>
         </div>
         
-        {/* Recent Activity */}
-        <div className="bg-[#1F2937] p-6 rounded-lg shadow-lg lg:col-span-2 border border-gray-700/50">
-          <h2 className="text-xl font-semibold text-white mb-6">Recent Activity</h2>
-          <ul className="space-y-4">
-            {activities.map((activity, idx) => (
-              <li key={idx} className={idx < activities.length - 1 ? "border-b border-gray-700/50 pb-4" : ""}>
-                <p className="font-medium text-white">{activity.title}</p>
-                <p className="text-gray-400">{activity.description}</p>
-              </li>
-            ))}
-          </ul>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Quick Actions */}
+          <div className="bg-[#1F2937] p-6 rounded-lg shadow-lg border border-gray-700/50">
+            <h2 className="text-xl font-semibold text-white mb-6">Quick Actions</h2>
+            <ul className="space-y-3">
+              {quickActions.map((action, index) => (
+                <li key={index}>
+                  <button className="w-full text-left px-4 py-2 bg-[#0e1a24] text-gray-300 rounded-md hover:bg-gray-700/50 transition-colors">
+                    {action}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+          
+          {/* Recent Activity */}
+          <div className="bg-[#1F2937] p-6 rounded-lg shadow-lg lg:col-span-2 border border-gray-700/50">
+            <h2 className="text-xl font-semibold text-white mb-6">Recent Activity</h2>
+            {activities.length > 0 ? (
+              <ul className="space-y-4">
+                {activities.map((activity, idx) => (
+                  <li key={idx} className={idx < activities.length - 1 ? "border-b border-gray-700/50 pb-4" : ""}>
+                    <p className="font-medium text-white">{activity.title}</p>
+                    <p className="text-gray-400">{activity.description}</p>
+                    <p className="text-gray-500 text-sm">{activity.timestamp}</p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-gray-400">No recent activity</p>
+            )}
+          </div>
         </div>
-      </div>
-      
-      {/* Legend checkbox */}
-      <div className="mt-6 flex items-center">
-        <input type="checkbox" id="legend" className="mr-2 rounded bg-gray-700 border-gray-600 focus:ring-teal-500" />
-        <label htmlFor="legend" className="text-gray-400">Legend</label>
+        
+        {/* Legend checkbox */}
+        {/* <div className="mt-6 flex items-center">
+          <input type="checkbox" id="legend" className="mr-2 rounded bg-gray-700 border-gray-600 focus:ring-teal-500" />
+          <label htmlFor="legend" className="text-gray-400">Legend</label>
+        </div> */}
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const AdminDashboard = () => {
   return (
@@ -148,21 +178,13 @@ const AdminDashboard = () => {
              <FiGlobe className="mr-3" />
              <span>Domain Management</span>
           </Link>
-
-          {/* <Link 
-            to="/admin/support" 
-            className="flex items-center px-4 py-3 rounded-lg hover:bg-gray-100 text-gray-600 transition"
-          >
-            <FiMessageSquare className="mr-3" />
-            <span>Support</span>
-          </Link>
           <Link 
-            to="/admin/templates" 
-            className="flex items-center px-4 py-3 rounded-lg hover:bg-gray-100 text-gray-600 transition"
+             to="/admin/service-requests" 
+             className="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700/50 text-gray-400 hover:text-white transition"
           >
-            <FiFileText className="mr-3" />
-            <span>Templates</span>
-          </Link> */}
+             <FiMessageSquare className="mr-3" />
+             <span>Service Requests</span>
+          </Link>
           <Link 
             to="/admin/settings" 
             className="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700/50 text-gray-400 hover:text-white transition"
