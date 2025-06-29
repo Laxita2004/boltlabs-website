@@ -130,4 +130,3 @@ export const changePassword = async (req, res) => {
 };
 
 
-//token ke sath sath role bhi send karna hai

@@ -1,41 +1,61 @@
-import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LockClosedIcon, EnvelopeIcon } from "@heroicons/react/24/outline";
-
+import { FaLock, FaEnvelope } from 'react-icons/fa';
+import axios from '../api/axios';
 
 const LoginForm = () => {
-  const [email, setEmail] = useState('admin@example.com');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('user'); // default role
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your authentication logic here
-    console.log('Login attempted with:', { email, password });
-    // For demo purposes, navigate to dashboard if credentials match
-    if (email === 'admin@example.com' && password === 'admin123') {
-      // Set token and user info in localStorage
-      localStorage.setItem('token', 'demo-token');
-      // For demo, use the part before @ as the name
-      const name = email.split('@')[0];
-      localStorage.setItem('userName', name.charAt(0).toUpperCase() + name.slice(1));
-      localStorage.setItem('userEmail', email);
-      navigate('/admin'); // Redirect to admin panel
+    setError('');
+
+    try {
+      const res = await axios.post('/auth/login', {
+        email,
+        password,
+        role,
+      });
+
+      // Store tokens and role
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('role', res.data.role);
+      localStorage.setItem('firstLogin', res.data.firstLogin);
+
+      // Redirect based on role
+      if (res.data.role === 'admin') navigate('/admin');
+      else if (res.data.role === 'member') {
+        if (res.data.firstLogin) navigate('/first-login-change');
+        else navigate('/member-home');
+      } else {
+        navigate('/dashboard');
+      }
+    } catch (err) {
+      setError(err.response?.data?.error || 'Login failed');
     }
   };
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>
-      {/* The heading has been moved to the parent Login.jsx, so this can be removed or commented out */}
-      {/* <div>
-        <h2 className="text-center text-xl font-semibold text-white mb-6">
-          Login
-        </h2>
-        <p className="text-center text-sm text-gray-400 mb-6">
-          Enter your credentials to access the admin dashboard
-        </p>
-      </div> */}
+      <div>
+        <label htmlFor="role" className="block text-sm font-medium text-gray-300">
+          Role
+        </label>
+        <select
+          id="role"
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+          className="w-full bg-[#0e1a24] border border-gray-600 rounded-lg text-white pl-3 pr-4 py-2 mt-1 focus:ring-2 focus:ring-teal-500 focus:outline-none transition"
+        >
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+          <option value="member">Member</option>
+        </select>
+      </div>
 
       <div>
         <label htmlFor="email" className="block text-sm font-medium text-gray-300">
@@ -43,7 +63,7 @@ const LoginForm = () => {
         </label>
         <div className="mt-1 relative rounded-md shadow-sm">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <FaEnvelope className="h-5 w-5 text-gray-400" aria-hidden="true" />
+            <FaEnvelope className="h-5 w-5 text-gray-400" />
           </div>
           <input
             id="email"
@@ -64,7 +84,7 @@ const LoginForm = () => {
         </label>
         <div className="mt-1 relative rounded-md shadow-sm">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <FaLock className="h-5 w-5 text-gray-400" aria-hidden="true" />
+            <FaLock className="h-5 w-5 text-gray-400" />
           </div>
           <input
             id="password"
@@ -94,11 +114,13 @@ const LoginForm = () => {
         </div>
 
         <div className="text-sm">
-          <a href="#" className="font-medium text-teal-400 hover:text-teal-300">
+          <a href="/forgot-password" className="font-medium text-teal-400 hover:text-teal-300">
             Forgot your password?
           </a>
         </div>
       </div>
+
+      {error && <p className="text-sm text-red-500 text-center">{error}</p>}
 
       <div>
         <button
@@ -109,25 +131,9 @@ const LoginForm = () => {
         </button>
       </div>
 
-      <div className="mt-6">
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-600" />
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-[#1F2937] text-gray-400">Demo Credentials:</span>
-          </div>
-        </div>
-
-        <div className="mt-4 text-center text-sm text-gray-400">
-          <p>Email: admin@example.com</p>
-          <p>Password: admin123</p>
-        </div>
-      </div>
-
-      <div className="text-center text-sm">
+      <div className="text-center text-sm mt-4">
         <a href="/signup" className="font-medium text-teal-400 hover:text-teal-300">
-          Go to Sign Up
+          Don't have an account? Sign Up
         </a>
       </div>
     </form>
