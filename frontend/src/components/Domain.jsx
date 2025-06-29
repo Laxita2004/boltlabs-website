@@ -7,6 +7,7 @@ import software from '../assets/software-engineer.png'
 import curve from '../assets/curve.png'
 import customercare from '../assets/customer-service.png'
 import { motion } from "framer-motion";
+import { Link } from 'react-router-dom';
 
 
 const domains = [
@@ -17,6 +18,10 @@ const domains = [
     { img: socialmedia, title: "Social Media", desc: "Telling impactful stories through powerful visuals and sound." },
     { img: customercare, title: "Customer Care", desc: "Here to listen, support, and deliver a seamless experience for every user." },
 ];
+
+function slugify(title) {
+  return title.toLowerCase().replace(/ /g, '-').replace(/[^a-z0-9-]/g, '');
+}
 
 const Domain = () => {
     return (

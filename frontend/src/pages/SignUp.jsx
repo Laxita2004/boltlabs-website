@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { User, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import axios from '../api/axios';
 
 const SignUp = () => {
   const [form, setForm] = useState({
@@ -17,16 +18,30 @@ const SignUp = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (form.password !== form.confirmPassword) {
       setError('Passwords do not match');
       return;
     }
-    setError('');
-    // Add your sign up logic here
-    console.log('Form submitted:', form);
+
+    try {
+      const res = await axios.post('/auth/signup', {
+        name: form.name,
+        email: form.email,
+        password: form.password,
+      });
+
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('role', 'user');
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.response?.data?.error || 'Signup failed');
+    }
   };
+
 
   return (
     <div className="min-h-screen bg-[#0e1a24] flex flex-col justify-center items-center py-12 sm:px-6 lg:px-8 pb-16">

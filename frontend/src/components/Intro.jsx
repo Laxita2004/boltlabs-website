@@ -1,7 +1,9 @@
 import React from "react";
 import boltlabsVideo from "../assets/boltlabs.mp4";
+import { useNavigate } from "react-router-dom";
 
 export default function Intro() {
+  const navigate = useNavigate();
   return (
     <div className="relative w-full min-h-screen overflow-hidden">
       {/* 🔹 Video Background */}
@@ -30,12 +32,16 @@ export default function Intro() {
           <h2 className="text-4xl md:text-5xl font-extrabold leading-tight">
             Your{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400 italic">
-              Digital Partner
+              Digital{" "}
+            </span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400 italic">
+              Partner
             </span>{" "}
             in{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400 italic">
-              Growth.
+              Growth
             </span>
+            .
           </h2>
           <p className="text-gray-300 text-lg leading-relaxed">
             Providing powerful tech and creative solutions tailored for small businesses.
@@ -45,7 +51,7 @@ export default function Intro() {
             personal touch, so you can focus on what matters: your business.
           </p>
           <div>
-            <button className="mt-4 px-6 py-3 rounded-full bg-teal-500 hover:bg-teal-400 transition text-white text-sm font-semibold shadow-lg">
+            <button className="mt-4 px-6 py-3 rounded-full bg-teal-500 hover:bg-teal-400 transition text-white text-sm font-semibold shadow-lg" onClick={() => navigate('/login')}>
               Let's Grow Together
             </button>
           </div>
