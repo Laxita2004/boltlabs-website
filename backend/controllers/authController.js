@@ -9,7 +9,7 @@ export const signup = async (req, res) => {
   const { name, email, password } = req.body;
   try {
     const existing = await prisma.user.findUnique({ where: { email } });
-    if (existing) return res.status(400).json({ error: 'Email already in use' });
+    if (existing) return res.status(400).json({ success: false, error: 'Email already in use' });
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
@@ -17,18 +17,28 @@ export const signup = async (req, res) => {
     });
 
     const token = generateToken({ id: user.user_id, role: 'user' });
-    res.status(201).json({ token });
-
-
-
+    res.status(201).json({
+      success: true,
+      message: 'User created successfully',
+      data: {
+        token,
+        user: {
+          id: user.user_id,
+          name: user.name,
+          email: user.email
+        }
+      }
+    });
   } catch (err) {
-    res.status(500).json({ error: 'Signup failed', details: err.message });
+    res.status(500).json({ success: false, error: 'Signup failed', details: err.message });
   }
 };
+
 
 // 🔑 Login – All Roles
 export const login = async (req, res) => {
   const { email, password, role } = req.body;
+  console.log(email, password, role); // Debugging line to check input values
 
   try {
     let user, idKey;
@@ -45,8 +55,16 @@ export const login = async (req, res) => {
     } else {
       return res.status(400).json({ error: 'Invalid role' });
     }
+    console.log("Fetched user from DB:", user);
+    if (user) {
+      console.log("DB hash:", user.password);
+      console.log("Entered password:", password);
+      const isValid = await bcrypt.compare(password, user.password);
+      console.log("Password valid?", isValid);
+    }
 
     if (!user) return res.status(404).json({ error: 'User not found' });
+    // console.log(user); // Debugging line to check user object
 
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) return res.status(401).json({ error: 'Invalid credentials' });
