@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const FirstLoginChange = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
@@ -18,12 +19,16 @@ const FirstLoginChange = () => {
     }
 
     try {
+      setLoading(true);
       await axios.post('/auth/change-password', { newPassword });
       localStorage.setItem('firstLogin', 'false');
       setSuccess('Password changed successfully');
+
       setTimeout(() => navigate('/member-home'), 1500);
     } catch (err) {
       setError(err.response?.data?.error || 'Password update failed');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -55,9 +60,10 @@ const FirstLoginChange = () => {
 
         <button
           type="submit"
-          className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 rounded transition"
+          disabled={loading}
+          className={`w-full bg-teal-600 hover:bg-teal-700 text-white py-2 rounded transition ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
-          Update Password
+          {loading ? 'Updating...' : 'Update Password'}
         </button>
       </form>
     </div>
