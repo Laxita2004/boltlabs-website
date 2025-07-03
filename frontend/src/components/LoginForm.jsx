@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaLock, FaEnvelope } from 'react-icons/fa';
 import axios from '../api/axios';
+import { BACKEND_URL } from '../../config/config'; // Adjust the import path as necessary
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -15,7 +16,7 @@ const LoginForm = () => {
     setError('');
 
     try {
-      const res = await axios.post('/auth/login', {
+      const res = await axios.post(`${BACKEND_URL}/api/auth/login`, {
         email,
         password,
         role,
