@@ -3,9 +3,9 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import authRoutes from '../routes/authRoutes.js';
-import userRoutes from '../routes/userRoutes.js';
-import adminRoutes from '../routes/adminRoutes.js';
+// import authRoutes from '../routes/authRoutes.js';
+// import userRoutes from '../routes/userRoutes.js';
+// import adminRoutes from '../routes/adminRoutes.js';
 
 // Load env variables
 dotenv.config();

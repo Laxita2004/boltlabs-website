@@ -1,7 +1,27 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const TaskHistory = ({ history }) => {
+const TaskHistory = () => {
+
+    // Dummy Data inside the file
+    const history = [
+        {
+            title: "Setup Backend API",
+            status: "Completed",
+            date: "2024-07-01"
+        },
+        {
+            title: "Database Schema Design",
+            status: "Completed",
+            date: "2024-07-02"
+        },
+        {
+            title: "Initial Frontend Layout",
+            status: "In Progress",
+            date: "2024-07-03"
+        }
+    ];
+
     return (
         <motion.div
             className="bg-[#1f2a38] border border-teal-400 rounded-2xl p-8 shadow-xl hover:shadow-2xl mt-8 transition-all duration-300 text-white"
@@ -32,9 +52,7 @@ const TaskHistory = ({ history }) => {
                 <p className="text-gray-400">No previous tasks.</p>
             )}
         </motion.div>
-
     );
 };
 
 export default TaskHistory;
-
