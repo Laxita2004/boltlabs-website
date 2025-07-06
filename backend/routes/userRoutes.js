@@ -4,6 +4,8 @@ import {
   createUser,
   getUserById,
   getPreviousRequests,
+  createServiceRequest,
+  getDomains,
 } from "../controllers/userController.js";
 import {
   authenticateUser,
@@ -17,8 +19,9 @@ router.use(authenticateUser, authorizeRoles('user'));
 
 // 👤 Routes
 router.post("/register", createUser);
-router.get("/:id", getUserById);
+router.get("/domains", getDomains);
 router.get("/requests/previous", getPreviousRequests);
+router.post("/requests", createServiceRequest);
 
 // 🔧 Optional test route
 router.get("/test", (req, res) => {

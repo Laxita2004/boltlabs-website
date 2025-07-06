@@ -1,12 +1,9 @@
 import express from 'express';
-import { createClient } from '@supabase/supabase-js'; // ✅ you missed this import
 import loader from './loader/index.js';
+import dotenv from 'dotenv';
 
-// ✅ Initialize Supabase client
-export const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_KEY
-);
+// Load environment variables from .env file
+dotenv.config();
 
 // ✅ Initialize Express app
 const app = express();

@@ -1,11 +1,10 @@
-import { SupabaseClient } from '@supabase/supabase-js';
+// This file is no longer needed as we're using Prisma instead of Supabase
+// Keeping it for reference but it's not being used
 
 export class ApiFeatures {
-  constructor(supabaseClient, table, queryStr) {
-    this.supabase = supabaseClient;
-    this.table = table;
+  constructor(queryStr) {
     this.queryStr = queryStr;
-    this.query = this.supabase.from(this.table).select('*', { count: 'exact' });
+    // This class is deprecated - using Prisma for database operations
   }
 
   filter() {

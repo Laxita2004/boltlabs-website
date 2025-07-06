@@ -36,6 +36,19 @@ api.interceptors.response.use(
   }
 );
 
+// User API endpoints (removed - using mock data instead)
+// export const userAPI = {
+//   // Service Requests
+//   createServiceRequest: (data) => api.post('/users/requests', data),
+//   getPreviousRequests: () => api.get('/users/requests/previous'),
+//   
+//   // Domains
+//   getDomains: () => api.get('/users/domains'),
+//   
+//   // User Profile
+//   getUserById: (userId) => api.get(`/users/${userId}`),
+// };
+
 // Admin API endpoints
 export const adminAPI = {
   // Test endpoints (no auth required)

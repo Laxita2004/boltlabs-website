@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 // 🔐 Signup – Only for Users
 export const signup = async (req, res) => {
   const { name, email, password } = req.body;
+  console.log(name, email, password);
   try {
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) return res.status(400).json({ success: false, error: 'Email already in use' });
@@ -30,6 +31,7 @@ export const signup = async (req, res) => {
       }
     });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ success: false, error: 'Signup failed', details: err.message });
   }
 };
