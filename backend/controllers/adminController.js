@@ -181,8 +181,7 @@ export const respondToRequest = async (req, res) => {
       return res.status(404).json({ error: 'Request not found' });
     }
     
-    // Here you would implement your response logic
-    // For example, creating a service from the request
+    // Here you would implement your response logic for example, creating a service from the request
     if (status === 'approved') {
       const service = await prisma.service.create({
         data: {
