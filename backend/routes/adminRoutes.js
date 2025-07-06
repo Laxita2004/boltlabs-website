@@ -8,8 +8,8 @@ import {
   createMember,
   fetchRequests,
   respondToRequest,
-  fetchServices
-} from '../controllers/adminController.js';
+  fetchServices,
+} from "../controllers/adminController.js";
 
 import {
   authenticateUser,
@@ -20,15 +20,15 @@ import {
 const router = express.Router();
 
 // Public test endpoints (no auth required)
-router.get('/test', (req, res) => {
-  res.json({ message: 'Admin routes are working!' });
+router.get("/test", (req, res) => {
+  res.json({ message: "Admin routes are working!" });
 });
 
-router.get('/health', (req, res) => {
-  res.json({ 
-    status: 'OK', 
+router.get("/health", (req, res) => {
+  res.json({
+    status: "OK",
     timestamp: new Date().toISOString(),
-    message: 'Backend server is running'
+    message: "Backend server is running",
   });
 });
 

@@ -33,7 +33,7 @@ const LoginForm = () => {
         if (res.data.firstLogin) navigate('/first-login-change');
         else navigate('/member-home');
       } else {
-        navigate('/dashboard');
+        navigate('/');
       }
     } catch (err) {
       setError(err.response?.data?.error || 'Login failed');

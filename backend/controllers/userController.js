@@ -51,9 +51,9 @@ export const getUserById = async (req, res) => {
     console.log("✅ User found:", user);
     res.json(user);
   } catch (error) {
-  console.error("❌ Error in getUserById:", error); // This logs the actual error object
-  res.status(500).json({ error: 'Failed to fetch user', detail: error.message });
-}
+    console.error("❌ Error in getUserById:", error); // This logs the actual error object
+    res.status(500).json({ error: 'Failed to fetch user', detail: error.message });
+  }
 };
 
 export const getDomains = async (req, res) => {

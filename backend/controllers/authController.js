@@ -40,7 +40,7 @@ export const signup = async (req, res) => {
 // 🔑 Login – All Roles
 export const login = async (req, res) => {
   const { email, password, role } = req.body;
-  console.log(email, password, role); // Debugging line to check input values
+  // console.log(email, password, role); // Debugging line to check input values
 
   try {
     let user, idKey;
@@ -57,12 +57,12 @@ export const login = async (req, res) => {
     } else {
       return res.status(400).json({ error: 'Invalid role' });
     }
-    console.log("Fetched user from DB:", user);
+    // console.log("Fetched user from DB:", user);
     if (user) {
-      console.log("DB hash:", user.password);
-      console.log("Entered password:", password);
+      // console.log("DB hash:", user.password);
+      // console.log("Entered password:", password);
       const isValid = await bcrypt.compare(password, user.password);
-      console.log("Password valid?", isValid);
+      // console.log("Password valid?", isValid);
     }
 
     if (!user) return res.status(404).json({ error: 'User not found' });
