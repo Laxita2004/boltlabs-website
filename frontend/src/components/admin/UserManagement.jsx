@@ -1,49 +1,86 @@
-import React, { useState } from "react";
+
+
+import React, { useState, useEffect } from "react";
 import { FiUser, FiMail, FiPlus, FiTrash2 } from "react-icons/fi";
-
-const initialMembers = [
-  {
-    id: 1,
-    name: "John Doe",
-    email: "john@example.com",
-    tags: ["Web Development", "Mobile Apps"],
-  },
-  {
-    id: 2,
-    name: "Jane Smith",
-    email: "jane@example.com",
-    tags: ["Digital Marketing"],
-  },
-];
-
+import { adminAPI } from "../../services/api";
 const UserManagement = () => {
-  const [members, setMembers] = useState(initialMembers);
+  const [members, setMembers] = useState([]);
+  const [domains, setDomains] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newMember, setNewMember] = useState({ name: "", email: "", tags: "" });
+  const [error, setError] = useState("");
 
-  const handleAddMember = () => {
-    if (!newMember.name || !newMember.email) return;
-    setMembers([
-      ...members,
-      {
-        id: Math.max(0, ...members.map((m) => m.id)) + 1,
-        name: newMember.name,
-        email: newMember.email,
-        tags: newMember.tags.split(",").map((t) => t.trim()).filter(Boolean),
-      },
-    ]);
-    setNewMember({ name: "", email: "", tags: "" });
-    setIsModalOpen(false);
+  // Fetch members and domains
+  const fetchMembers = async () => {
+    try {
+      const res = await adminAPI.getMembers();
+      setMembers(res.data || []);
+    } catch (err) {
+      setError("Failed to fetch members");
+    }
   };
 
-  const handleDeleteMember = (id) => {
-    setMembers(members.filter((m) => m.id !== id));
+  const fetchDomains = async () => {
+    try {
+      const res = await adminAPI.getDomains();
+      setDomains(res.data || []);
+    } catch (err) {
+      setError("Failed to fetch domains");
+    }
+  };
+
+  useEffect(() => {
+    fetchMembers();
+    fetchDomains();
+  }, []);
+
+  // Add Member API
+  const handleAddMember = async () => {
+    if (!newMember.name || !newMember.email) return;
+
+    const domainNames = newMember.tags
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean);
+
+    // Map domain names to IDs
+    const domain_ids = domains
+      .filter((d) => domainNames.includes(d.name))
+      .map((d) => d.domain_id);
+
+    try {
+      const res = await adminAPI.createMember({
+        name: newMember.name,
+        email: newMember.email,
+        password: "test1234", // Default/hardcoded for now
+        domain_ids,
+      });
+      setMembers((prev) => [...prev, res.data]);
+      setNewMember({ name: "", email: "", tags: "" });
+      setIsModalOpen(false);
+    } catch (err) {
+      setError(err?.response?.data?.error || "Failed to add member");
+    }
+  };
+
+  // Delete Member API
+  const handleDeleteMember = async (id) => {
+    try {
+      await adminAPI.deleteMember(id);
+      setMembers(members.filter((m) => m.member_id !== id));
+    } catch (err) {
+      setError("Failed to delete member");
+    }
   };
 
   return (
     <div className="min-h-screen bg-[#0e1a24] text-white p-8">
       <h1 className="text-3xl font-bold mb-1">User Management</h1>
-      <p className="mb-6 text-gray-300">Manage team members and their domain access</p>
+      <p className="mb-6 text-gray-300">
+        Manage team members and their domain access
+      </p>
+      {error && <div className="text-red-400 mb-4">{error}</div>}
+
       <div className="bg-[#232f3e] rounded-xl p-6 shadow mb-8">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-semibold">Team Members</h2>
@@ -54,10 +91,11 @@ const UserManagement = () => {
             <FiPlus className="mr-2" /> Add Member
           </button>
         </div>
+
         <div className="space-y-6">
           {members.map((member) => (
             <div
-              key={member.id}
+              key={member.member_id}
               className="flex items-center bg-[#3a4656] rounded-lg px-6 py-6 mb-2 shadow relative"
             >
               <div className="flex items-center">
@@ -71,12 +109,12 @@ const UserManagement = () => {
                     {member.email}
                   </div>
                   <div className="flex flex-wrap gap-2 mt-2">
-                    {member.tags.map((tag, idx) => (
+                    {member.domains.map((d, idx) => (
                       <span
                         key={idx}
                         className="bg-[#232f3e] text-gray-100 text-xs font-semibold px-3 py-1 rounded-md"
                       >
-                        {tag}
+                        {d.domain.name}
                       </span>
                     ))}
                   </div>
@@ -84,7 +122,7 @@ const UserManagement = () => {
               </div>
               <button
                 className="ml-auto bg-red-500 hover:bg-red-600 text-white p-3 rounded-md transition flex items-center"
-                onClick={() => handleDeleteMember(member.id)}
+                onClick={() => handleDeleteMember(member.member_id)}
                 title="Delete Member"
               >
                 <FiTrash2 className="text-lg" />
@@ -93,6 +131,7 @@ const UserManagement = () => {
           ))}
         </div>
       </div>
+
       {/* Add Member Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
@@ -105,7 +144,9 @@ const UserManagement = () => {
                   type="text"
                   className="w-full px-3 py-2 rounded-md bg-[#0e1a24] border border-gray-600 text-white focus:outline-none"
                   value={newMember.name}
-                  onChange={(e) => setNewMember({ ...newMember, name: e.target.value })}
+                  onChange={(e) =>
+                    setNewMember({ ...newMember, name: e.target.value })
+                  }
                   placeholder="Enter name"
                 />
               </div>
@@ -115,17 +156,26 @@ const UserManagement = () => {
                   type="email"
                   className="w-full px-3 py-2 rounded-md bg-[#0e1a24] border border-gray-600 text-white focus:outline-none"
                   value={newMember.email}
-                  onChange={(e) => setNewMember({ ...newMember, email: e.target.value })}
+                  onChange={(e) =>
+                    setNewMember({ ...newMember, email: e.target.value })
+                  }
                   placeholder="Enter email"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Tags <span className="text-xs text-gray-400">(comma separated)</span></label>
+                <label className="block text-sm font-medium mb-1">
+                  Domains{" "}
+                  <span className="text-xs text-gray-400">
+                    (comma separated)
+                  </span>
+                </label>
                 <input
                   type="text"
                   className="w-full px-3 py-2 rounded-md bg-[#0e1a24] border border-gray-600 text-white focus:outline-none"
                   value={newMember.tags}
-                  onChange={(e) => setNewMember({ ...newMember, tags: e.target.value })}
+                  onChange={(e) =>
+                    setNewMember({ ...newMember, tags: e.target.value })
+                  }
                   placeholder="e.g. Web Development, Mobile Apps"
                 />
               </div>
