@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
-import { supabase } from '../config/supabaseClient.js';
 
 const prisma = new PrismaClient();
 

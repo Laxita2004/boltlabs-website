@@ -44,21 +44,9 @@ const UserPanel = () => {
     clearError 
   } = useUser();
 
-  // Fetch user profile on component mount
+  // Fetch data on component mount
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      // Decode token to get user ID (you might need to adjust this based on your JWT structure)
-      try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        if (payload.id) {
-          fetchUserProfile(payload.id);
-        }
-      } catch (error) {
-        console.error('Error decoding token:', error);
-      }
-    }
-    
+    fetchUserProfile(null);
     fetchDomains();
     fetchUserRequests();
   }, [fetchUserProfile, fetchUserRequests, fetchDomains]);
@@ -265,7 +253,13 @@ const UserPanel = () => {
                           <div className="text-gray-300 text-sm">Domain: <span className="font-medium">{req.domain?.name || 'Unknown'}</span></div>
                         </div>
                         <div className="flex gap-2 mt-2 md:mt-0">
-                          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-yellow-600 text-white">Pending</span>
+                          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                            req.status === 'Completed' ? 'bg-green-500 text-white' :
+                            req.status === 'In Progress' ? 'bg-blue-600 text-white' :
+                            'bg-yellow-600 text-white'
+                          }`}>
+                            {req.status}
+                          </span>
                         </div>
                       </div>
                       <div className="text-gray-400 text-xs">Submitted on {formatDate(req.request_date)}</div>
