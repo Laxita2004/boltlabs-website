@@ -6,11 +6,12 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   const firstLogin = localStorage.getItem('firstLogin');
   const location = useLocation();
 
+  // If user not logged in OR role not allowed, send to login
   if (!token || !allowedRoles.includes(role)) {
     return <Navigate to="/login" replace />;
   }
 
-  // Avoid redirect loop: only redirect if NOT already on /first-login-change
+  // If member's first login, force them to change password
   if (
     role === 'member' &&
     firstLogin === 'true' &&

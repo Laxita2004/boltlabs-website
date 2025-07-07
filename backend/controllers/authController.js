@@ -30,8 +30,9 @@ export const signup = async (req, res) => {
       }
     });
   } catch (err) {
+    console.error("Signup failed error:", err); // Add this line to see full error stack
     res.status(500).json({ success: false, error: 'Signup failed', details: err.message });
-  }
+}
 };
 
 
