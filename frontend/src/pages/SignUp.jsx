@@ -12,12 +12,13 @@ const SignUp = () => {
     email: '',
     password: '',
     confirmPassword: '',
+    role: 'user'  // ✅ default role
   });
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
 
-  // 🚀 Auto-redirect if already logged in
   useEffect(() => {
     if (localStorage.getItem('token')) {
       navigate('/dashboard');
@@ -30,6 +31,8 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+
     if (form.password !== form.confirmPassword) {
       setError('Passwords do not match');
       return;
@@ -40,12 +43,17 @@ const SignUp = () => {
         name: form.name,
         email: form.email,
         password: form.password,
+        role: form.role  // ✅ send selected role
       });
 
       if (res.data.success) {
         localStorage.setItem('token', res.data.data.token);
-        localStorage.setItem('role', 'user');
-        navigate('/dashboard'); // ✅ automatic redirect
+        localStorage.setItem('role', form.role);
+
+        // 🔁 Redirect to correct dashboard
+        if (form.role === 'admin') navigate('/admin');
+        else if (form.role === 'member') navigate('/member-home');
+        else navigate('/dashboard');
       } else {
         setError(res.data.error || 'Signup failed');
       }
@@ -64,13 +72,29 @@ const SignUp = () => {
         <h2 className="text-2xl font-semibold text-white text-center mb-1">Sign Up</h2>
         <p className="text-gray-400 text-center mb-6">Enter your details to create your account</p>
         <form onSubmit={handleSubmit} className="space-y-5">
+
+          {/* Role Select */}
+          <div>
+            <label className="block text-gray-300 mb-1" htmlFor="role">Select Role</label>
+            <select
+              id="role"
+              name="role"
+              value={form.role}
+              onChange={handleChange}
+              className="w-full bg-[#0e1a24] text-white border border-gray-600 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
+              required
+            >
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+              <option value="member">Member</option>
+            </select>
+          </div>
+
           {/* Name */}
           <div>
             <label className="block text-gray-300 mb-1" htmlFor="name">Full Name</label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                <User size={18} />
-              </span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><User size={18} /></span>
               <input
                 type="text"
                 id="name"
@@ -79,18 +103,16 @@ const SignUp = () => {
                 onChange={handleChange}
                 placeholder="Enter your full name"
                 className="w-full pl-10 pr-3 py-2 rounded-md bg-[#0e1a24] text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                autoComplete="name"
                 required
               />
             </div>
           </div>
+
           {/* Email */}
           <div>
             <label className="block text-gray-300 mb-1" htmlFor="email">Email Address</label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                <Mail size={18} />
-              </span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><Mail size={18} /></span>
               <input
                 type="email"
                 id="email"
@@ -99,18 +121,16 @@ const SignUp = () => {
                 onChange={handleChange}
                 placeholder="Enter your email"
                 className="w-full pl-10 pr-3 py-2 rounded-md bg-[#0e1a24] text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                autoComplete="email"
                 required
               />
             </div>
           </div>
+
           {/* Password */}
           <div>
             <label className="block text-gray-300 mb-1" htmlFor="password">Password</label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                <Lock size={18} />
-              </span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><Lock size={18} /></span>
               <input
                 type={showPassword ? 'text' : 'password'}
                 id="password"
@@ -119,26 +139,23 @@ const SignUp = () => {
                 onChange={handleChange}
                 placeholder="Create a password"
                 className="w-full pl-10 pr-10 py-2 rounded-md bg-[#0e1a24] text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                autoComplete="new-password"
                 required
               />
               <button
                 type="button"
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
                 onClick={() => setShowPassword(!showPassword)}
-                tabIndex={-1}
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
           </div>
+
           {/* Confirm Password */}
           <div>
             <label className="block text-gray-300 mb-1" htmlFor="confirmPassword">Confirm Password</label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                <Lock size={18} />
-              </span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><Lock size={18} /></span>
               <input
                 type={showConfirmPassword ? 'text' : 'password'}
                 id="confirmPassword"
@@ -147,22 +164,20 @@ const SignUp = () => {
                 onChange={handleChange}
                 placeholder="Confirm your password"
                 className="w-full pl-10 pr-10 py-2 rounded-md bg-[#0e1a24] text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                autoComplete="new-password"
                 required
               />
               <button
                 type="button"
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                tabIndex={-1}
               >
                 {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
           </div>
-          {/* Error */}
-          {error && <p className="text-red-500 text-xs text-center">{error}</p>}
-          {/* Submit */}
+
+          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+
           <button
             type="submit"
             className="w-full py-2 rounded-md bg-teal-600 hover:bg-teal-700 text-white font-semibold transition-colors"
