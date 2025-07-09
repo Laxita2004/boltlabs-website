@@ -6,50 +6,36 @@ import jwt from "jsonwebtoken";
 
 // 🔐 Signup – Only for Users
 export const signup = async (req, res) => {
-  const { name, email, password, role } = req.body;
+  const { name, email, password } = req.body;
 
   try {
-    // Check if email already exists in the correct table
-    const existing =
-      role === "user"
-        ? await prisma.user.findUnique({ where: { email } })
-        : role === "admin"
-        ? await prisma.admin.findUnique({ where: { email } })
-        : await prisma.member.findUnique({ where: { email } });
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+    });
 
-    if (existing)
+    if (existingUser) {
       return res.status(400).json({ error: "Email already registered" });
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    let user;
-    let id;
+    const newUser = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+      },
+    });
 
-    if (role === "user") {
-      user = await prisma.user.create({
-        data: { name, email, password: hashedPassword },
-      });
-      id = user.user_id;
-    } else if (role === "admin") {
-      user = await prisma.admin.create({
-        data: { name, email, password: hashedPassword },
-      });
-      id = user.admin_id;
-    } else if (role === "member") {
-      user = await prisma.member.create({
-        data: { name, email, password: hashedPassword },
-      });
-      id = user.member_id;
-    } else {
-      return res.status(400).json({ error: "Invalid role selected" });
-    }
-
-    const token = generateToken({ id, role });
+    const token = generateToken({ id: newUser.user_id, role: "user" });
 
     res.status(201).json({
       success: true,
-      message: `${role} registered successfully`,
-      data: { token, role },
+      message: "User registered successfully",
+      data: {
+        token,
+        role: "user",
+      },
     });
   } catch (err) {
     console.error("Signup error:", err);

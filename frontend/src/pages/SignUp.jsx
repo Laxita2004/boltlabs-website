@@ -12,7 +12,6 @@ const SignUp = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'user'  // ✅ default role
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -43,17 +42,12 @@ const SignUp = () => {
         name: form.name,
         email: form.email,
         password: form.password,
-        role: form.role  // ✅ send selected role
       });
 
       if (res.data.success) {
         localStorage.setItem('token', res.data.data.token);
-        localStorage.setItem('role', form.role);
-
-        // 🔁 Redirect to correct dashboard
-        if (form.role === 'admin') navigate('/admin');
-        else if (form.role === 'member') navigate('/member-home');
-        else navigate('/dashboard');
+        localStorage.setItem('role', res.data.data.role); // always 'user'
+        navigate('/dashboard'); // ✅ change this to your default user route
       } else {
         setError(res.data.error || 'Signup failed');
       }
@@ -72,23 +66,6 @@ const SignUp = () => {
         <h2 className="text-2xl font-semibold text-white text-center mb-1">Sign Up</h2>
         <p className="text-gray-400 text-center mb-6">Enter your details to create your account</p>
         <form onSubmit={handleSubmit} className="space-y-5">
-
-          {/* Role Select */}
-          <div>
-            <label className="block text-gray-300 mb-1" htmlFor="role">Select Role</label>
-            <select
-              id="role"
-              name="role"
-              value={form.role}
-              onChange={handleChange}
-              className="w-full bg-[#0e1a24] text-white border border-gray-600 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
-              required
-            >
-              <option value="user">User</option>
-              <option value="admin">Admin</option>
-              <option value="member">Member</option>
-            </select>
-          </div>
 
           {/* Name */}
           <div>
