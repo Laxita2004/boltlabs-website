@@ -75,18 +75,18 @@ const EditProfile = () => {
     setPassword({ ...password, [e.target.name]: e.target.value });
   };
 
-  const handlePictureUpload = () => {
-    fileInputRef.current.click();
-  };
+  // const handlePictureUpload = () => {
+  //   fileInputRef.current.click();
+  // };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setProfilePicture(URL.createObjectURL(file));
-      // you could upload file via FormData here
-      console.log('Selected profile image file:', file);
-    }
-  };
+  // const handleFileChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     setProfilePicture(URL.createObjectURL(file));
+  //     // you could upload file via FormData here
+  //     console.log('Selected profile image file:', file);
+  //   }
+  // };
 
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
@@ -135,37 +135,6 @@ const EditProfile = () => {
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Profile Picture */}
-          <div className="md:col-span-1">
-            <div className="bg-[#1F2937] rounded-2xl p-6 text-center border border-gray-700/50">
-              <h2 className="text-xl font-semibold text-white mb-4">Profile Picture</h2>
-              <div className="relative w-32 h-32 mx-auto mb-4">
-                <div className="w-full h-full rounded-full bg-teal-500 flex items-center justify-center text-white">
-                  {profilePicture ? (
-                    <img src={profilePicture} alt="Profile" className="w-full h-full rounded-full object-cover" />
-                  ) : (
-                    <User size={64} />
-                  )}
-                </div>
-                <button
-                  onClick={handlePictureUpload}
-                  className="absolute bottom-1 right-1 bg-gray-800/80 hover:bg-gray-700/80 text-white rounded-full p-2 transition"
-                  aria-label="Upload new photo"
-                >
-                  <Camera size={20} />
-                </button>
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  onChange={handleFileChange}
-                  className="hidden"
-                  accept="image/*"
-                />
-              </div>
-              <p className="text-xs text-gray-500">Click the camera icon to upload a new photo</p>
-            </div>
-          </div>
-
           {/* Personal Info & Password */}
           <div className="md:col-span-2 space-y-8">
             <form onSubmit={handleProfileUpdate} className="bg-[#1F2937] rounded-2xl p-6 border border-gray-700/50">
