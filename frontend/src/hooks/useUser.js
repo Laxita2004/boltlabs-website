@@ -1,150 +1,111 @@
-import { useState, useCallback } from 'react';
-
-// Mock data for domains
-const mockDomains = [
-  { domain_id: 1, name: 'Web Development' },
-  { domain_id: 2, name: 'Mobile Development' },
-  { domain_id: 3, name: 'API Integration' },
-  { domain_id: 4, name: 'Database Design' },
-  { domain_id: 5, name: 'Cloud Services' },
-];
-
-// Mock user profile
-const mockUserProfile = {
-  name: 'John Doe',
-  email: 'john.doe@example.com',
-};
-
-// Mock user requests
-const mockUserRequests = [
-  {
-    req_id: 1,
-    service: 'Website Redesign',
-    domain: { name: 'Web Development' },
-    request_date: '2024-01-15T10:30:00Z',
-    status: 'Pending'
-  },
-  {
-    req_id: 2,
-    service: 'Mobile App Development',
-    domain: { name: 'Mobile Development' },
-    request_date: '2024-01-10T14:20:00Z',
-    status: 'In Progress'
-  },
-  {
-    req_id: 3,
-    service: 'API Integration',
-    domain: { name: 'API Integration' },
-    request_date: '2024-01-05T09:15:00Z',
-    status: 'Completed'
-  }
-];
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { BACKEND_URL } from '../../config/config';
 
 export const useUser = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [userRequests, setUserRequests] = useState([]);
-  const [userProfile, setUserProfile] = useState(null);
-  const [domains, setDomains] = useState([]);
+  // ✅ Immediately available info from localStorage
+  const [currentUser, setCurrentUser] = useState({
+    id: localStorage.getItem('user_id'),
+    name: localStorage.getItem('name'),
+    email: localStorage.getItem('email'),
+    role: localStorage.getItem('role'),
+  });
 
-  // Create service request (mock implementation)
-  const createServiceRequest = async (requestData) => {
+  // ✅ Existing state you had
+  const [domains, setDomains] = useState([]);
+  const [userProfile, setUserProfile] = useState(null);
+  const [userRequests, setUserRequests] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const authHeader = () => ({
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+
+  // ✅ Now you have currentUser immediately
+  //    AND can still fetch full fresh user profile from server
+  const fetchUserProfile = async (id = currentUser.id) => {
     try {
       setLoading(true);
-      setError(null);
-      
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Create mock request
-      const newRequest = {
-        req_id: Date.now(),
-        service: requestData.service,
-        domain: mockDomains.find(d => d.domain_id == requestData.domain_id),
-        request_date: new Date().toISOString(),
-        status: 'Pending'
-      };
-      
-      // Add to existing requests
-      setUserRequests(prev => [newRequest, ...prev]);
-      
-      return { data: newRequest };
+      const res = await axios.get(`${BACKEND_URL}/api/user/${id}`, authHeader());
+      setUserProfile(res.data);
+
+      // 🪄 Also update local state with fresh data
+      setCurrentUser(prev => ({
+        ...prev,
+        name: res.data.name,
+        email: res.data.email
+      }));
     } catch (err) {
-      console.error('Create service request error:', err);
-      setError('Failed to create service request');
+      console.error("Fetch profile error:", err);
+      setError('Failed to fetch profile.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchDomains = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get(`${BACKEND_URL}/api/user/domains`, authHeader());
+      setDomains(res.data);
+    } catch (err) {
+      console.error("Fetch domains error:", err);
+      setError('Failed to fetch domains.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchUserRequests = async (id = currentUser.id) => {
+    try {
+      setLoading(true);
+      const res = await axios.get(`${BACKEND_URL}/api/user/requests/previous`, authHeader());
+      setUserRequests(res.data);
+    } catch (err) {
+      console.error("Fetch requests error:", err);
+      setError('Failed to fetch requests.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const createServiceRequest = async (payload) => {
+    try {
+      setLoading(true);
+      await axios.post(`${BACKEND_URL}/api/user/requests`, payload, authHeader());
+      await fetchUserRequests(); // Refresh
+    } catch (err) {
+      console.error("Create request error:", err);
+      setError('Failed to create service request.');
       throw err;
     } finally {
       setLoading(false);
     }
   };
 
-  // Fetch user's previous requests (mock implementation)
-  const fetchUserRequests = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 800));
-      
-      setUserRequests(mockUserRequests);
-    } catch (err) {
-      console.error('Fetch user requests error:', err);
-      setError('Failed to fetch user requests');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Fetch available domains (mock implementation)
-  const fetchDomains = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      setDomains(mockDomains);
-    } catch (err) {
-      console.error('Fetch domains error:', err);
-      setError('Failed to fetch domains');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Fetch user profile (mock implementation)
-  const fetchUserProfile = async (userId = null) => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 600));
-      
-      setUserProfile(mockUserProfile);
-    } catch (err) {
-      console.error('Fetch user profile error:', err);
-      setError('Failed to fetch user profile');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Clear error
-  const clearError = useCallback(() => setError(null), []);
+  const clearError = () => setError('');
 
   return {
+    // 🔥 Instantly available
+    currentUser,
+
+    // ✅ Your existing data
+    userProfile,
+    userRequests,
+    domains,
+
+    // ✅ Loading / errors
     loading,
     error,
-    userRequests,
-    userProfile,
-    domains,
-    createServiceRequest,
-    fetchUserRequests,
-    fetchDomains,
-    fetchUserProfile,
     clearError,
+
+    // ✅ Functions
+    fetchUserProfile,
+    fetchDomains,
+    fetchUserRequests,
+    createServiceRequest,
   };
-}; 
+};

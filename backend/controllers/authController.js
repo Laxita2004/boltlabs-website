@@ -40,11 +40,9 @@ export const signup = async (req, res) => {
 // 🔑 Login – All Roles
 export const login = async (req, res) => {
   const { email, password, role } = req.body;
-  // console.log(email, password, role); // Debugging line to check input values
 
   try {
     let user, idKey;
-
     if (role === 'user') {
       user = await prisma.user.findUnique({ where: { email } });
       idKey = 'user_id';
@@ -57,16 +55,8 @@ export const login = async (req, res) => {
     } else {
       return res.status(400).json({ error: 'Invalid role' });
     }
-    // console.log("Fetched user from DB:", user);
-    if (user) {
-      // console.log("DB hash:", user.password);
-      // console.log("Entered password:", password);
-      const isValid = await bcrypt.compare(password, user.password);
-      // console.log("Password valid?", isValid);
-    }
 
     if (!user) return res.status(404).json({ error: 'User not found' });
-    // console.log(user); // Debugging line to check user object
 
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) return res.status(401).json({ error: 'Invalid credentials' });
@@ -75,10 +65,14 @@ export const login = async (req, res) => {
 
     res.json({
       token,
-      role,                  // ✅ Added role to the response
-      firstLogin: user.firstLogin || false
+      role,
+      firstLogin: user.firstLogin || false,
+      user: {
+        id: user[idKey],
+        name: user.name,
+        email: user.email
+      }
     });
-
   } catch (err) {
     res.status(500).json({ error: 'Login failed', details: err.message });
   }

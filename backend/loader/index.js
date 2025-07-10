@@ -11,6 +11,7 @@ dotenv.config();
 import adminRoutes from '../routes/adminRoutes.js';
 import authRoutes from '../routes/authRoutes.js';
 import teamMemberRoutes from '../routes/teamMemberRoutes.js';
+import userRoutes from '../routes/userRoutes.js'; // ✅ added
 
 const loader = async (app) => {
   app.use(cors());
@@ -19,10 +20,11 @@ const loader = async (app) => {
 
   // Auth Routes – No authentication required
   app.use('/api/auth', authRoutes);
-  
+
   // Protected Routes – Login required
   app.use('/api/admin', adminRoutes);
   app.use('/api/member', teamMemberRoutes);
+  app.use('/api/user', userRoutes); // ✅ mounted user routes here
 
   // 404 Handler
   app.use((req, res, next) => {

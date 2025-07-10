@@ -54,27 +54,27 @@ export const adminAPI = {
   // Test endpoints (no auth required)
   testConnection: () => api.get('/admin/test'),
   healthCheck: () => api.get('/admin/health'),
-  
+
   // Dashboard stats
   getDashboardStats: () => api.get('/admin/dashboard/stats'),
-  
+
   // Domains
   getDomains: () => api.get('/admin/domains'),
   createDomain: (data) => api.post('/admin/domains', data),
   deleteDomain: (domainId) => api.delete(`/admin/domains/${domainId}`),
-  
+
   // Members
   getMembers: () => api.get('/admin/members'),
   createMember: (data) => api.post('/admin/members', data),
   deleteMember: (memberId) => api.delete(`/admin/members/${memberId}`),
-  
+
   // Service Requests
   getRequests: () => api.get('/admin/requests'),
   respondToRequest: (reqId, data) => api.post(`/admin/requests/${reqId}/respond`, data),
-  
+
   // Services
   getServices: (params) => api.get('/admin/services', { params }),
-  
+
   // Recent Activity
   getRecentActivity: () => api.get('/admin/activity'),
 };

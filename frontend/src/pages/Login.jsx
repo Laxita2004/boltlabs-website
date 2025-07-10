@@ -12,7 +12,7 @@ const Login = () => {
         </p>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+      <div className="mt-8 sm:mx-auto sm: w-full sm:max-w-md">
         <div className="bg-[#1F2937] py-8 px-4 shadow-xl rounded-lg sm:px-10 border border-gray-700/50">
           <LoginForm />
         </div>
