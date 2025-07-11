@@ -19,9 +19,11 @@ import {
 
 const router = express.Router();
 
-// Public test endpoints (no auth required)
-router.get("/test", (req, res) => {
-  res.json({ message: "Admin routes are working!" });
+
+//  Public test endpoints (no auth required)
+router.get('/test', (req, res) => {
+  res.json({ message: 'Admin routes are working!' });
+
 });
 
 router.get("/health", (req, res) => {
@@ -32,21 +34,25 @@ router.get("/health", (req, res) => {
   });
 });
 
-// 🌐 Domain Routes (protected)
-router.get('/domains', authenticateUser, authorizeAdmin, fetchDomains);
-router.post('/domains', authenticateUser, authorizeAdmin, createDomain);
-router.delete('/domains/:domain_id', authenticateUser, authorizeAdmin, deleteDomain);
+// Apply admin authentication and authorization to all routesss
+router.use(authenticateUser, authorizeRoles('admin'));
 
-// 👥 Member Routes (protected)
-router.get('/members', authenticateUser, authorizeAdmin, fetchMembers);
-router.post('/members', authenticateUser, authorizeAdmin, createMember);
-router.delete('/members/:member_id', authenticateUser, authorizeAdmin, deleteMember);
+//  Domain Routes
+router.get('/domains', fetchDomains);
+router.post('/domains', createDomain);
+router.delete('/domains/:domain_id', deleteDomain);
 
-// 📩 Request Handling Routes (protected)
-router.get('/requests', authenticateUser, authorizeAdmin, fetchRequests);
-router.post('/requests/:req_id/respond', authenticateUser, authorizeAdmin, respondToRequest);
+//  Member Routes
+router.get('/members', fetchMembers);
+router.post('/members', createMember);
+router.delete('/members/:member_id', deleteMember);
 
-// 🧩 Service Routes (protected)
-router.get('/services', authenticateUser, authorizeAdmin, fetchServices);
+//  Request Handling Routes
+router.get('/requests', fetchRequests);
+router.post('/requests/:req_id/respond', respondToRequest);
+
+//  Service Routes
+router.get('/services', fetchServices);
+
 
 export default router;
