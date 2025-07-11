@@ -125,9 +125,7 @@ export const getDomains = async (req, res) => {
 export const createServiceRequest = async (req, res) => {
   try {
     const { service, domain_id } = req.body;
-
-    // You might have req.user = { user_id: '...', ... } from your JWT middleware
-    const user_id = req.user?.user_id;
+    const user_id = req.user?.id; // ✅ fixed
 
     if (!service || !domain_id) {
       return res.status(400).json({ error: 'Missing service or domain_id' });
@@ -137,7 +135,6 @@ export const createServiceRequest = async (req, res) => {
       return res.status(401).json({ error: 'Unauthorized: no user_id found' });
     }
 
-    // Verify the domain exists
     const domain = await prisma.domain.findUnique({
       where: { domain_id }
     });
@@ -146,7 +143,6 @@ export const createServiceRequest = async (req, res) => {
       return res.status(404).json({ error: 'Domain not found' });
     }
 
-    // Create the service request
     const serviceRequest = await prisma.serviceRequest.create({
       data: {
         user_id,
