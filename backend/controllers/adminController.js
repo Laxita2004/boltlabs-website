@@ -148,7 +148,14 @@ export const fetchRequests = async (req, res) => {
         domain: true
       }
     });
-    res.json(requests);
+    
+    // Add status field to each request (all requests are pending by default)
+    const requestsWithStatus = requests.map(request => ({
+      ...request,
+      status: 'pending'
+    }));
+    
+    res.json({ requests: requestsWithStatus });
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch requests', details: err.message });
   }
@@ -157,7 +164,7 @@ export const fetchRequests = async (req, res) => {
 // 8. Post Response to Request
 export const respondToRequest = async (req, res) => {
   const { req_id } = req.params;
-  const { response, status } = req.body;
+  const { status } = req.body;
   
   try {
     // First, get the request details
@@ -244,7 +251,7 @@ export const fetchServices = async (req, res) => {
       }
     });
     
-    res.json(services);
+    res.json({ services });
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch services', details: err.message });
   }

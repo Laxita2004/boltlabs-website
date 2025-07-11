@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create axios instance with base configuration
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: 'http://localhost:8080/api',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -21,6 +21,8 @@ api.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+
 
 // Response interceptor to handle errors
 api.interceptors.response.use(

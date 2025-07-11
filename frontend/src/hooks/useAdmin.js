@@ -172,7 +172,7 @@ export const useAdmin = () => {
       setLoading(true);
       setError(null);
       const response = await adminAPI.getRequests();
-      setRequests(response.data);
+      setRequests(response.data.requests || response.data);
     } catch (err) {
       console.error('Fetch requests error:', err);
       setError(err.response?.data?.error || err.message || 'Failed to fetch requests');
@@ -204,7 +204,7 @@ export const useAdmin = () => {
       setLoading(true);
       setError(null);
       const response = await adminAPI.getServices(params);
-      setServices(response.data);
+      setServices(response.data.services || response.data);
     } catch (err) {
       console.error('Fetch services error:', err);
       setError(err.response?.data?.error || err.message || 'Failed to fetch services');

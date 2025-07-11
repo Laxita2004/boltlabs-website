@@ -4,18 +4,32 @@ import { useAdmin } from "../../hooks/useAdmin.js";
 const ServiceRequests = () => {
   const { 
     requests, 
+    services,
     loading, 
     error, 
     fetchRequests, 
+    fetchServices,
     respondToRequest,
     clearError 
   } = useAdmin();
 
   const [processingRequest, setProcessingRequest] = useState(null);
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [filteredRequests, setFilteredRequests] = useState([]);
 
   useEffect(() => {
     fetchRequests();
-  }, [fetchRequests]);
+    fetchServices();
+  }, [fetchRequests, fetchServices]);
+
+  useEffect(() => {
+    // Filter requests based on status
+    if (statusFilter === "all") {
+      setFilteredRequests(requests);
+    } else {
+      setFilteredRequests(requests.filter(req => req.status === statusFilter));
+    }
+  }, [requests, statusFilter]);
 
   const handleApprove = async (reqId) => {
     try {
@@ -53,6 +67,26 @@ const ServiceRequests = () => {
     });
   };
 
+  const getStatusBadge = (status) => {
+    const statusConfig = {
+      pending: { color: 'yellow', text: 'Pending' },
+      approved: { color: 'green', text: 'Approved' },
+      rejected: { color: 'red', text: 'Rejected' }
+    };
+    
+    const config = statusConfig[status] || statusConfig.pending;
+    return (
+      <span className={`px-3 py-1 text-xs font-semibold rounded-full border border-${config.color}-400 text-${config.color}-300 bg-transparent`}>
+        {config.text}
+      </span>
+    );
+  };
+
+  const getServiceName = (serviceId) => {
+    const service = services.find(s => s.service_id === serviceId);
+    return service ? service.service : 'Unknown Service';
+  };
+
   if (loading && requests.length === 0) {
     return (
       <div className="min-h-screen bg-[#0e1a24] text-white p-8">
@@ -85,77 +119,145 @@ const ServiceRequests = () => {
 
   return (
     <div className="min-h-screen bg-[#0e1a24] text-white p-8">
-      <h1 className="text-3xl font-bold mb-1">Service Requests</h1>
-      <p className="mb-6 text-gray-300">Review and manage incoming service requests</p>
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+        <div>
+          <h1 className="text-3xl font-bold mb-1">Service Requests</h1>
+          <p className="text-gray-300">Review and manage incoming service requests</p>
+        </div>
+        
+        {/* Status Filter */}
+        <div className="mt-4 md:mt-0">
+          <label htmlFor="statusFilter" className="block text-sm font-medium text-gray-300 mb-2">
+            Filter by Status
+          </label>
+          <select
+            id="statusFilter"
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="bg-[#232f3e] border border-[#3a4656] text-white rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+          >
+            <option value="all">All Requests</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="bg-[#232f3e] rounded-lg p-4 border border-[#3a4656]">
+          <div className="text-2xl font-bold text-white">{requests.length}</div>
+          <div className="text-gray-400 text-sm">Total Requests</div>
+        </div>
+        <div className="bg-[#232f3e] rounded-lg p-4 border border-[#3a4656]">
+          <div className="text-2xl font-bold text-yellow-400">
+            {requests.filter(r => r.status === 'pending').length}
+          </div>
+          <div className="text-gray-400 text-sm">Pending</div>
+        </div>
+        <div className="bg-[#232f3e] rounded-lg p-4 border border-[#3a4656]">
+          <div className="text-2xl font-bold text-green-400">
+            {requests.filter(r => r.status === 'approved').length}
+          </div>
+          <div className="text-gray-400 text-sm">Approved</div>
+        </div>
+        <div className="bg-[#232f3e] rounded-lg p-4 border border-[#3a4656]">
+          <div className="text-2xl font-bold text-red-400">
+            {requests.filter(r => r.status === 'rejected').length}
+          </div>
+          <div className="text-gray-400 text-sm">Rejected</div>
+        </div>
+      </div>
       
-      {requests.length === 0 ? (
+      {filteredRequests.length === 0 ? (
         <div className="text-center py-12">
           <div className="text-gray-400 text-lg mb-2">No service requests found</div>
-          <p className="text-gray-500">All requests have been processed or there are no pending requests.</p>
+          <p className="text-gray-500">
+            {statusFilter === 'all' 
+              ? 'All requests have been processed or there are no pending requests.'
+              : `No ${statusFilter} requests found.`
+            }
+          </p>
         </div>
       ) : (
-        <div className="space-y-8">
-          {requests.map((req) => (
-            <div key={req.req_id} className="bg-[#232f3e] rounded-xl p-6 shadow flex flex-col md:flex-row md:items-center md:justify-between border border-[#3a4656]">
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xl font-bold">{req.service}</span>
-                  <span className="ml-2 px-3 py-1 text-xs font-semibold rounded-full border border-yellow-400 text-yellow-300 bg-transparent">
-                    Pending
-                  </span>
+        <div className="bg-[#232f3e] rounded-xl border border-[#3a4656] overflow-hidden">
+          {/* Table Header */}
+          <div className="grid grid-cols-12 gap-4 p-4 bg-[#1a2530] border-b border-[#3a4656] font-semibold text-gray-300">
+            <div className="col-span-1">ID</div>
+            <div className="col-span-3">User</div>
+            <div className="col-span-3">Service</div>
+            <div className="col-span-2">Status</div>
+            <div className="col-span-2">Date</div>
+            <div className="col-span-1">Actions</div>
+          </div>
+
+          {/* Table Body */}
+          <div className="divide-y divide-[#3a4656]">
+            {filteredRequests.map((req) => (
+              <div key={req.req_id} className="grid grid-cols-12 gap-4 p-4 hover:bg-[#1a2530] transition-colors">
+                <div className="col-span-1 text-sm text-gray-400">#{req.req_id}</div>
+                
+                <div className="col-span-3">
+                  <div className="font-medium text-white">{req.user?.name || 'Unknown User'}</div>
+                  <div className="text-sm text-gray-400">{req.user?.email || 'No email'}</div>
                 </div>
-                <div className="flex flex-wrap gap-4 text-gray-300 text-sm mb-2">
-                  <span className="flex items-center gap-1">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                    {req.user?.name || 'Unknown User'}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 20l9-5-9-5-9 5 9 5z" /></svg>
-                    {req.domain?.name || 'Unknown Domain'}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2v-5a2 2 0 00-2-2H5a2 2 0 00-2 2v5a2 2 0 002 2z" /></svg>
-                    {formatDate(req.request_date)}
-                  </span>
+                
+                                 <div className="col-span-3">
+                   <div className="font-medium text-white">{req.service}</div>
+                   <div className="text-sm text-gray-400">{req.domain?.name || 'Unknown Domain'}</div>
+                 </div>
+                
+                <div className="col-span-2">
+                  {getStatusBadge(req.status)}
                 </div>
-                <div className="mb-2">
-                  <span className="font-bold">Client Email:</span> {req.user?.email || 'No email provided'}
+                
+                <div className="col-span-2 text-sm text-gray-400">
+                  {formatDate(req.request_date)}
                 </div>
-                <div>
-                  <span className="font-bold">Service Domain:</span> {req.domain?.name || 'Unknown Domain'}
-                </div>
-                <div className="mt-2">
-                  <span className="font-bold">Request ID:</span> {req.req_id}
+                
+                <div className="col-span-1">
+                  {req.status === 'pending' && (
+                    <div className="flex gap-2">
+                      <button
+                        className="p-2 bg-green-600 hover:bg-green-700 disabled:bg-green-800 disabled:cursor-not-allowed text-white rounded-md transition"
+                        onClick={() => handleApprove(req.req_id)}
+                        disabled={processingRequest === req.req_id}
+                        title="Approve Request"
+                      >
+                        {processingRequest === req.req_id ? (
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                        ) : (
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                          </svg>
+                        )}
+                      </button>
+                      <button
+                        className="p-2 bg-red-500 hover:bg-red-600 disabled:bg-red-800 disabled:cursor-not-allowed text-white rounded-md transition"
+                        onClick={() => handleReject(req.req_id)}
+                        disabled={processingRequest === req.req_id}
+                        title="Reject Request"
+                      >
+                        {processingRequest === req.req_id ? (
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                        ) : (
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        )}
+                      </button>
+                    </div>
+                  )}
+                  {req.status !== 'pending' && (
+                    <span className="text-gray-500 text-sm">
+                      {req.status === 'approved' ? 'Approved' : 'Rejected'}
+                    </span>
+                  )}
                 </div>
               </div>
-              <div className="flex flex-row gap-3 mt-4 md:mt-0 md:ml-8">
-                <button
-                  className="flex items-center bg-green-600 hover:bg-green-700 disabled:bg-green-800 disabled:cursor-not-allowed text-white font-semibold px-6 py-2 rounded-md transition"
-                  onClick={() => handleApprove(req.req_id)}
-                  disabled={processingRequest === req.req_id}
-                >
-                  {processingRequest === req.req_id ? (
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                  ) : (
-                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                  )}
-                  {processingRequest === req.req_id ? 'Processing...' : 'Approve'}
-                </button>
-                <button
-                  className="flex items-center bg-red-500 hover:bg-red-600 disabled:bg-red-800 disabled:cursor-not-allowed text-white font-semibold px-6 py-2 rounded-md transition"
-                  onClick={() => handleReject(req.req_id)}
-                  disabled={processingRequest === req.req_id}
-                >
-                  {processingRequest === req.req_id ? (
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                  ) : (
-                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                  )}
-                  {processingRequest === req.req_id ? 'Processing...' : 'Reject'}
-                </button>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
     </div>
