@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3000"; // Adjust based on your backend URL
+const BASE_URL = "http://localhost:8080"; // Adjust based on your backend URL
 
 export const getCurrentTask = (token) =>
   axios.get(`${BASE_URL}/tasks/current`, {
