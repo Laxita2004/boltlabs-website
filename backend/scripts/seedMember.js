@@ -7,7 +7,7 @@ import crypto from "crypto";
 
 const seedMember = async () => {
   try {
-    const email = "member@example.com";
+    const email = "member1@example.com";
 
     // Check if already exists
     const { data: existing, error: findError } = await supabase
@@ -22,7 +22,7 @@ const seedMember = async () => {
       return;
     }
 
-    const hashed = await bcrypt.hash("member123", 10);
+    const hashed = await bcrypt.hash("member1234", 10);
 
     const { data, error } = await supabase
       .from("Member")
