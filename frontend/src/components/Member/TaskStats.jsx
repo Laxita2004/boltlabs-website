@@ -1,8 +1,19 @@
 import React from "react";
-
 import { motion } from "framer-motion";
 
-const TaskStats = ({ stats, currentTask }) => {
+const TaskStats = () => {
+
+    // Dummy Data inside the file
+    const stats = {
+        total: 5,
+        completed: 3,
+        pending: 2
+    };
+
+    const currentTask = {
+        status: "In Progress"  // or "Completed"
+    };
+
     return (
         <motion.div
             className="bg-[#1f2a38] border border-teal-400 rounded-2xl p-8 mt-8 shadow-xl hover:shadow-2xl transition-all duration-300 text-white"
@@ -36,9 +47,7 @@ const TaskStats = ({ stats, currentTask }) => {
                 <p className="text-gray-400">Loading stats...</p>
             )}
         </motion.div>
-
     );
 };
 
 export default TaskStats;
-

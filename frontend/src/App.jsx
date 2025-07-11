@@ -36,7 +36,7 @@ const App = () => {
   return (
     <>
       <Header />
-      <main className='min-h-screen'>
+      <main className='min-h-screen mt-14'>
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
@@ -74,11 +74,7 @@ const App = () => {
           } />
 
           {/* Admin Routes */}
-          <Route path="/admin" element={
-            <ProtectedRoute allowedRoles={['admin']}>
-              <AdminDashboard />
-            </ProtectedRoute>
-          }>
+          <Route path="/admin" element={<AdminDashboard />}>
             <Route index element={<DashboardOverview />} />
             <Route path="users" element={<UserManagement />} />
             <Route path="projects" element={<ProjectManagement />} />
@@ -101,7 +97,7 @@ const App = () => {
 
           {/* Route for members only */}
 
-          <Route
+          {/* <Route
             path="/member"
             element={
               localStorage.getItem('token') && localStorage.getItem('role') === 'member' ? (
@@ -110,7 +106,9 @@ const App = () => {
                 <Navigate to="/login" replace />
               )
             }
-          />
+          /> */}
+
+          <Route path="/member" element={<MemberPage />} />
 
           {/* Redirect unknown routes to home */}
           <Route path="*" element={<Navigate to="/" replace />} />

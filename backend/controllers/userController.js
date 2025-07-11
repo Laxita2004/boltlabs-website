@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
-import { supabase } from '../config/supabaseClient.js';
 
 const prisma = new PrismaClient();
 
@@ -52,17 +51,67 @@ export const getUserById = async (req, res) => {
     console.log("✅ User found:", user);
     res.json(user);
   } catch (error) {
-  console.error("❌ Error in getUserById:", error); // This logs the actual error object
-  res.status(500).json({ error: 'Failed to fetch user', detail: error.message });
-}
+    console.error("❌ Error in getUserById:", error); // This logs the actual error object
+    res.status(500).json({ error: 'Failed to fetch user', detail: error.message });
+  }
 };
 
+export const getDomains = async (req, res) => {
+  try {
+    const domains = await prisma.domain.findMany({
+      select: {
+        domain_id: true,
+        name: true
+      }
+    });
+    res.json(domains);
+  } catch (error) {
+    console.error('Get domains error:', error);
+    res.status(500).json({ error: 'Failed to fetch domains', detail: error.message });
+  }
+};
+
+export const createServiceRequest = async (req, res) => {
+  const { service, domain_id } = req.body;
+  const user_id = req.user.id; // From auth middleware
+
+  try {
+    // Validate that the domain exists
+    const domain = await prisma.domain.findUnique({
+      where: { domain_id }
+    });
+
+    if (!domain) {
+      return res.status(400).json({ error: 'Domain not found' });
+    }
+
+    // Create the service request
+    const serviceRequest = await prisma.serviceRequest.create({
+      data: {
+        user_id,
+        service,
+        domain_id
+      },
+      include: {
+        user: true,
+        domain: true
+      }
+    });
+
+    res.status(201).json(serviceRequest);
+  } catch (error) {
+    console.error('Create service request error:', error);
+    res.status(500).json({ error: 'Failed to create service request', detail: error.message });
+  }
+};
 
 export const getPreviousRequests = async (req, res) => {
+  const user_id = req.user.id; // From auth middleware
+
   try {
     const requests = await prisma.serviceRequest.findMany({
+      where: { user_id },
       orderBy: { request_date: "desc" },
-      take: 10,
       include: {
         user: true,
         domain: true,

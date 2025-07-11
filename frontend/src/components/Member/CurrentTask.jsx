@@ -1,8 +1,14 @@
 import React from "react";
-
 import { motion } from "framer-motion";
 
-const CurrentTask = ({ task }) => {
+const CurrentTask = () => {
+
+    // Dummy Data inside the file
+    const task = {
+        title: "Complete Dashboard UI",
+        status: "In Progress"  // or "Completed"
+    };
+
     return (
         <motion.div
             className="bg-[#1f2a38] border border-teal-400 rounded-2xl p-8 mt-8 shadow-xl hover:shadow-2xl transition-all duration-300 text-white"
@@ -28,9 +34,7 @@ const CurrentTask = ({ task }) => {
                 <p className="text-gray-400">No active task assigned.</p>
             )}
         </motion.div>
-
     );
 };
 
 export default CurrentTask;
-

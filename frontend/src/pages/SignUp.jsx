@@ -17,12 +17,12 @@ const SignUp = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
 
-  // 🚀 Auto-redirect if already logged in
-  useEffect(() => {
-    if (localStorage.getItem('token')) {
-      navigate('/dashboard');
-    }
-  }, [navigate]);
+  // // 🚀 Auto-redirect if already logged in
+  // useEffect(() => {
+  //   if (localStorage.getItem('token')) {
+  //     navigate('/dashboard');
+  //   }
+  // }, [navigate]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -45,7 +45,7 @@ const SignUp = () => {
       if (res.data.success) {
         localStorage.setItem('token', res.data.data.token);
         localStorage.setItem('role', 'user');
-        navigate('/dashboard'); // ✅ automatic redirect
+        navigate('/login');
       } else {
         setError(res.data.error || 'Signup failed');
       }
