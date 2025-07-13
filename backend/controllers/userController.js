@@ -73,7 +73,7 @@ export const getDomains = async (req, res) => {
 
 export const createServiceRequest = async (req, res) => {
   const { service, domain_id } = req.body;
-  const user_id = req.user.id; // From auth middleware
+  const user_id = req.user.user_id; // From auth middleware - matches JWT token structure
 
   try {
     // Validate that the domain exists
@@ -106,7 +106,7 @@ export const createServiceRequest = async (req, res) => {
 };
 
 export const getPreviousRequests = async (req, res) => {
-  const user_id = req.user.id; // From auth middleware
+  const user_id = req.user.user_id; // From auth middleware - matches JWT token structure
 
   try {
     const requests = await prisma.serviceRequest.findMany({

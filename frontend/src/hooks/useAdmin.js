@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { adminAPI } from '../services/api.js';
 
 export const useAdmin = () => {
@@ -20,7 +20,7 @@ export const useAdmin = () => {
   const [services, setServices] = useState([]);
 
   // Test connection
-  const testConnection = async () => {
+  const testConnection = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -34,10 +34,10 @@ export const useAdmin = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   // Fetch dashboard stats
-  const fetchDashboardStats = async () => {
+  const fetchDashboardStats = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -68,10 +68,10 @@ export const useAdmin = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [testConnection]);
 
   // Fetch domains
-  const fetchDomains = async () => {
+  const fetchDomains = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -83,10 +83,10 @@ export const useAdmin = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   // Create domain
-  const createDomain = async (domainData) => {
+  const createDomain = useCallback(async (domainData) => {
     try {
       setLoading(true);
       setError(null);
@@ -100,10 +100,10 @@ export const useAdmin = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   // Delete domain
-  const deleteDomain = async (domainId) => {
+  const deleteDomain = useCallback(async (domainId) => {
     try {
       setLoading(true);
       setError(null);
@@ -116,10 +116,10 @@ export const useAdmin = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   // Fetch members
-  const fetchMembers = async () => {
+  const fetchMembers = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -131,10 +131,10 @@ export const useAdmin = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   // Create member
-  const createMember = async (memberData) => {
+  const createMember = useCallback(async (memberData) => {
     try {
       setLoading(true);
       setError(null);
@@ -148,10 +148,10 @@ export const useAdmin = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   // Delete member
-  const deleteMember = async (memberId) => {
+  const deleteMember = useCallback(async (memberId) => {
     try {
       setLoading(true);
       setError(null);
@@ -164,25 +164,29 @@ export const useAdmin = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   // Fetch requests
-  const fetchRequests = async () => {
+  const fetchRequests = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
+      console.log('Fetching requests...');
       const response = await adminAPI.getRequests();
-      setRequests(response.data.requests || response.data);
+      console.log('Requests response:', response.data);
+      const requestsData = response.data.requests || response.data;
+      console.log('Setting requests to:', requestsData);
+      setRequests(requestsData);
     } catch (err) {
       console.error('Fetch requests error:', err);
       setError(err.response?.data?.error || err.message || 'Failed to fetch requests');
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   // Respond to request
-  const respondToRequest = async (reqId, responseData) => {
+  const respondToRequest = useCallback(async (reqId, responseData) => {
     try {
       setLoading(true);
       setError(null);
@@ -196,10 +200,10 @@ export const useAdmin = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   // Fetch services
-  const fetchServices = async (params = {}) => {
+  const fetchServices = useCallback(async (params = {}) => {
     try {
       setLoading(true);
       setError(null);
@@ -211,10 +215,10 @@ export const useAdmin = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   // Clear error
-  const clearError = () => setError(null);
+  const clearError = useCallback(() => setError(null), []);
 
   return {
     // State

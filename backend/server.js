@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import loader from './loader/index.js';
 import dotenv from 'dotenv';
 
@@ -7,6 +8,11 @@ dotenv.config();
 
 // ✅ Initialize Express app
 const app = express();
+
+app.use(cors({
+  origin: 'http://localhost:5173', // Your frontend URL
+  credentials: true // If using cookies/auth headers
+}));
 
 const startServer = async () => {
   await loader(app); // Initialize routes, middlewares etc.

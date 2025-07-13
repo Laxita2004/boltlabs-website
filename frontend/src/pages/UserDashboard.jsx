@@ -46,6 +46,16 @@ const UserPanel = () => {
 
   // Fetch data on component mount
   useEffect(() => {
+    // Check if user is authenticated
+    const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role');
+    
+    if (!token || role !== 'user') {
+      // Redirect to login if not authenticated
+      window.location.href = '/login';
+      return;
+    }
+    
     fetchUserProfile(null);
     fetchDomains();
     fetchUserRequests();

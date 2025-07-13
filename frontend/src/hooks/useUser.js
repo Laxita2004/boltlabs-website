@@ -1,44 +1,5 @@
-import { useState, useCallback } from 'react';
-
-// Mock data for domains
-const mockDomains = [
-  { domain_id: 1, name: 'Web Development' },
-  { domain_id: 2, name: 'Mobile Development' },
-  { domain_id: 3, name: 'API Integration' },
-  { domain_id: 4, name: 'Database Design' },
-  { domain_id: 5, name: 'Cloud Services' },
-];
-
-// Mock user profile
-const mockUserProfile = {
-  name: 'John Doe',
-  email: 'john.doe@example.com',
-};
-
-// Mock user requests
-const mockUserRequests = [
-  {
-    req_id: 1,
-    service: 'Website Redesign',
-    domain: { name: 'Web Development' },
-    request_date: '2024-01-15T10:30:00Z',
-    status: 'Pending'
-  },
-  {
-    req_id: 2,
-    service: 'Mobile App Development',
-    domain: { name: 'Mobile Development' },
-    request_date: '2024-01-10T14:20:00Z',
-    status: 'In Progress'
-  },
-  {
-    req_id: 3,
-    service: 'API Integration',
-    domain: { name: 'API Integration' },
-    request_date: '2024-01-05T09:15:00Z',
-    status: 'Completed'
-  }
-];
+import { useState, useEffect, useCallback } from 'react';
+import { userAPI } from '../services/api.js';
 
 export const useUser = () => {
   const [loading, setLoading] = useState(false);
@@ -47,104 +8,117 @@ export const useUser = () => {
   const [userProfile, setUserProfile] = useState(null);
   const [domains, setDomains] = useState([]);
 
-  // Create service request (mock implementation)
-  const createServiceRequest = async (requestData) => {
+  // Create service request
+  const createServiceRequest = useCallback(async (requestData) => {
     try {
       setLoading(true);
       setError(null);
       
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const response = await userAPI.createServiceRequest(requestData);
       
-      // Create mock request
-      const newRequest = {
-        req_id: Date.now(),
-        service: requestData.service,
-        domain: mockDomains.find(d => d.domain_id == requestData.domain_id),
-        request_date: new Date().toISOString(),
-        status: 'Pending'
-      };
+      // Add the new request to the existing requests
+      setUserRequests(prev => [response.data, ...prev]);
       
-      // Add to existing requests
-      setUserRequests(prev => [newRequest, ...prev]);
-      
-      return { data: newRequest };
+      return response.data;
     } catch (err) {
       console.error('Create service request error:', err);
-      setError('Failed to create service request');
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        // Authentication error - redirect to login
+        localStorage.removeItem('token');
+        localStorage.removeItem('role');
+        window.location.href = '/login';
+        return;
+      }
+      setError(err.response?.data?.error || err.message || 'Failed to create service request');
       throw err;
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  // Fetch user's previous requests (mock implementation)
-  const fetchUserRequests = async () => {
+  // Fetch user's previous requests
+  const fetchUserRequests = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
       
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 800));
-      
-      setUserRequests(mockUserRequests);
+      const response = await userAPI.getPreviousRequests();
+      setUserRequests(response.data);
     } catch (err) {
       console.error('Fetch user requests error:', err);
-      setError('Failed to fetch user requests');
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        // Authentication error - redirect to login
+        localStorage.removeItem('token');
+        localStorage.removeItem('role');
+        window.location.href = '/login';
+        return;
+      }
+      setError(err.response?.data?.error || err.message || 'Failed to fetch user requests');
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  // Fetch available domains (mock implementation)
-  const fetchDomains = async () => {
+  // Fetch user profile
+  const fetchUserProfile = useCallback(async (userId) => {
     try {
       setLoading(true);
       setError(null);
       
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      setDomains(mockDomains);
-    } catch (err) {
-      console.error('Fetch domains error:', err);
-      setError('Failed to fetch domains');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Fetch user profile (mock implementation)
-  const fetchUserProfile = async (userId = null) => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 600));
-      
-      setUserProfile(mockUserProfile);
+      // For now, we'll use a mock profile since we don't have a specific endpoint
+      // In a real app, you'd get the user ID from the token or pass it as parameter
+      const mockProfile = {
+        name: 'John Doe',
+        email: 'john.doe@example.com'
+      };
+      setUserProfile(mockProfile);
     } catch (err) {
       console.error('Fetch user profile error:', err);
-      setError('Failed to fetch user profile');
+      setError(err.response?.data?.error || err.message || 'Failed to fetch user profile');
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  // Fetch domains
+  const fetchDomains = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const response = await userAPI.getDomains();
+      setDomains(response.data);
+    } catch (err) {
+      console.error('Fetch domains error:', err);
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        // Authentication error - redirect to login
+        localStorage.removeItem('token');
+        localStorage.removeItem('role');
+        window.location.href = '/login';
+        return;
+      }
+      setError(err.response?.data?.error || err.message || 'Failed to fetch domains');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   // Clear error
   const clearError = useCallback(() => setError(null), []);
 
   return {
+    // State
     loading,
     error,
     userRequests,
     userProfile,
     domains,
+    
+    // Actions
     createServiceRequest,
     fetchUserRequests,
-    fetchDomains,
     fetchUserProfile,
-    clearError,
+    fetchDomains,
+    clearError
   };
 }; 

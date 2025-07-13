@@ -29,16 +29,29 @@ const ServiceRequests = () => {
     } else {
       setFilteredRequests(requests.filter(req => req.status === statusFilter));
     }
+    
+    // Debug: Log the current requests and counts
+    console.log('Current requests:', requests);
+    console.log('Total requests:', requests.length);
+    console.log('Pending requests:', requests.filter(r => r.status === 'pending').length);
+    console.log('Approved requests:', requests.filter(r => r.status === 'approved').length);
+    console.log('Rejected requests:', requests.filter(r => r.status === 'rejected').length);
   }, [requests, statusFilter]);
 
   const handleApprove = async (reqId) => {
     try {
       setProcessingRequest(reqId);
-      await respondToRequest(reqId, { status: 'approved' });
+      console.log('Approving request:', reqId);
+      
+      const response = await respondToRequest(reqId, { status: 'approved' });
+      console.log('Approval response:', response);
+      
       // Refresh the requests list after approval
-      fetchRequests();
+      await fetchRequests();
+      console.log('Requests refreshed after approval');
     } catch (error) {
       console.error('Error approving request:', error);
+      alert('Failed to approve request. Please try again.');
     } finally {
       setProcessingRequest(null);
     }
@@ -47,11 +60,17 @@ const ServiceRequests = () => {
   const handleReject = async (reqId) => {
     try {
       setProcessingRequest(reqId);
-      await respondToRequest(reqId, { status: 'rejected' });
+      console.log('Rejecting request:', reqId);
+      
+      const response = await respondToRequest(reqId, { status: 'rejected' });
+      console.log('Rejection response:', response);
+      
       // Refresh the requests list after rejection
-      fetchRequests();
+      await fetchRequests();
+      console.log('Requests refreshed after rejection');
     } catch (error) {
       console.error('Error rejecting request:', error);
+      alert('Failed to reject request. Please try again.');
     } finally {
       setProcessingRequest(null);
     }
@@ -228,13 +247,11 @@ const ServiceRequests = () => {
                         {processingRequest === req.req_id ? (
                           <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                         ) : (
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                          </svg>
+                          '✓'
                         )}
                       </button>
                       <button
-                        className="p-2 bg-red-500 hover:bg-red-600 disabled:bg-red-800 disabled:cursor-not-allowed text-white rounded-md transition"
+                        className="p-2 bg-red-600 hover:bg-red-700 disabled:bg-red-800 disabled:cursor-not-allowed text-white rounded-md transition"
                         onClick={() => handleReject(req.req_id)}
                         disabled={processingRequest === req.req_id}
                         title="Reject Request"
@@ -242,17 +259,16 @@ const ServiceRequests = () => {
                         {processingRequest === req.req_id ? (
                           <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                         ) : (
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                          </svg>
+                          '✕'
                         )}
                       </button>
                     </div>
                   )}
-                  {req.status !== 'pending' && (
-                    <span className="text-gray-500 text-sm">
-                      {req.status === 'approved' ? 'Approved' : 'Rejected'}
-                    </span>
+                  {req.status === 'approved' && (
+                    <span className="text-green-400 text-sm font-medium">✓ Approved</span>
+                  )}
+                  {req.status === 'rejected' && (
+                    <span className="text-red-400 text-sm font-medium">✕ Rejected</span>
                   )}
                 </div>
               </div>
