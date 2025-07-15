@@ -6,7 +6,7 @@ import { prisma } from '../lib/prisma.js';
 // 👤 Get User By ID (for dashboard / profile)
 export const getUserById = async (req, res) => {
   const { id } = req.params;
-  console.log("📥 Getting user with ID:", id);
+  // console.log("📥 Getting user with ID:", id);
 
   try {
     const user = await prisma.user.findUnique({
@@ -22,7 +22,6 @@ export const getUserById = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    console.log("✅ User found:", user);
     res.json(user);
   } catch (error) {
     console.error("❌ Error in getUserById:", error);
@@ -43,7 +42,6 @@ export const updateProfile = async (req, res) => {
     return res.status(400).json({ error: "Nothing to update." });
   }
 
-  console.log(`🔍 Updating user profile for user_id=${user_id}, data=`, { name, email, phone });
 
   try {
     const updatedUser = await prisma.user.update({
@@ -69,8 +67,6 @@ export const updatePassword = async (req, res) => {
   const { id, role } = req.user;
   const { currentPassword, newPassword } = req.body;
 
-  console.log("🔍 updatePassword req.user:", req.user);
-  console.log("🔍 updatePassword body:", { currentPassword, newPassword });
 
   if (role !== 'user') {
     return res.status(403).json({ error: "Only users can update password." });
@@ -154,9 +150,6 @@ export const createServiceRequest = async (req, res) => {
         domain: true
       }
     });
-
-    console.log('✅ Created service request:', serviceRequest);
-
     return res.status(201).json({
       message: 'Service request created successfully',
       request: serviceRequest
