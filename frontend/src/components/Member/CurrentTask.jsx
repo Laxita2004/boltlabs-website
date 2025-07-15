@@ -1,14 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { getCurrentTask } from "../../services/memberApi.js";
 import { motion } from "framer-motion";
 
-const CurrentTask = () => {
-    const [task, setTask] = useState(null);
-
-    useEffect(() => {
-        getCurrentTask().then(setTask).catch(console.error);
-    }, []);
-
+const CurrentTask = ({ task }) => {
     return (
         <motion.div className="bg-[#1f2a38] border border-teal-400 rounded-2xl p-8 mt-8 text-white shadow-xl">
             <h2 className="text-3xl font-bold text-teal-400 mb-4">Current Task</h2>

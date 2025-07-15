@@ -7,7 +7,6 @@ import jwt from 'jsonwebtoken';
 // 🔐 Signup – Only for Users
 export const signup = async (req, res) => {
   const { name, email, password } = req.body;
-  console.log(name, email, password);
   try {
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) return res.status(400).json({ success: false, error: 'Email already in use' });
@@ -38,30 +37,39 @@ export const signup = async (req, res) => {
 
 
 // 🔑 Login – All Roles
+// 🔑 Login – All Roles
 export const login = async (req, res) => {
   const { email, password, role } = req.body;
 
   try {
-    let user, idKey;
+    let user, idKey, payload;
+
     if (role === 'user') {
       user = await prisma.user.findUnique({ where: { email } });
       idKey = 'user_id';
+      payload = { id: user?.user_id, role };
     } else if (role === 'admin') {
       user = await prisma.admin.findUnique({ where: { email } });
       idKey = 'admin_id';
+      payload = { id: user?.admin_id, role };
     } else if (role === 'member') {
       user = await prisma.member.findUnique({ where: { email } });
       idKey = 'member_id';
+      payload = { member_id: user?.member_id, role };
     } else {
       return res.status(400).json({ error: 'Invalid role' });
     }
 
-    if (!user) return res.status(404).json({ error: 'User not found' });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
 
     const valid = await bcrypt.compare(password, user.password);
-    if (!valid) return res.status(401).json({ error: 'Invalid credentials' });
+    if (!valid) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
 
-    const token = generateToken({ id: user[idKey], role });
+    const token = generateToken(payload);
 
     res.json({
       token,
@@ -73,7 +81,9 @@ export const login = async (req, res) => {
         email: user.email
       }
     });
+
   } catch (err) {
+    console.error('Login error:', err);
     res.status(500).json({ error: 'Login failed', details: err.message });
   }
 };
@@ -127,7 +137,7 @@ export const resetPassword = async (req, res) => {
 
 // 🧩 Member Password Change (On First Login)
 export const changePassword = async (req, res) => {
-  const { member_id } = req.user; // from JWT middleware
+  const member_id = req.user.id; // ✅ corrected
   const { newPassword } = req.body;
 
   try {
@@ -139,6 +149,7 @@ export const changePassword = async (req, res) => {
     res.json({ message: 'Password changed successfully' });
 
   } catch (err) {
+    console.error('Change password error:', err);
     res.status(500).json({ error: 'Password update failed', details: err.message });
   }
 };
