@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 import { motion } from "framer-motion";
 
@@ -14,6 +15,11 @@ const TaskStats = () => {
         status: "In Progress"  // or "Completed"
     };
 
+=======
+import { motion } from "framer-motion";
+
+const TaskStats = ({ stats }) => {
+>>>>>>> b0cd3b99a5687a8e006efa9225a83517263d02b5
     return (
         <motion.div
             className="bg-[#1f2a38] border border-teal-400 rounded-2xl p-8 mt-8 shadow-xl hover:shadow-2xl transition-all duration-300 text-white"
@@ -44,7 +50,7 @@ const TaskStats = () => {
                     </p>
                 </div>
             ) : (
-                <p className="text-gray-400">Loading stats...</p>
+                <p className="text-gray-400">No stats available.</p>
             )}
         </motion.div>
     );

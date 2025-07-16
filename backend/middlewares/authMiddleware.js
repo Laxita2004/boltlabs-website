@@ -23,8 +23,6 @@ export const authenticateUser = (req, res, next) => {
   const token = authHeader.split(' ')[1];
   const decoded = verifyTokenValidity(token);
 
-  console.log("🔍 Decoded JWT payload:", decoded);
-
   if (!decoded) {
     return res.status(401).json({ error: 'Unauthorized: Invalid or expired token.' });
   }

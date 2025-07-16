@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 import { motion } from "framer-motion";
 
@@ -37,6 +38,20 @@ const TaskHistory = () => {
                         <li key={index} className="border-b border-teal-400/20 pb-3">
                             <p className="font-semibold text-white">{task.title}</p>
                             <p className="text-gray-300">
+=======
+import { motion } from "framer-motion";
+
+const TaskHistory = ({ history }) => {
+    return (
+        <motion.div className="bg-[#1f2a38] border border-teal-400 rounded-2xl p-8 mt-8 text-white shadow-xl">
+            <h2 className="text-3xl font-bold text-teal-400 mb-4">Task History</h2>
+            {history && history.length ? (
+                <ul>
+                    {history.map((task, i) => (
+                        <li key={i} className="border-b border-teal-400/20 pb-3 mb-3">
+                            <p className="font-semibold">{task.title}</p>
+                            <p>
+>>>>>>> b0cd3b99a5687a8e006efa9225a83517263d02b5
                                 Status:
                                 <span className={`ml-2 font-bold ${task.status === 'Completed' ? 'text-green-400' : 'text-yellow-400'}`}>
                                     {task.status}

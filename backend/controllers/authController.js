@@ -7,7 +7,10 @@ import jwt from 'jsonwebtoken';
 // 🔐 Signup – Only for Users
 export const signup = async (req, res) => {
   const { name, email, password } = req.body;
+<<<<<<< HEAD
   console.log(name, email, password);
+=======
+>>>>>>> b0cd3b99a5687a8e006efa9225a83517263d02b5
   try {
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) return res.status(400).json({ success: false, error: 'Email already in use' });
@@ -37,11 +40,16 @@ export const signup = async (req, res) => {
 };
 
 
+<<<<<<< HEAD
+=======
+// 🔑 Login – All Roles
+>>>>>>> b0cd3b99a5687a8e006efa9225a83517263d02b5
 // 🔑 Login – All Roles
 export const login = async (req, res) => {
   const { email, password, role } = req.body;
 
   try {
+<<<<<<< HEAD
     let user, idKey;
     if (role === 'user') {
       user = await prisma.user.findUnique({ where: { email } });
@@ -52,16 +60,43 @@ export const login = async (req, res) => {
     } else if (role === 'member') {
       user = await prisma.member.findUnique({ where: { email } });
       idKey = 'member_id';
+=======
+    let user, idKey, payload;
+
+    if (role === 'user') {
+      user = await prisma.user.findUnique({ where: { email } });
+      idKey = 'user_id';
+      payload = { id: user?.user_id, role };
+    } else if (role === 'admin') {
+      user = await prisma.admin.findUnique({ where: { email } });
+      idKey = 'admin_id';
+      payload = { id: user?.admin_id, role };
+    } else if (role === 'member') {
+      user = await prisma.member.findUnique({ where: { email } });
+      idKey = 'member_id';
+      payload = { member_id: user?.member_id, role };
+>>>>>>> b0cd3b99a5687a8e006efa9225a83517263d02b5
     } else {
       return res.status(400).json({ error: 'Invalid role' });
     }
 
+<<<<<<< HEAD
     if (!user) return res.status(404).json({ error: 'User not found' });
 
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) return res.status(401).json({ error: 'Invalid credentials' });
+=======
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
 
-    const token = generateToken({ id: user[idKey], role });
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+>>>>>>> b0cd3b99a5687a8e006efa9225a83517263d02b5
+
+    const token = generateToken(payload);
 
     res.json({
       token,
@@ -73,7 +108,12 @@ export const login = async (req, res) => {
         email: user.email
       }
     });
+
   } catch (err) {
+<<<<<<< HEAD
+=======
+    console.error('Login error:', err);
+>>>>>>> b0cd3b99a5687a8e006efa9225a83517263d02b5
     res.status(500).json({ error: 'Login failed', details: err.message });
   }
 };
@@ -127,7 +167,7 @@ export const resetPassword = async (req, res) => {
 
 // 🧩 Member Password Change (On First Login)
 export const changePassword = async (req, res) => {
-  const { member_id } = req.user; // from JWT middleware
+  const member_id = req.user.id; // ✅ corrected
   const { newPassword } = req.body;
 
   try {
@@ -139,6 +179,10 @@ export const changePassword = async (req, res) => {
     res.json({ message: 'Password changed successfully' });
 
   } catch (err) {
+<<<<<<< HEAD
+=======
+    console.error('Change password error:', err);
+>>>>>>> b0cd3b99a5687a8e006efa9225a83517263d02b5
     res.status(500).json({ error: 'Password update failed', details: err.message });
   }
 };
