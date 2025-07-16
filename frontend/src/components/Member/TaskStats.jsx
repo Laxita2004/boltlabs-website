@@ -1,14 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { getTaskStats } from "../../services/memberApi.js";
 import { motion } from "framer-motion";
 
-const TaskStats = () => {
-    const [stats, setStats] = useState(null);
-
-    useEffect(() => {
-        getTaskStats().then(setStats).catch(console.error);
-    }, []);
-
+const TaskStats = ({ stats }) => {
     return (
         <motion.div className="bg-[#1f2a38] border border-teal-400 rounded-2xl p-8 mt-8 text-white shadow-xl">
             <h2 className="text-3xl font-bold text-teal-400 mb-4">Task Stats</h2>
@@ -25,7 +17,7 @@ const TaskStats = () => {
                     </p>
                 </div>
             ) : (
-                <p className="text-gray-400">Loading stats...</p>
+                <p className="text-gray-400">No stats available.</p>
             )}
         </motion.div>
     );

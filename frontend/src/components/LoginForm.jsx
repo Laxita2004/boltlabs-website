@@ -22,12 +22,6 @@ const LoginForm = () => {
         role,
       });
 
-      console.log("🚀 Login API response:", res.data);
-
-      // Check fields directly
-      console.log("✅ user_id:", res.data.user?.id);
-      console.log("✅ name:", res.data.user?.name);
-      console.log("✅ email:", res.data.user?.email);
 
       // Store
       if (res.data.user?.id) {
@@ -39,13 +33,6 @@ const LoginForm = () => {
         localStorage.setItem('email', res.data.user.email);
       } else {
         console.error("🚨 Login did not return user data properly", res.data);
-      }
-
-      // Debug localStorage snapshot
-      console.log("📥 LocalStorage snapshot after login:");
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        console.log(`- ${key}: ${localStorage.getItem(key)}`);
       }
 
       // Redirect

@@ -1,18 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { getTaskHistory } from "../../services/memberApi.js";
 import { motion } from "framer-motion";
 
-const TaskHistory = () => {
-    const [history, setHistory] = useState([]);
-
-    useEffect(() => {
-        getTaskHistory().then(setHistory).catch(console.error);
-    }, []);
-
+const TaskHistory = ({ history }) => {
     return (
         <motion.div className="bg-[#1f2a38] border border-teal-400 rounded-2xl p-8 mt-8 text-white shadow-xl">
             <h2 className="text-3xl font-bold text-teal-400 mb-4">Task History</h2>
-            {history.length ? (
+            {history && history.length ? (
                 <ul>
                     {history.map((task, i) => (
                         <li key={i} className="border-b border-teal-400/20 pb-3 mb-3">

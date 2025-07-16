@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create axios instance with base configuration
 const api = axios.create({
-  baseURL: 'http://localhost:8080/api',
+  baseURL: 'http://localhost:8080',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -36,47 +36,35 @@ api.interceptors.response.use(
   }
 );
 
-// User API endpoints (removed - using mock data instead)
-// export const userAPI = {
-//   // Service Requests
-//   createServiceRequest: (data) => api.post('/users/requests', data),
-//   getPreviousRequests: () => api.get('/users/requests/previous'),
-//   
-//   // Domains
-//   getDomains: () => api.get('/users/domains'),
-//   
-//   // User Profile
-//   getUserById: (userId) => api.get(`/users/${userId}`),
-// };
 
 // Admin API endpoints
 export const adminAPI = {
   // Test endpoints (no auth required)
-  testConnection: () => api.get('/admin/test'),
-  healthCheck: () => api.get('/admin/health'),
+  testConnection: () => api.get('api/admin/test'),
+  healthCheck: () => api.get('api/admin/health'),
 
   // Dashboard stats
-  getDashboardStats: () => api.get('/admin/dashboard/stats'),
+  getDashboardStats: () => api.get('api/admin/dashboard/stats'),
 
-  // Domains
-  getDomains: () => api.get('/admin/domains'),
-  createDomain: (data) => api.post('/admin/domains', data),
-  deleteDomain: (domainId) => api.delete(`/admin/domains/${domainId}`),
+  // Domains    
+  getDomains: () => api.get('api/admin/domains'),
+  createDomain: (data) => api.post('api/admin/domains', data),
+  deleteDomain: (domainId) => api.delete(`api/admin/domains/${domainId}`),
 
   // Members
-  getMembers: () => api.get('/admin/members'),
-  createMember: (data) => api.post('/admin/members', data),
-  deleteMember: (memberId) => api.delete(`/admin/members/${memberId}`),
+  getMembers: () => api.get('api/admin/members'),
+  createMember: (data) => api.post('api/admin/members', data),
+  deleteMember: (memberId) => api.delete(`api/admin/members/${memberId}`),
 
   // Service Requests
-  getRequests: () => api.get('/admin/requests'),
-  respondToRequest: (reqId, data) => api.post(`/admin/requests/${reqId}/respond`, data),
+  getRequests: () => api.get('api/admin/requests'),
+  respondToRequest: (reqId, data) => api.post(`api/admin/requests/${reqId}/respond`, data),
 
   // Services
-  getServices: (params) => api.get('/admin/services', { params }),
+  getServices: (params) => api.get('api/admin/services', { params }),
 
   // Recent Activity
-  getRecentActivity: () => api.get('/admin/activity'),
+  getRecentActivity: () => api.get('api/admin/activity'),
 };
 
 export default api; 
