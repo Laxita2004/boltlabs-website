@@ -1,13 +1,12 @@
-
-
 import React, { useState, useEffect } from "react";
 import { FiUser, FiMail, FiPlus, FiTrash2 } from "react-icons/fi";
 import { adminAPI } from "../../services/api";
+
 const UserManagement = () => {
   const [members, setMembers] = useState([]);
   const [domains, setDomains] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newMember, setNewMember] = useState({ name: "", email: "", tags: "" });
+  const [newMember, setNewMember] = useState({ name: "", email: "", selectedDomains: [] });
   const [error, setError] = useState("");
 
   // Fetch members and domains
@@ -36,28 +35,21 @@ const UserManagement = () => {
 
   // Add Member API
   const handleAddMember = async () => {
-    if (!newMember.name || !newMember.email) return;
-
-    const domainNames = newMember.tags
-      .split(",")
-      .map((t) => t.trim())
-      .filter(Boolean);
-
-    // Map domain names to IDs
-    const domain_ids = domains
-      .filter((d) => domainNames.includes(d.name))
-      .map((d) => d.domain_id);
-
+    if (!newMember.name || !newMember.email || newMember.selectedDomains.length === 0) {
+      setError("Name, email, and at least one domain are required.");
+      return;
+    }
     try {
       const res = await adminAPI.createMember({
         name: newMember.name,
         email: newMember.email,
         password: "test1234", // Default/hardcoded for now
-        domain_ids,
+        domain_ids: newMember.selectedDomains,
       });
       setMembers((prev) => [...prev, res.data]);
-      setNewMember({ name: "", email: "", tags: "" });
+      setNewMember({ name: "", email: "", selectedDomains: [] });
       setIsModalOpen(false);
+      setError("");
     } catch (err) {
       setError(err?.response?.data?.error || "Failed to add member");
     }
@@ -76,9 +68,7 @@ const UserManagement = () => {
   return (
     <div className="min-h-screen bg-[#0e1a24] text-white p-8">
       <h1 className="text-3xl font-bold mb-1">User Management</h1>
-      <p className="mb-6 text-gray-300">
-        Manage team members and their domain access
-      </p>
+      <p className="mb-6 text-gray-300">Manage team members and their domain access</p>
       {error && <div className="text-red-400 mb-4">{error}</div>}
 
       <div className="bg-[#232f3e] rounded-xl p-6 shadow mb-8">
@@ -144,9 +134,7 @@ const UserManagement = () => {
                   type="text"
                   className="w-full px-3 py-2 rounded-md bg-[#0e1a24] border border-gray-600 text-white focus:outline-none"
                   value={newMember.name}
-                  onChange={(e) =>
-                    setNewMember({ ...newMember, name: e.target.value })
-                  }
+                  onChange={(e) => setNewMember({ ...newMember, name: e.target.value })}
                   placeholder="Enter name"
                 />
               </div>
@@ -156,34 +144,37 @@ const UserManagement = () => {
                   type="email"
                   className="w-full px-3 py-2 rounded-md bg-[#0e1a24] border border-gray-600 text-white focus:outline-none"
                   value={newMember.email}
-                  onChange={(e) =>
-                    setNewMember({ ...newMember, email: e.target.value })
-                  }
+                  onChange={(e) => setNewMember({ ...newMember, email: e.target.value })}
                   placeholder="Enter email"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">
-                  Domains{" "}
-                  <span className="text-xs text-gray-400">
-                    (comma separated)
-                  </span>
-                </label>
-                <input
-                  type="text"
-                  className="w-full px-3 py-2 rounded-md bg-[#0e1a24] border border-gray-600 text-white focus:outline-none"
-                  value={newMember.tags}
-                  onChange={(e) =>
-                    setNewMember({ ...newMember, tags: e.target.value })
-                  }
-                  placeholder="e.g. Web Development, Mobile Apps"
-                />
+                <label className="block text-sm font-medium mb-1">Domains</label>
+                <select
+                  multiple
+                  value={newMember.selectedDomains}
+                  onChange={(e) => {
+                    const selected = Array.from(e.target.selectedOptions, (option) => option.value);
+                    setNewMember({ ...newMember, selectedDomains: selected });
+                  }}
+                  className="w-full h-40 px-3 py-2 rounded-md bg-[#0e1a24] border border-gray-600 text-white focus:outline-none"
+                >
+                  {domains.map((domain) => (
+                    <option key={domain.domain_id} value={domain.domain_id}>
+                      {domain.name}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
             <div className="flex justify-end gap-2 mt-6">
               <button
                 className="px-4 py-2 rounded-md text-gray-300 hover:bg-gray-700"
-                onClick={() => setIsModalOpen(false)}
+                onClick={() => {
+                  setIsModalOpen(false);
+                  setNewMember({ name: "", email: "", selectedDomains: [] });
+                  setError("");
+                }}
               >
                 Cancel
               </button>

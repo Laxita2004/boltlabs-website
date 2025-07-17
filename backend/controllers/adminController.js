@@ -25,7 +25,7 @@ export const fetchDomains = async (req, res) => {
 // 2. Create Domain
 export const createDomain = async (req, res) => {
   const { name } = req.body;
-  
+
   try {
     const domain = await prisma.domain.create({
       data: { name }
@@ -43,7 +43,7 @@ export const createDomain = async (req, res) => {
 // 3. Delete Domain
 export const deleteDomain = async (req, res) => {
   const { domain_id } = req.params;
-  
+
   try {
     await prisma.domain.delete({
       where: { domain_id }
@@ -80,7 +80,7 @@ export const fetchMembers = async (req, res) => {
 // 5. Delete Members
 export const deleteMember = async (req, res) => {
   const { member_id } = req.params;
-  
+
   try {
     await prisma.member.delete({
       where: { member_id }
@@ -94,7 +94,7 @@ export const deleteMember = async (req, res) => {
 // 6. Create Members
 export const createMember = async (req, res) => {
   const { name, email, password, domain_ids } = req.body;
-  
+
   try {
     // Check if domains exist
     const existingDomains = await prisma.domain.findMany({
@@ -106,7 +106,7 @@ export const createMember = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    
+
     const member = await prisma.member.create({
       data: {
         name,
@@ -126,15 +126,15 @@ export const createMember = async (req, res) => {
         }
       }
     });
-    
+
     res.status(201).json(member);
   } catch (err) {
     if (err.code === 'P2002') {
       res.status(400).json({ error: 'Email already exists' });
     } else {
-      res.status(500).json({ 
-        error: 'Failed to create member', 
-        details: err.message 
+      res.status(500).json({
+        error: 'Failed to create member',
+        details: err.message
       });
     }
   }
@@ -184,7 +184,7 @@ export const respondToRequest = async (req, res) => {
         }
       }
     });
-    
+
     if (!serviceRequest) {
       console.log('Request not found:', req_id);
       return res.status(404).json({ error: 'Request not found' });
@@ -239,14 +239,14 @@ export const respondToRequest = async (req, res) => {
 // 9. Fetch Services with Status and Domain
 export const fetchServices = async (req, res) => {
   const { status, domain_id } = req.query;
-  
+
   try {
     const whereClause = {};
-    
+
     if (domain_id) {
       whereClause.domain_id = domain_id;
     }
-    
+
     if (status) {
       whereClause.members = {
         some: {
@@ -254,7 +254,7 @@ export const fetchServices = async (req, res) => {
         }
       };
     }
-    
+
     const services = await prisma.service.findMany({
       where: whereClause,
       include: {
@@ -278,4 +278,3 @@ export const fetchServices = async (req, res) => {
 
 
 
-  

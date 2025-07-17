@@ -21,15 +21,21 @@ export const authenticateUser = (req, res, next) => {
   }
 
   const token = authHeader.split(' ')[1];
-  const decodedUser = verifyTokenValidity(token);
+  const decoded = verifyTokenValidity(token);
 
-  if (!decodedUser) {
-    return res.status(401).json({ error: 'Unauthorized: Invalid or expired token. Please login again.' });
+  if (!decoded) {
+    return res.status(401).json({ error: 'Unauthorized: Invalid or expired token.' });
   }
 
-  req.user = decodedUser; // attach decoded user info to request
+  // Normalize user payload
+  req.user = {
+    id: decoded.id || decoded.user_id || decoded.admin_id || decoded.member_id,
+    role: decoded.role
+  };
+
   next();
 };
+
 
 // ✅ Alias for authenticateUser (for backward compatibility)
 export const authenticate = authenticateUser;

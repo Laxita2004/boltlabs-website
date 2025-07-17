@@ -26,7 +26,7 @@ const loader = async (app) => {
 
   // Auth Routes – No authentication required
   app.use('/api/auth', authRoutes);
-  
+
   // Protected Routes – Login required
   app.use('/api/admin', adminRoutes);
   app.use('/api/member', teamMemberRoutes);

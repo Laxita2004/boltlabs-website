@@ -1,6 +1,7 @@
 import axios from "axios";
+import { BACKEND_URL } from "../../config/config";
 
-const BASE_URL = "http://localhost:3000"; // Adjust based on your backend URL
+const BASE_URL = `${BACKEND_URL}/api/member`; // 👈 use /api/member to match backend
 
 export const getCurrentTask = (token) =>
   axios.get(`${BASE_URL}/tasks/current`, {

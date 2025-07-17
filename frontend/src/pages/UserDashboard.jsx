@@ -8,17 +8,6 @@ const TABS = [
   { id: 'history', label: 'Request History', icon: Clock },
 ];
 
-const priorities = ['Low', 'Medium', 'High'];
-
-const badgeColors = {
-  High: 'bg-red-600 text-white',
-  Medium: 'bg-yellow-400 text-gray-900',
-  Low: 'bg-blue-400 text-white',
-  'In Progress': 'bg-blue-600 text-white',
-  Completed: 'bg-green-500 text-white',
-  Pending: 'bg-yellow-600 text-white',
-};
-
 const UserPanel = () => {
   const [activeTab, setActiveTab] = useState('profile');
   const [form, setForm] = useState({
@@ -26,26 +15,24 @@ const UserPanel = () => {
     domain_id: '',
     description: '',
   });
-  const [profile, setProfile] = useState({
-    name: 'Loading...',
-    email: 'Loading...',
-  });
 
-  const { 
-    loading, 
-    error, 
-    userRequests, 
-    userProfile, 
+  const {
+    currentUser,
+    loading,
+    error,
+    userRequests,
+    userProfile,
     domains,
-    createServiceRequest, 
-    fetchUserRequests, 
+    createServiceRequest,
+    fetchUserRequests,
     fetchUserProfile,
     fetchDomains,
-    clearError 
+    clearError
   } = useUser();
 
-  // Fetch data on component mount
+  // Fetch data on mount
   useEffect(() => {
+<<<<<<< HEAD
     // Check if user is authenticated
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('role');
@@ -58,18 +45,18 @@ const UserPanel = () => {
     
     fetchUserProfile(null);
     fetchDomains();
+=======
+    fetchUserProfile();
+>>>>>>> b0cd3b99a5687a8e006efa9225a83517263d02b5
     fetchUserRequests();
-  }, [fetchUserProfile, fetchUserRequests, fetchDomains]);
+    fetchDomains();
+  }, []);
 
-  // Update profile state when userProfile changes
-  useEffect(() => {
-    if (userProfile) {
-      setProfile({
-        name: userProfile.name || 'Unknown',
-        email: userProfile.email || 'No email',
-      });
-    }
-  }, [userProfile]);
+  // Profile data priority: local currentUser → fetched userProfile
+  const profile = {
+    name: userProfile?.name || currentUser.name || 'Loading...',
+    email: userProfile?.email || currentUser.email || 'Loading...',
+  };
 
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -83,15 +70,11 @@ const UserPanel = () => {
         domain_id: form.domain_id,
         description: form.description,
       });
-      
-      // Reset form on successful submission
       setForm({ service: '', domain_id: '', description: '' });
-      
-      // Show success message
       alert('Service request submitted successfully!');
-    } catch (error) {
-      console.error('Error submitting request:', error);
-      alert('Failed to submit request. Please try again.');
+    } catch (err) {
+      console.error('Submit request error:', err);
+      alert('Failed to submit request.');
     }
   };
 
@@ -110,11 +93,11 @@ const UserPanel = () => {
           <h1 className="text-4xl font-bold text-white">User Panel</h1>
           <p className="text-gray-400 mt-1">Manage your profile and service requests</p>
         </header>
-        
+
         {error && (
           <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 mb-6">
             <p className="text-red-400">Error: {error}</p>
-            <button 
+            <button
               onClick={clearError}
               className="mt-2 text-sm text-red-300 hover:text-red-200 underline"
             >
@@ -129,11 +112,10 @@ const UserPanel = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
-                  activeTab === tab.id
-                    ? 'border-teal-400 text-teal-400'
-                    : 'border-transparent text-gray-400 hover:text-gray-300'
-                }`}
+                className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === tab.id
+                  ? 'border-teal-400 text-teal-400'
+                  : 'border-transparent text-gray-400 hover:text-gray-300'
+                  }`}
               >
                 <tab.icon size={16} />
                 {tab.label}
@@ -141,7 +123,7 @@ const UserPanel = () => {
             ))}
           </nav>
         </div>
-        
+
         <div className="bg-[#19202A] rounded-2xl p-8 border border-gray-700/50">
           {activeTab === 'profile' && (
             <div>
@@ -190,8 +172,8 @@ const UserPanel = () => {
                     name="service"
                     value={form.service}
                     onChange={handleChange}
-                    placeholder="e.g., Web Development, API Integration"
-                    className="w-full bg-[#232B39] border border-gray-600 rounded-lg text-white px-4 py-3 focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                    placeholder="e.g., Web Development"
+                    className="w-full bg-[#232B39] border border-gray-600 rounded-lg text-white px-4 py-3 focus:ring-2 focus:ring-teal-500"
                     required
                   />
                 </div>
@@ -206,7 +188,9 @@ const UserPanel = () => {
                   >
                     <option value="">Select a domain</option>
                     {domains.map(domain => (
-                      <option key={domain.domain_id} value={domain.domain_id}>{domain.name}</option>
+                      <option key={domain.domain_id} value={domain.domain_id}>
+                        {domain.name}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -216,15 +200,14 @@ const UserPanel = () => {
                     name="description"
                     value={form.description}
                     onChange={handleChange}
-                    placeholder="Describe your service requirements in detail..."
+                    placeholder="Describe your service requirements..."
                     className="w-full bg-[#232B39] border border-gray-600 rounded-lg text-white px-4 py-3 min-h-[100px]"
-                    required
                   />
                 </div>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-teal-600 hover:bg-teal-700 disabled:bg-teal-800 disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition"
+                  className="w-full bg-teal-600 hover:bg-teal-700 disabled:bg-teal-800 text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition"
                 >
                   {loading ? (
                     <>
@@ -251,26 +234,22 @@ const UserPanel = () => {
               ) : userRequests.length === 0 ? (
                 <div className="text-center py-12">
                   <div className="text-gray-400 text-lg mb-2">No service requests found</div>
-                  <p className="text-gray-500">You haven't submitted any service requests yet.</p>
+                  <p className="text-gray-500">You haven't submitted any requests yet.</p>
                 </div>
               ) : (
                 <div className="space-y-6">
                   {userRequests.map(req => (
-                    <div key={req.req_id} className="bg-[#374151] rounded-lg p-6 border border-gray-600/30 flex flex-col gap-2">
+                    <div key={req.req_id} className="bg-[#374151] rounded-lg p-6 border border-gray-600/30">
                       <div className="flex flex-wrap justify-between items-center mb-2">
                         <div>
                           <div className="font-bold text-lg text-white">{req.service}</div>
-                          <div className="text-gray-300 text-sm">Domain: <span className="font-medium">{req.domain?.name || 'Unknown'}</span></div>
+                          <div className="text-gray-300 text-sm">
+                            Domain: <span className="font-medium">{req.domain?.name || 'Unknown'}</span>
+                          </div>
                         </div>
-                        <div className="flex gap-2 mt-2 md:mt-0">
-                          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                            req.status === 'Completed' ? 'bg-green-500 text-white' :
-                            req.status === 'In Progress' ? 'bg-blue-600 text-white' :
-                            'bg-yellow-600 text-white'
-                          }`}>
-                            {req.status}
-                          </span>
-                        </div>
+                        <span className={`px-3 py-1 rounded-full text-xs font-semibold bg-yellow-600`}>
+                          Submitted
+                        </span>
                       </div>
                       <div className="text-gray-400 text-xs">Submitted on {formatDate(req.request_date)}</div>
                     </div>
@@ -285,4 +264,4 @@ const UserPanel = () => {
   );
 };
 
-export default UserPanel; 
+export default UserPanel;
