@@ -1,11 +1,7 @@
-<<<<<<< HEAD
-import { useState, useEffect, useCallback } from 'react';
-import { userAPI } from '../services/api.js';
-=======
+/////useuser 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BACKEND_URL } from '../../config/config';
->>>>>>> b0cd3b99a5687a8e006efa9225a83517263d02b5
 
 export const useUser = () => {
   // ✅ Immediately available info from localStorage
@@ -16,30 +12,6 @@ export const useUser = () => {
     role: localStorage.getItem('role'),
   });
 
-<<<<<<< HEAD
-  // Create service request
-  const createServiceRequest = useCallback(async (requestData) => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      const response = await userAPI.createServiceRequest(requestData);
-      
-      // Add the new request to the existing requests
-      setUserRequests(prev => [response.data, ...prev]);
-      
-      return response.data;
-    } catch (err) {
-      console.error('Create service request error:', err);
-      if (err.response?.status === 401 || err.response?.status === 403) {
-        // Authentication error - redirect to login
-        localStorage.removeItem('token');
-        localStorage.removeItem('role');
-        window.location.href = '/login';
-        return;
-      }
-      setError(err.response?.data?.error || err.message || 'Failed to create service request');
-=======
   // ✅ Existing state you had
   const [domains, setDomains] = useState([]);
   const [userProfile, setUserProfile] = useState(null);
@@ -109,99 +81,12 @@ export const useUser = () => {
     } catch (err) {
       console.error("Create request error:", err);
       setError('Failed to create service request.');
->>>>>>> b0cd3b99a5687a8e006efa9225a83517263d02b5
       throw err;
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
-<<<<<<< HEAD
-  // Fetch user's previous requests
-  const fetchUserRequests = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      const response = await userAPI.getPreviousRequests();
-      setUserRequests(response.data);
-    } catch (err) {
-      console.error('Fetch user requests error:', err);
-      if (err.response?.status === 401 || err.response?.status === 403) {
-        // Authentication error - redirect to login
-        localStorage.removeItem('token');
-        localStorage.removeItem('role');
-        window.location.href = '/login';
-        return;
-      }
-      setError(err.response?.data?.error || err.message || 'Failed to fetch user requests');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  // Fetch user profile
-  const fetchUserProfile = useCallback(async (userId) => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      // For now, we'll use a mock profile since we don't have a specific endpoint
-      // In a real app, you'd get the user ID from the token or pass it as parameter
-      const mockProfile = {
-        name: 'John Doe',
-        email: 'john.doe@example.com'
-      };
-      setUserProfile(mockProfile);
-    } catch (err) {
-      console.error('Fetch user profile error:', err);
-      setError(err.response?.data?.error || err.message || 'Failed to fetch user profile');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  // Fetch domains
-  const fetchDomains = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      const response = await userAPI.getDomains();
-      setDomains(response.data);
-    } catch (err) {
-      console.error('Fetch domains error:', err);
-      if (err.response?.status === 401 || err.response?.status === 403) {
-        // Authentication error - redirect to login
-        localStorage.removeItem('token');
-        localStorage.removeItem('role');
-        window.location.href = '/login';
-        return;
-      }
-      setError(err.response?.data?.error || err.message || 'Failed to fetch domains');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  // Clear error
-  const clearError = useCallback(() => setError(null), []);
-
-  return {
-    // State
-    loading,
-    error,
-    userRequests,
-    userProfile,
-    domains,
-    
-    // Actions
-    createServiceRequest,
-    fetchUserRequests,
-    fetchUserProfile,
-    fetchDomains,
-    clearError
-=======
   const clearError = () => setError('');
 
   return {
@@ -223,6 +108,5 @@ export const useUser = () => {
     fetchDomains,
     fetchUserRequests,
     createServiceRequest,
->>>>>>> b0cd3b99a5687a8e006efa9225a83517263d02b5
   };
 };

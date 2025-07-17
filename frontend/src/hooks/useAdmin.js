@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { adminAPI } from '../services/api.js';
 
 export const useAdmin = () => {
@@ -20,7 +20,7 @@ export const useAdmin = () => {
   const [services, setServices] = useState([]);
 
   // Test connection
-  const testConnection = useCallback(async () => {
+  const testConnection = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -34,10 +34,10 @@ export const useAdmin = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
   // Fetch dashboard stats
-  const fetchDashboardStats = useCallback(async () => {
+  const fetchDashboardStats = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -68,10 +68,10 @@ export const useAdmin = () => {
     } finally {
       setLoading(false);
     }
-  }, [testConnection]);
+  };
 
   // Fetch domains
-  const fetchDomains = useCallback(async () => {
+  const fetchDomains = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -83,10 +83,10 @@ export const useAdmin = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
   // Create domain
-  const createDomain = useCallback(async (domainData) => {
+  const createDomain = async (domainData) => {
     try {
       setLoading(true);
       setError(null);
@@ -100,10 +100,10 @@ export const useAdmin = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
   // Delete domain
-  const deleteDomain = useCallback(async (domainId) => {
+  const deleteDomain = async (domainId) => {
     try {
       setLoading(true);
       setError(null);
@@ -116,10 +116,10 @@ export const useAdmin = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
   // Fetch members
-  const fetchMembers = useCallback(async () => {
+  const fetchMembers = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -131,10 +131,10 @@ export const useAdmin = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
   // Create member
-  const createMember = useCallback(async (memberData) => {
+  const createMember = async (memberData) => {
     try {
       setLoading(true);
       setError(null);
@@ -148,10 +148,10 @@ export const useAdmin = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
   // Delete member
-  const deleteMember = useCallback(async (memberId) => {
+  const deleteMember = async (memberId) => {
     try {
       setLoading(true);
       setError(null);
@@ -164,29 +164,25 @@ export const useAdmin = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
   // Fetch requests
-  const fetchRequests = useCallback(async () => {
+  const fetchRequests = async () => {
     try {
       setLoading(true);
       setError(null);
-      console.log('Fetching requests...');
       const response = await adminAPI.getRequests();
-      console.log('Requests response:', response.data);
-      const requestsData = response.data.requests || response.data;
-      console.log('Setting requests to:', requestsData);
-      setRequests(requestsData);
+      setRequests(response.data);
     } catch (err) {
       console.error('Fetch requests error:', err);
       setError(err.response?.data?.error || err.message || 'Failed to fetch requests');
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
   // Respond to request
-  const respondToRequest = useCallback(async (reqId, responseData) => {
+  const respondToRequest = async (reqId, responseData) => {
     try {
       setLoading(true);
       setError(null);
@@ -200,25 +196,25 @@ export const useAdmin = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
   // Fetch services
-  const fetchServices = useCallback(async (params = {}) => {
+  const fetchServices = async (params = {}) => {
     try {
       setLoading(true);
       setError(null);
       const response = await adminAPI.getServices(params);
-      setServices(response.data.services || response.data);
+      setServices(response.data);
     } catch (err) {
       console.error('Fetch services error:', err);
       setError(err.response?.data?.error || err.message || 'Failed to fetch services');
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
   // Clear error
-  const clearError = useCallback(() => setError(null), []);
+  const clearError = () => setError(null);
 
   return {
     // State
@@ -245,3 +241,4 @@ export const useAdmin = () => {
     clearError
   };
 }; 
+

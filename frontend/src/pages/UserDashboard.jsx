@@ -32,22 +32,7 @@ const UserPanel = () => {
 
   // Fetch data on mount
   useEffect(() => {
-<<<<<<< HEAD
-    // Check if user is authenticated
-    const token = localStorage.getItem('token');
-    const role = localStorage.getItem('role');
-    
-    if (!token || role !== 'user') {
-      // Redirect to login if not authenticated
-      window.location.href = '/login';
-      return;
-    }
-    
-    fetchUserProfile(null);
-    fetchDomains();
-=======
     fetchUserProfile();
->>>>>>> b0cd3b99a5687a8e006efa9225a83517263d02b5
     fetchUserRequests();
     fetchDomains();
   }, []);

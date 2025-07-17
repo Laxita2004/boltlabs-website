@@ -47,7 +47,6 @@ api.interceptors.response.use(
   }
 );
 
-<<<<<<< HEAD
 // User API endpoints
 export const userAPI = {
   // Service Requests
@@ -60,8 +59,6 @@ export const userAPI = {
   // User Profile
   getUserById: (userId) => api.get(`/users/${userId}`),
 };
-=======
->>>>>>> b0cd3b99a5687a8e006efa9225a83517263d02b5
 
 // Admin API endpoints
 export const adminAPI = {
