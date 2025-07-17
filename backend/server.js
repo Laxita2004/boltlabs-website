@@ -11,7 +11,9 @@ const app = express();
 
 app.use(cors({
   origin: 'http://localhost:5173', // Your frontend URL
-  credentials: true // If using cookies/auth headers
+  credentials: true ,// If using cookies/auth headers
+   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 const startServer = async () => {
