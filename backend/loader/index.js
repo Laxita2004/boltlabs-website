@@ -11,10 +11,16 @@ dotenv.config();
 import adminRoutes from '../routes/adminRoutes.js';
 import authRoutes from '../routes/authRoutes.js';
 import teamMemberRoutes from '../routes/teamMemberRoutes.js';
-import userRoutes from '../routes/userRoutes.js'; // ✅ added
+import userRoutes from '../routes/userRoutes.js';
 
 const loader = async (app) => {
-  app.use(cors());
+  // Configure CORS to allow requests from frontend
+  app.use(cors({
+    origin: ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:5174'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token']
+  }));
   app.use(express.json());
   app.use(morgan('dev'));
 
@@ -24,7 +30,7 @@ const loader = async (app) => {
   // Protected Routes – Login required
   app.use('/api/admin', adminRoutes);
   app.use('/api/member', teamMemberRoutes);
-  app.use('/api/user', userRoutes); // ✅ mounted user routes here
+  app.use('/api/users', userRoutes);
 
   // 404 Handler
   app.use((req, res, next) => {

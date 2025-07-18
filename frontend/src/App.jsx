@@ -44,7 +44,6 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/edit-profile" element={<EditProfile />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
 
@@ -53,7 +52,14 @@ const App = () => {
           <Route path="/team/:domain" element={<DomainTeam />} />
           <Route path="/team/:domain/:memberId" element={<Index />} />
 
-          {/* User Dashboard */}
+          {/* User Dashboard - Protected */}
+          <Route path="/user-dashboard" element={
+            <ProtectedRoute allowedRoles={['user']}>
+              <UserDashboard />
+            </ProtectedRoute>
+          } />
+
+          {/* User Dashboard - Protected */}
           <Route path="/dashboard" element={
             <ProtectedRoute allowedRoles={['user']}>
               <UserDashboard />
