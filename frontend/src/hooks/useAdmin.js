@@ -41,10 +41,10 @@ export const useAdmin = () => {
     try {
       setLoading(true);
       setError(null);
-      
+
       // First test the connection
       await testConnection();
-      
+
       // For now, we'll calculate stats from existing data
       // In a real app, you'd have a dedicated endpoint for this
       const [domainsRes, membersRes, requestsRes, servicesRes] = await Promise.all([
@@ -225,7 +225,7 @@ export const useAdmin = () => {
     members,
     requests,
     services,
-    
+
     // Actions
     testConnection,
     fetchDashboardStats,
@@ -241,3 +241,4 @@ export const useAdmin = () => {
     clearError
   };
 }; 
+

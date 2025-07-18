@@ -27,7 +27,6 @@ import Notifications from './components/admin/Notifications';
 import Security from './components/admin/Security';
 import Appearance from './components/admin/Appearance';
 import ApiIntegrations from './components/admin/ApiIntegrations';
-// import MemberHome from './pages/MemberHome';
 import FirstLoginChange from './pages/FirstLoginChange';
 import ProtectedRoute from './components/ProtectedRoute';
 import ForgotPassword from './pages/ForgotPassword';
@@ -36,23 +35,31 @@ const App = () => {
   return (
     <>
       <Header />
-      <main className='min-h-screen'>
+      <main className='min-h-screen mt-14'>
         <Routes>
+
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/edit-profile" element={<EditProfile />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+
           {/* Team Routes */}
           <Route path="/team" element={<Team />} />
           <Route path="/team/:domain" element={<DomainTeam />} />
           <Route path="/team/:domain/:memberId" element={<Index />} />
 
-          {/* User Dashboard */}
+          {/* User Dashboard - Protected */}
+          <Route path="/user-dashboard" element={
+            <ProtectedRoute allowedRoles={['user']}>
+              <UserDashboard />
+            </ProtectedRoute>
+          } />
+
+          {/* User Dashboard - Protected */}
           <Route path="/dashboard" element={
             <ProtectedRoute allowedRoles={['user']}>
               <UserDashboard />
@@ -62,7 +69,7 @@ const App = () => {
           {/* Member Dashboard */}
           <Route path="/member-home" element={
             <ProtectedRoute allowedRoles={['member']}>
-              {/* <MemberHome /> */}
+              <MemberPage />
             </ProtectedRoute>
           } />
 
@@ -74,19 +81,12 @@ const App = () => {
           } />
 
           {/* Admin Routes */}
-          <Route path="/admin" element={
-            <ProtectedRoute allowedRoles={['admin']}>
-              <AdminDashboard />
-            </ProtectedRoute>
-          }>
+          <Route path="/admin" element={<AdminDashboard />}>
             <Route index element={<DashboardOverview />} />
             <Route path="users" element={<UserManagement />} />
             <Route path="projects" element={<ProjectManagement />} />
             <Route path="domains" element={<DomainManagement />} />
             <Route path="service-requests" element={<ServiceRequests />} />
-
-            {/* <Route path="settings" element={<SettingsLayout />} /> */}
-
             <Route path="settings" element={<SettingsLayout />}>
               <Route index element={<Navigate to="company" replace />} />
               <Route path="company" element={<CompanySettings />} />
@@ -96,24 +96,11 @@ const App = () => {
               <Route path="appearance" element={<Appearance />} />
               <Route path="api" element={<ApiIntegrations />} />
             </Route>
-
           </Route>
-
-          {/* Route for members only */}
-
-          <Route
-            path="/member"
-            element={
-              localStorage.getItem('token') && localStorage.getItem('role') === 'member' ? (
-                <MemberPage />
-              ) : (
-                <Navigate to="/login" replace />
-              )
-            }
-          />
 
           {/* Redirect unknown routes to home */}
           <Route path="*" element={<Navigate to="/" replace />} />
+
         </Routes>
       </main>
       <Footer />

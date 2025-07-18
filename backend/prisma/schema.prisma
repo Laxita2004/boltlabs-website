@@ -1,5 +1,3 @@
-// schema.prisma
-
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["multiSchema"]
@@ -8,19 +6,19 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  schemas  = ["public", "auth"]
+  schemas  = ["public"]
 }
 
 model User {
-  user_id    String   @id @default(uuid())
-  name       String
-  email      String   @unique
-  password   String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-
-  services         Service[]
-  serviceRequests  ServiceRequest[]
+  user_id         String           @id @default(uuid())
+  name            String
+  email           String           @unique
+  password        String
+  phone           String?
+  created_at      DateTime         @default(now())
+  updated_at      DateTime         @updatedAt
+  services        Service[]
+  serviceRequests ServiceRequest[]
 
   @@schema("public")
 }
@@ -35,25 +33,23 @@ model Admin {
 }
 
 model Domain {
-  domain_id String   @id @default(uuid())
-  name      String   @unique
-
-  members          MemberDomain[]
-  services         Service[]
-  serviceRequests  ServiceRequest[]
+  domain_id       String           @id @default(uuid())
+  name            String           @unique
+  members         MemberDomain[]
+  services        Service[]
+  serviceRequests ServiceRequest[]
 
   @@schema("public")
 }
 
 model Member {
-  member_id  String   @id @default(uuid())
+  member_id  String          @id @default(uuid())
   name       String
-  email      String   @unique
+  email      String          @unique
   password   String
-  firstLogin Boolean  @default(true)
-
-  domains   MemberDomain[]
-  services  MemberService[]
+  firstLogin Boolean         @default(true)
+  domains    MemberDomain[]
+  services   MemberService[]
 
   @@schema("public")
 }
@@ -61,25 +57,23 @@ model Member {
 model MemberDomain {
   member_id String
   domain_id String
-
-  member Member @relation(fields: [member_id], references: [member_id], onDelete: Cascade)
-  domain Domain @relation(fields: [domain_id], references: [domain_id], onDelete: Cascade)
+  domain    Domain @relation(fields: [domain_id], references: [domain_id], onDelete: Cascade)
+  member    Member @relation(fields: [member_id], references: [member_id], onDelete: Cascade)
 
   @@id([member_id, domain_id])
   @@schema("public")
 }
 
 model Service {
-  service_id String   @id @default(uuid())
+  service_id String          @id @default(uuid())
   user_id    String
   service    String
   domain_id  String
-  idea_date  DateTime @default(now())
-
-  user     User     @relation(fields: [user_id], references: [user_id])
-  domain   Domain   @relation(fields: [domain_id], references: [domain_id])
-  payments Payment[]
-  members  MemberService[]
+  idea_date  DateTime        @default(now())
+  members    MemberService[]
+  payments   Payment[]
+  domain     Domain          @relation(fields: [domain_id], references: [domain_id])
+  user       User            @relation(fields: [user_id], references: [user_id])
 
   @@schema("public")
 }
@@ -89,8 +83,7 @@ model Payment {
   payment_provider String
   service_id       String
   payment_date     DateTime @default(now())
-
-  service Service @relation(fields: [service_id], references: [service_id])
+  service          Service  @relation(fields: [service_id], references: [service_id])
 
   @@schema("public")
 }
@@ -101,9 +94,9 @@ model ServiceRequest {
   service      String
   domain_id    String
   request_date DateTime @default(now())
-
-  user   User   @relation(fields: [user_id], references: [user_id])
-  domain Domain @relation(fields: [domain_id], references: [domain_id])
+  status       String   @default("pending") // Add status field
+  domain       Domain   @relation(fields: [domain_id], references: [domain_id])
+  user         User     @relation(fields: [user_id], references: [user_id])
 
   @@schema("public")
 }
@@ -115,9 +108,8 @@ model MemberService {
   completedAt DateTime?
   rating      Int?
   feedback    String?
-
-  member  Member  @relation(fields: [member_id], references: [member_id], onDelete: Cascade)
-  service Service @relation(fields: [service_id], references: [service_id], onDelete: Cascade)
+  member      Member     @relation(fields: [member_id], references: [member_id], onDelete: Cascade)
+  service     Service    @relation(fields: [service_id], references: [service_id], onDelete: Cascade)
 
   @@id([member_id, service_id])
   @@schema("public")

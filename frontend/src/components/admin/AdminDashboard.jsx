@@ -4,20 +4,20 @@ import { FiHome, FiUsers, FiFolder, FiMessageSquare, FiFileText, FiSettings, FiL
 import { useAdmin } from "../../hooks/useAdmin.js";
 
 const DashboardOverview = () => {
-  const { 
-    loading, 
-    error, 
-    dashboardStats, 
-    requests, 
-    fetchDashboardStats, 
+  const {
+    loading,
+    error,
+    dashboardStats,
+    requests,
+    fetchDashboardStats,
     fetchRequests,
-    clearError 
+    clearError
   } = useAdmin();
 
   useEffect(() => {
     fetchDashboardStats();
     fetchRequests();
-  }, [fetchDashboardStats, fetchRequests]);
+  }, []);
 
   // Generate recent activities from requests
   const activities = requests.slice(0, 4).map((request, index) => ({
@@ -54,11 +54,11 @@ const DashboardOverview = () => {
     <div className="bg-[#0e1a24] text-white p-6">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-white mb-2">BolltLabs Admin</h1>
-        
+
         {error && (
           <div className="mb-4 p-4 bg-red-500/20 border border-red-500/50 rounded-lg">
             <p className="text-red-300">{error}</p>
-            <button 
+            <button
               onClick={clearError}
               className="mt-2 text-red-300 hover:text-red-100 underline"
             >
@@ -66,11 +66,11 @@ const DashboardOverview = () => {
             </button>
           </div>
         )}
-        
+
         <div className="mb-10">
           <h2 className="text-xl font-semibold text-gray-300 mb-6">Dashboard Overview</h2>
           <p className="text-gray-400 mb-6">Monitor your BolltLabs business metrics and recent activity</p>
-          
+
           {/* Stats Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <div className="bg-[#1F2937] p-6 rounded-lg shadow-lg border border-gray-700/50">
@@ -95,7 +95,7 @@ const DashboardOverview = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Quick Actions */}
           <div className="bg-[#1F2937] p-6 rounded-lg shadow-lg border border-gray-700/50">
@@ -110,7 +110,7 @@ const DashboardOverview = () => {
               ))}
             </ul>
           </div>
-          
+
           {/* Recent Activity */}
           <div className="bg-[#1F2937] p-6 rounded-lg shadow-lg lg:col-span-2 border border-gray-700/50">
             <h2 className="text-xl font-semibold text-white mb-6">Recent Activity</h2>
@@ -129,7 +129,7 @@ const DashboardOverview = () => {
             )}
           </div>
         </div>
-        
+
         {/* Legend checkbox */}
         {/* <div className="mt-6 flex items-center">
           <input type="checkbox" id="legend" className="mr-2 rounded bg-gray-700 border-gray-600 focus:ring-teal-500" />
@@ -149,44 +149,44 @@ const AdminDashboard = () => {
           BolltLabs
         </div>
         <nav className="flex-1 px-4 py-6 space-y-1">
-          <Link 
-            to="/admin" 
+          <Link
+            to="/admin"
             className="flex items-center px-4 py-3 rounded-lg bg-teal-500/10 text-teal-300 font-medium"
           >
             <FiHome className="mr-3" />
             <span>Dashboard</span>
           </Link>
-          <Link 
-            to="/admin/users" 
+          <Link
+            to="/admin/users"
             className="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700/50 text-gray-400 hover:text-white transition"
           >
             <FiUsers className="mr-3" />
             <span>User Management</span>
           </Link>
-          <Link 
-            to="/admin/projects" 
+          <Link
+            to="/admin/projects"
             className="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700/50 text-gray-400 hover:text-white transition"
           >
             <FiFolder className="mr-3" />
             <span>Projects</span>
           </Link>
-          
-          <Link 
-             to="/admin/domains" 
-             className="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700/50 text-gray-400 hover:text-white transition"
+
+          <Link
+            to="/admin/domains"
+            className="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700/50 text-gray-400 hover:text-white transition"
           >
-             <FiGlobe className="mr-3" />
-             <span>Domain Management</span>
+            <FiGlobe className="mr-3" />
+            <span>Domain Management</span>
           </Link>
-          <Link 
-             to="/admin/service-requests" 
-             className="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700/50 text-gray-400 hover:text-white transition"
+          <Link
+            to="/admin/service-requests"
+            className="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700/50 text-gray-400 hover:text-white transition"
           >
-             <FiMessageSquare className="mr-3" />
-             <span>Service Requests</span>
+            <FiMessageSquare className="mr-3" />
+            <span>Service Requests</span>
           </Link>
-          <Link 
-            to="/admin/settings" 
+          <Link
+            to="/admin/settings"
             className="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700/50 text-gray-400 hover:text-white transition"
           >
             <FiSettings className="mr-3" />
@@ -200,7 +200,7 @@ const AdminDashboard = () => {
           </button>
         </div>
       </aside>
-      
+
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-hidden">
         {/* Top Bar */}
@@ -213,7 +213,7 @@ const AdminDashboard = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Dashboard Content */}
         <div className="flex-1 overflow-y-auto">
           <Outlet />

@@ -1,5 +1,7 @@
+
+
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { adminAPI } from '../../services/api';
 
 const DomainManagement = () => {
   const [domains, setDomains] = useState([]);
@@ -13,11 +15,11 @@ const DomainManagement = () => {
     setLoading(true);
     setError('');
     try {
-      const res = await axios.get('/api/admin/domains');
+      const res = await adminAPI.getDomains();
       setDomains(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
-      setError('Failed to fetch domains');
-      setDomains([]); // Always set to empty array on error
+      setError(err?.response?.data?.error || 'Failed to fetch domains');
+      setDomains([]);
     } finally {
       setLoading(false);
     }
@@ -27,19 +29,19 @@ const DomainManagement = () => {
     fetchDomains();
   }, []);
 
-  // Add new domain
+  // createe domain
   const handleAddDomain = async (e) => {
     e.preventDefault();
     setError('');
     setSuccess('');
     if (!newDomain.trim()) return;
     try {
-      await axios.post('/api/admin/domains', { name: newDomain });
+      await adminAPI.createDomain({ name: newDomain });
       setSuccess('Domain added successfully!');
       setNewDomain('');
       fetchDomains();
     } catch (err) {
-      setError('Failed to add domain');
+      setError(err?.response?.data?.error || 'Failed to add domain');
     }
   };
 
@@ -48,11 +50,11 @@ const DomainManagement = () => {
     setError('');
     setSuccess('');
     try {
-      await axios.delete(`/api/admin/domains/${domain_id}`);
+      await adminAPI.deleteDomain(domain_id);
       setSuccess('Domain deleted successfully!');
       fetchDomains();
     } catch (err) {
-      setError('Failed to delete domain');
+      setError(err?.response?.data?.error || 'Failed to delete domain');
     }
   };
 
@@ -74,8 +76,10 @@ const DomainManagement = () => {
           Add Domain
         </button>
       </form>
+
       {error && <div className="text-red-400 mb-4">{error}</div>}
       {success && <div className="text-green-400 mb-4">{success}</div>}
+
       {loading ? (
         <div className="text-gray-400">Loading domains...</div>
       ) : (
@@ -83,7 +87,7 @@ const DomainManagement = () => {
           {Array.isArray(domains) && domains.length === 0 ? (
             <li className="text-gray-400">No domains found.</li>
           ) : (
-            Array.isArray(domains) && domains.map(domain => (
+            domains.map(domain => (
               <li key={domain.domain_id} className="flex justify-between items-center bg-[#232B39] rounded-lg px-4 py-3 border border-gray-700/50">
                 <span className="text-white font-medium">{domain.name}</span>
                 <button

@@ -1,9 +1,11 @@
-// routes/userRoutes.js
 import express from "express";
 import {
-  createUser,
   getUserById,
+  updateProfile,
+  updatePassword,
   getPreviousRequests,
+  createServiceRequest,
+  getDomains
 } from "../controllers/userController.js";
 import {
   authenticateUser,
@@ -12,17 +14,13 @@ import {
 
 const router = express.Router();
 
-// ✅ Apply authentication for all routes in this file
 router.use(authenticateUser, authorizeRoles('user'));
 
-// 👤 Routes
-router.post("/register", createUser);
-router.get("/:id", getUserById);
+router.get("/domains", getDomains);
 router.get("/requests/previous", getPreviousRequests);
-
-// 🔧 Optional test route
-router.get("/test", (req, res) => {
-  res.json({ message: "✅ User route is working" });
-});
+router.post("/requests", createServiceRequest);
+router.get("/:id", getUserById);
+router.put("/profile", updateProfile);
+router.put("/password", updatePassword);
 
 export default router;
