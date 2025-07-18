@@ -146,10 +146,16 @@ export const fetchRequests = async (req, res) => {
       include: {
         user: true,
         domain: true
-      }
+      },
+      orderBy: { request_date: 'desc' }
     });
-    res.json(requests);
+    
+    console.log('Found requests in database:', requests.length);
+    console.log('Request statuses:', requests.map(r => ({ id: r.req_id, status: r.status })));
+    
+    res.json({ requests: requests });
   } catch (err) {
+    console.error('Fetch requests error:', err);
     res.status(500).json({ error: 'Failed to fetch requests', details: err.message });
   }
 };
@@ -157,8 +163,10 @@ export const fetchRequests = async (req, res) => {
 // 8. Post Response to Request
 export const respondToRequest = async (req, res) => {
   const { req_id } = req.params;
-  const { response, status } = req.body;
-
+  const { status } = req.body;
+  
+  console.log('Responding to request:', req_id, 'with status:', status);
+  
   try {
     // First, get the request details
     const serviceRequest = await prisma.serviceRequest.findUnique({
@@ -178,42 +186,52 @@ export const respondToRequest = async (req, res) => {
     });
 
     if (!serviceRequest) {
+      console.log('Request not found:', req_id);
       return res.status(404).json({ error: 'Request not found' });
     }
-
-    // Here you would implement your response logic for example, creating a service from the request
+    
+    console.log('Found service request:', serviceRequest.req_id);
+    
+    // Update the request status instead of deleting
+    const updatedRequest = await prisma.serviceRequest.update({
+      where: { req_id },
+      data: { status: status },
+      include: {
+        user: true,
+        domain: true
+      }
+    });
+    
+    console.log('Request status updated to:', status);
+    
+    // If approved, also create a service
     if (status === 'approved') {
+      console.log('Approving request and creating service...');
       const service = await prisma.service.create({
         data: {
           user_id: serviceRequest.user_id,
           domain_id: serviceRequest.domain_id,
-          service: serviceRequest.service,
-          members: {
-            create: serviceRequest.domain.members.map(member => ({
-              member: { connect: { member_id: member.member_id } }
-            }))
-          }
+          service: serviceRequest.service
         }
       });
-
-      // Delete the request after approval
-      await prisma.serviceRequest.delete({
-        where: { req_id }
-      });
-
+      
+      console.log('Service created:', service.service_id);
+      
       return res.json({
         message: 'Request approved and service created',
-        service
+        service,
+        request: updatedRequest
       });
     } else {
-      // For rejection, just delete the request
-      await prisma.serviceRequest.delete({
-        where: { req_id }
+      console.log('Request rejected');
+      
+      return res.json({ 
+        message: 'Request rejected',
+        request: updatedRequest
       });
-
-      return res.json({ message: 'Request rejected and deleted' });
     }
   } catch (err) {
+    console.error('Respond to request error:', err);
     res.status(500).json({ error: 'Failed to process request', details: err.message });
   }
 };
@@ -250,8 +268,8 @@ export const fetchServices = async (req, res) => {
         payments: true
       }
     });
-
-    res.json(services);
+    
+    res.json({ services });
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch services', details: err.message });
   }

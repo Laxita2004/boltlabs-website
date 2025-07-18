@@ -1,3 +1,4 @@
+/////server.js
 import express from 'express';
 import loader from './loader/index.js';
 import dotenv from 'dotenv';
@@ -33,3 +34,4 @@ const startServer = async () => {
 };
 
 startServer();
+

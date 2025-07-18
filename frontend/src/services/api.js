@@ -6,6 +6,8 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+   withCredentials: true, // Add this line for CORS with credentials
+   timeout: 10000,
 });
 
 // Request interceptor to add auth token
@@ -22,10 +24,19 @@ api.interceptors.request.use(
   }
 );
 
+
+
 // Response interceptor to handle errors
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    if (error.code === 'ERR_NETWORK') {
+      console.error('Network Error:', error);
+      // Handle network errors (backend down, CORS issues, etc.)
+      return Promise.reject({ 
+        message: 'Unable to connect to server. Please try again later.' 
+      });
+    }
     console.error('API Error:', error.response?.data || error.message);
     if (error.response?.status === 401) {
       // Handle unauthorized access
@@ -36,6 +47,18 @@ api.interceptors.response.use(
   }
 );
 
+// User API endpoints
+export const userAPI = {
+  // Service Requests
+  createServiceRequest: (data) => api.post('/users/requests', data),
+  getPreviousRequests: () => api.get('/users/requests/previous'),
+  
+  // Domains
+  getDomains: () => api.get('/users/domains'),
+  
+  // User Profile
+  getUserById: (userId) => api.get(`/users/${userId}`),
+};
 
 // Admin API endpoints
 export const adminAPI = {
