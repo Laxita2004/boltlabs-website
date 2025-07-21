@@ -34,9 +34,6 @@ const EditProfile = () => {
     confirm: '',
   });
 
-  const [profilePicture, setProfilePicture] = useState(null);
-  const fileInputRef = useRef(null);
-
   const userId = localStorage.getItem('user_id');
   // console.log("🔍 user_id from localStorage:", userId);
 

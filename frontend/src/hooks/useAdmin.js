@@ -56,10 +56,11 @@ export const useAdmin = () => {
 
       const stats = {
         totalClients: domainsRes.data.length,
-        activeProjects: servicesRes.data.filter(s => s.status === 'ACTIVE').length,
+        activeProjects: servicesRes.data.services.filter(s => s.status === "ACTIVE").length,
         teamMembers: membersRes.data.length,
-        completedProjects: servicesRes.data.filter(s => s.status === 'COMPLETED').length
+        completedProjects: servicesRes.data.services.filter(s => s.status === "COMPLETED").length
       };
+
 
       setDashboardStats(stats);
     } catch (err) {
@@ -172,7 +173,8 @@ export const useAdmin = () => {
       setLoading(true);
       setError(null);
       const response = await adminAPI.getRequests();
-      setRequests(response.data);
+      setRequests(response.data.requests); // ✅ Correct: this sets it to the actual array
+
     } catch (err) {
       console.error('Fetch requests error:', err);
       setError(err.response?.data?.error || err.message || 'Failed to fetch requests');
@@ -240,5 +242,5 @@ export const useAdmin = () => {
     fetchServices,
     clearError
   };
-}; 
+};
 
