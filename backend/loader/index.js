@@ -30,7 +30,7 @@ const loader = async (app) => {
   // Protected Routes – Login required
   app.use('/api/admin', adminRoutes);
   app.use('/api/member', teamMemberRoutes);
-  app.use('/api/users', userRoutes);
+  app.use('/api/user', userRoutes);
 
   // 404 Handler
   app.use((req, res, next) => {

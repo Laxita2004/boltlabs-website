@@ -6,7 +6,7 @@ import { prisma } from '../lib/prisma.js';
 // 👤 Get User By ID (for dashboard / profile)
 export const getUserById = async (req, res) => {
   const { id } = req.params;
-  // console.log("📥 Getting user with ID:", id);
+  console.log("📥 Getting user with ID:", id);
 
   try {
     const user = await prisma.user.findUnique({

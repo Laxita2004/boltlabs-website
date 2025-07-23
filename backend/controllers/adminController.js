@@ -149,10 +149,10 @@ export const fetchRequests = async (req, res) => {
       },
       orderBy: { request_date: 'desc' }
     });
-    
+
     console.log('Found requests in database:', requests.length);
     console.log('Request statuses:', requests.map(r => ({ id: r.req_id, status: r.status })));
-    
+
     res.json({ requests: requests });
   } catch (err) {
     console.error('Fetch requests error:', err);
@@ -164,9 +164,9 @@ export const fetchRequests = async (req, res) => {
 export const respondToRequest = async (req, res) => {
   const { req_id } = req.params;
   const { status } = req.body;
-  
+
   console.log('Responding to request:', req_id, 'with status:', status);
-  
+
   try {
     // First, get the request details
     const serviceRequest = await prisma.serviceRequest.findUnique({
@@ -189,9 +189,9 @@ export const respondToRequest = async (req, res) => {
       console.log('Request not found:', req_id);
       return res.status(404).json({ error: 'Request not found' });
     }
-    
+
     console.log('Found service request:', serviceRequest.req_id);
-    
+
     // Update the request status instead of deleting
     const updatedRequest = await prisma.serviceRequest.update({
       where: { req_id },
@@ -201,9 +201,9 @@ export const respondToRequest = async (req, res) => {
         domain: true
       }
     });
-    
+
     console.log('Request status updated to:', status);
-    
+
     // If approved, also create a service
     if (status === 'approved') {
       console.log('Approving request and creating service...');
@@ -214,9 +214,9 @@ export const respondToRequest = async (req, res) => {
           service: serviceRequest.service
         }
       });
-      
+
       console.log('Service created:', service.service_id);
-      
+
       return res.json({
         message: 'Request approved and service created',
         service,
@@ -224,8 +224,8 @@ export const respondToRequest = async (req, res) => {
       });
     } else {
       console.log('Request rejected');
-      
-      return res.json({ 
+
+      return res.json({
         message: 'Request rejected',
         request: updatedRequest
       });
@@ -268,7 +268,7 @@ export const fetchServices = async (req, res) => {
         payments: true
       }
     });
-    
+
     res.json({ services });
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch services', details: err.message });
