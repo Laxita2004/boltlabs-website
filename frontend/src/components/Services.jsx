@@ -3,59 +3,63 @@ import { motion } from "framer-motion";
 import {
   LayoutDashboard,
   AppWindow,
-  Headphones,
   Users,
   Gem,
   Zap,
-  Briefcase,
+  Server,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import ScrollReveal from "../components/ScrollReveal";
-import Card from "../components/Card";
+import { Link } from 'react-router-dom'
 
 export default function Services() {
   const services = [
     {
       icon: <LayoutDashboard size={28} />,
-      title: "Project Management",
-      subtitle: "30 options available",
+      title: "Software Development Solutions",
+      description:
+        "Custom applications built with modern technologies for scale and performance.",
+      subtitle: "Get Service",
       color: "teal",
     },
     {
       icon: <AppWindow size={28} />,
-      title: "Web & Mobile Development",
-      subtitle: "40 options available",
+      title: "Digital Presence Management",
+      description:
+        "Manage, optimize, and grow your brand across digital platforms.",
+      subtitle: "Get Service",
       color: "cyan",
     },
     {
-      icon: <Headphones size={28} />,
-      title: "Customer Support",
-      subtitle: "17 options available",
+      icon: <Users size={28} />,
+      title: "Brand Identity Design",
+      description:
+        "Craft a memorable and professional brand with our creative experts.",
+      subtitle: "Get Service",
       color: "emerald",
     },
     {
-      icon: <Users size={28} />,
-      title: "Human Resources",
-      subtitle: "21 options available",
+      icon: <Server size={28} />,
+      title: "Embedded Systems & IoT Solutions",
+      description:
+        "Smart device integration and real-time hardware-software solutions.",
+      subtitle: "Get Service",
       color: "blue",
     },
     {
       icon: <Gem size={28} />,
       title: "Design & Creatives",
-      subtitle: "13 options available",
+      description:
+        "Visual design for web, mobile, and print — creative that converts.",
+      subtitle: "Get Service",
       color: "purple",
     },
     {
       icon: <Zap size={28} />,
-      title: "Marketing & Communication",
-      subtitle: "27 options available",
+      title: "Technical Assistance & Support",
+      description:
+        "On-demand help and infrastructure support tailored to your tech needs.",
+      subtitle: "Get Service",
       color: "amber",
-    },
-    {
-      icon: <Briefcase size={28} />,
-      title: "Business Development",
-      subtitle: "22 options available",
-      color: "indigo",
     },
   ];
 
@@ -101,9 +105,6 @@ export default function Services() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-20 px-6 md:px-12 font-sans">
-      
-      
-
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Hero Section */}
         <motion.div
@@ -119,17 +120,17 @@ export default function Services() {
             whileInView={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
           >
-           <h2 className="text-3xl md:text-5xl font-extrabold text-center text-white mb-16">
-        Save Time{" "}
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400">
-          Managing
-        </span>{" "}
-        Your Business
-        <br /> With Our{" "}
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400">
-          Best Services
-        </span>
-      </h2>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-center text-white mb-16">
+              Save Time{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400">
+                Managing
+              </span>{" "}
+              Your Business
+              <br /> With Our{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400">
+                Best Services
+              </span>
+            </h2>
             <motion.span
               className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400"
               animate={{
@@ -143,9 +144,7 @@ export default function Services() {
               style={{
                 backgroundSize: "200% 200%",
               }}
-            >
-              
-            </motion.span>{" "}
+            ></motion.span>{" "}
           </motion.h2>
           <motion.p
             className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed"
@@ -178,14 +177,6 @@ export default function Services() {
                 className="group relative h-full cursor-pointer"
                 onMouseEnter={() => setHoveredCard(index)}
                 onMouseLeave={() => setHoveredCard(null)}
-                onClick={() => {
-                  const token = localStorage.getItem('token');
-                  if (token) {
-                    navigate('/request-service');
-                  } else {
-                    navigate('/login');
-                  }
-                }}
               >
                 {/* Gradient Background */}
                 <motion.div
@@ -243,9 +234,21 @@ export default function Services() {
                   </motion.h3>
 
                   <motion.p
-                    className="text-sm text-gray-300 mb-6 leading-relaxed"
+                    className="text-sm text-gray-300 mb-2 leading-relaxed"
                     animate={{
                       opacity: hoveredCard === index ? 1 : 0.9,
+                    }}
+                  >
+                    {service.description}
+                  </motion.p>
+
+                  <motion.p
+                    className={`text-sm z-50 mt-4 font-semibold underline underline-offset-4 cursor-pointer transition-colors ${color.text} hover:opacity-90`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      const token = localStorage.getItem("token");
+                      navigate(token ? "/service-requests" : "/login");
                     }}
                   >
                     {service.subtitle}

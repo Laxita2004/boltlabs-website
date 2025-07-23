@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { User, PlusCircle, Clock } from 'lucide-react';
-import { useUser } from '../hooks/useUser.js';
+import React, { useState, useEffect } from "react";
+import { User, PlusCircle, Clock, Pencil } from "lucide-react";
+import { useUser } from "../hooks/useUser.js";
+import { Link } from "react-router-dom";
+import DashboardHeader from "../components/userDashBoard/userDashHeader.jsx";
 
 const TABS = [
-  { id: 'profile', label: 'Profile', icon: User },
-  { id: 'new-request', label: 'New Request', icon: PlusCircle },
-  { id: 'history', label: 'Request History', icon: Clock },
+  { id: "profile", label: "Profile", icon: User },
+  { id: "new-request", label: "New Request", icon: PlusCircle },
+  { id: "history", label: "Request History", icon: Clock },
 ];
 
 const UserPanel = () => {
-  const [activeTab, setActiveTab] = useState('profile');
+  const [activeTab, setActiveTab] = useState("profile");
   const [form, setForm] = useState({
-    service: '',
-    domain_id: '',
-    description: '',
+    service: "",
+    domain_id: "",
+    description: "",
   });
 
   const {
@@ -27,7 +29,7 @@ const UserPanel = () => {
     fetchUserRequests,
     fetchUserProfile,
     fetchDomains,
-    clearError
+    clearError,
   } = useUser();
 
   // Fetch data on mount
@@ -39,11 +41,11 @@ const UserPanel = () => {
 
   // Profile data priority: local currentUser → fetched userProfile
   const profile = {
-    name: userProfile?.name || currentUser.name || 'Loading...',
-    email: userProfile?.email || currentUser.email || 'Loading...',
+    name: userProfile?.name || currentUser.name || "Loading...",
+    email: userProfile?.email || currentUser.email || "Loading...",
   };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -55,28 +57,31 @@ const UserPanel = () => {
         domain_id: form.domain_id,
         description: form.description,
       });
-      setForm({ service: '', domain_id: '', description: '' });
-      alert('Service request submitted successfully!');
+      setForm({ service: "", domain_id: "", description: "" });
+      alert("Service request submitted successfully!");
     } catch (err) {
-      console.error('Submit request error:', err);
-      alert('Failed to submit request.');
+      console.error("Submit request error:", err);
+      alert("Failed to submit request.");
     }
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
 
   return (
     <div className="bg-[#0e1a24] text-white min-h-screen pt-32 p-4 sm:p-6 md:p-8">
-      <div className="max-w-4xl mx-auto">
+      <DashboardHeader />
+      <div className="max-w-4xl mx-auto mt-14">
         <header className="mb-8">
           <h1 className="text-4xl font-bold text-white">User Panel</h1>
-          <p className="text-gray-400 mt-1">Manage your profile and service requests</p>
+          <p className="text-gray-400 mt-1">
+            Manage your profile and service requests
+          </p>
         </header>
 
         {error && (
@@ -93,14 +98,15 @@ const UserPanel = () => {
 
         <div className="border-b border-slate-700 mb-6">
           <nav className="flex space-x-8">
-            {TABS.map(tab => (
+            {TABS.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === tab.id
-                  ? 'border-teal-400 text-teal-400'
-                  : 'border-transparent text-gray-400 hover:text-gray-300'
-                  }`}
+                className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                  activeTab === tab.id
+                    ? "border-[#33FEBF] text-[#33FEBF]"
+                    : "border-transparent text-gray-400 hover:text-gray-300"
+                }`}
               >
                 <tab.icon size={16} />
                 {tab.label}
@@ -110,19 +116,21 @@ const UserPanel = () => {
         </div>
 
         <div className="bg-[#19202A] rounded-2xl p-8 border border-gray-700/50">
-          {activeTab === 'profile' && (
+          {activeTab === "profile" && (
             <div>
               <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
                 <User /> Profile Information
               </h2>
               {loading ? (
                 <div className="flex items-center justify-center h-32">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-400"></div>
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#33FEBF]"></div>
                 </div>
               ) : (
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium mb-1">Name</label>
+                    <label className="block text-sm font-medium mb-1">
+                      Name
+                    </label>
                     <input
                       type="text"
                       value={profile.name}
@@ -131,7 +139,9 @@ const UserPanel = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1">Email</label>
+                    <label className="block text-sm font-medium mb-1">
+                      Email
+                    </label>
                     <input
                       type="email"
                       value={profile.email}
@@ -139,19 +149,32 @@ const UserPanel = () => {
                       className="w-full bg-[#232B39] border border-gray-600 rounded-lg text-white px-4 py-3 opacity-50"
                     />
                   </div>
+
+                  {/* Edit Button */}
+                  <div className="pt-2">
+                    <Link
+                      to="/edit-profile"
+                      className="inline-flex items-center gap-1 text-[#33FEBF] underline hover:text-teal-300 transition-colors text-sm font-medium"
+                    >
+                      <Pencil size={16} />
+                      Edit Profile
+                    </Link>
+                  </div>
                 </div>
               )}
             </div>
           )}
 
-          {activeTab === 'new-request' && (
+          {activeTab === "new-request" && (
             <div>
               <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
                 <PlusCircle /> New Service Request
               </h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium mb-1">Service Type</label>
+                  <label className="block text-sm font-medium mb-1">
+                    Service Type
+                  </label>
                   <input
                     type="text"
                     name="service"
@@ -163,7 +186,9 @@ const UserPanel = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">Domain</label>
+                  <label className="block text-sm font-medium mb-1">
+                    Domain
+                  </label>
                   <select
                     name="domain_id"
                     value={form.domain_id}
@@ -172,7 +197,7 @@ const UserPanel = () => {
                     required
                   >
                     <option value="">Select a domain</option>
-                    {domains.map(domain => (
+                    {domains.map((domain) => (
                       <option key={domain.domain_id} value={domain.domain_id}>
                         {domain.name}
                       </option>
@@ -180,7 +205,9 @@ const UserPanel = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">Description</label>
+                  <label className="block text-sm font-medium mb-1">
+                    Description
+                  </label>
                   <textarea
                     name="description"
                     value={form.description}
@@ -192,7 +219,7 @@ const UserPanel = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-teal-600 hover:bg-teal-700 disabled:bg-teal-800 text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition"
+                  className="w-60 bg-[#33FEBF] text-[#0e1a24] hover:bg-teal-700 disabled:bg-teal-800 font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition"
                 >
                   {loading ? (
                     <>
@@ -207,7 +234,7 @@ const UserPanel = () => {
             </div>
           )}
 
-          {activeTab === 'history' && (
+          {activeTab === "history" && (
             <div>
               <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
                 <Clock /> Request History
@@ -218,25 +245,41 @@ const UserPanel = () => {
                 </div>
               ) : userRequests.length === 0 ? (
                 <div className="text-center py-12">
-                  <div className="text-gray-400 text-lg mb-2">No service requests found</div>
-                  <p className="text-gray-500">You haven't submitted any requests yet.</p>
+                  <div className="text-gray-400 text-lg mb-2">
+                    No service requests found
+                  </div>
+                  <p className="text-gray-500">
+                    You haven't submitted any requests yet.
+                  </p>
                 </div>
               ) : (
                 <div className="space-y-6">
-                  {userRequests.map(req => (
-                    <div key={req.req_id} className="bg-[#374151] rounded-lg p-6 border border-gray-600/30">
+                  {userRequests.map((req) => (
+                    <div
+                      key={req.req_id}
+                      className="bg-[#374151] rounded-lg p-6 border border-gray-600/30"
+                    >
                       <div className="flex flex-wrap justify-between items-center mb-2">
                         <div>
-                          <div className="font-bold text-lg text-white">{req.service}</div>
+                          <div className="font-bold text-lg text-white">
+                            {req.service}
+                          </div>
                           <div className="text-gray-300 text-sm">
-                            Domain: <span className="font-medium">{req.domain?.name || 'Unknown'}</span>
+                            Domain:{" "}
+                            <span className="font-medium">
+                              {req.domain?.name || "Unknown"}
+                            </span>
                           </div>
                         </div>
-                        <span className={`px-3 py-1 rounded-full text-xs font-semibold bg-yellow-600`}>
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-semibold bg-yellow-600`}
+                        >
                           Submitted
                         </span>
                       </div>
-                      <div className="text-gray-400 text-xs">Submitted on {formatDate(req.request_date)}</div>
+                      <div className="text-gray-400 text-xs">
+                        Submitted on {formatDate(req.request_date)}
+                      </div>
                     </div>
                   ))}
                 </div>

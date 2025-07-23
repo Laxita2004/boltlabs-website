@@ -5,12 +5,12 @@ import address from "../assets/location.png";
 
 const Content = () => {
     return (
-        <div className="relative bg-[#141e28] text-white py-20 px-6 md:px-16 lg:px-24 xl:px-32 overflow-hidden mt-10">
+        <div className="relative bg-[#141e28] text-white py-20 px-6 md:px-16 lg:px-24 xl:px-32 overflow-hidden ">
 
             {/* ✨ Decorative Background Elements */}
-            <div className="absolute top-[-60px] right-[-80px] w-64 h-64 bg-[#33febf] opacity-10 rounded-full blur-[120px] z-0 animate-pulse"></div>
-            <div className="absolute bottom-[-80px] left-[-60px] w-52 h-52 bg-[#33febf] opacity-20 rounded-full blur-3xl z-0 animate-ping"></div>
-            <div className="absolute top-[65%] right-[-40px] w-28 h-28 bg-white opacity-10 rounded-full blur-xl z-0 animate-spin-slow"></div>
+            <div className="absolute top-[-60px] right-[-80px] w-64 h-64 bg-[#33febf] opacity-10 rounded-full blur-[120px] z-0 animate-pulse mt-10"></div>
+            <div className="absolute bottom-[-80px] left-[-60px] w-52 h-52 bg-[#33febf] opacity-20 rounded-full blur-3xl z-0 animate-ping mt-10"></div>
+            <div className="absolute top-[65%] right-[-40px] w-28 h-28 bg-white opacity-10 rounded-full blur-xl z-0 animate-spin-slow mt-10"></div>
 
             {/* Decorative Triangles */}
             <div className="absolute bottom-0 left-0 z-0 opacity-10">
@@ -27,7 +27,7 @@ const Content = () => {
             {/* ✉️ Main Contact Section */}
             <div className="relative z-10">
                 <div className="text-center mb-16">
-                    <h1 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight tracking-wide">
+                    <h1 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight tracking-wide mt-10">
                         <span className="text-[#33febf]">Contact</span> Us
                     </h1>
                     <p className="text-gray-300 text-lg">
@@ -101,7 +101,7 @@ const Content = () => {
                             <textarea
                                 rows="4"
                                 placeholder="Write Your Message Here..."
-                                className="w-full px-4 py-3 rounded-md bg-white text-[#33febf] placeholder-gray-600 border border-[#33febf] focus:outline-none focus:ring-2 focus:ring-[#33febf] transition"
+                                className="w-full px-4 py-3 rounded-md bg-white text-[#0e1a24] placeholder-gray-600 border border-[#33febf] focus:outline-none focus:ring-2 focus:ring-[#33febf] transition"
                             />
                             <button
                                 type="submit"

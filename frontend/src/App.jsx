@@ -1,7 +1,4 @@
-import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-
-import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -19,7 +16,6 @@ import UserManagement from './components/admin/UserManagement';
 import ProjectManagement from './components/admin/ProjectManagement';
 import DomainManagement from './components/admin/DomainManagement';
 import ServiceRequests from './components/admin/ServiceRequests';
-
 import SettingsLayout from './components/admin/SettingsLayout';
 import CompanySettings from './components/admin/CompanySettings';
 import UserProfile from './components/admin/UserProfile';
@@ -34,8 +30,8 @@ import ForgotPassword from './pages/ForgotPassword';
 const App = () => {
   return (
     <>
-      <Header />
-      <main className='min-h-screen mt-14'>
+      
+      <main className='min-h-screen'>
         <Routes>
 
           {/* Public Routes */}

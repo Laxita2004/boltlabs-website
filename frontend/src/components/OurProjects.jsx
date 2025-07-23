@@ -32,6 +32,15 @@ const projects = [
     desc: "Duis aute irure dolor in reprehenderit in voluptate.",
     img: sample3,
   },
+  {
+    title: "Project 2",
+    desc: "Ut enim ad minim veniam, quis nostrud exercitation.",
+    img: sample2,
+  },{
+    title: "Project 2",
+    desc: "Ut enim ad minim veniam, quis nostrud exercitation.",
+    img: sample2,
+  },
 ];
 
 export default function OurProjects() {

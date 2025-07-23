@@ -1,11 +1,10 @@
-import React from "react";
 import boltlabsVideo from "../assets/boltlabs.mp4";
 import { useNavigate } from "react-router-dom";
 
 export default function Intro() {
   const navigate = useNavigate();
   return (
-    <div className="relative w-full min-h-screen overflow-hidden">
+    <div className="top-[0px] relative w-full min-h-screen overflow-hidden">
       {/* 🔹 Video Background */}
       <video
         autoPlay
@@ -26,19 +25,19 @@ export default function Intro() {
       </div>
 
       {/* 🔹 Content Grid */}
-      <div className="relative z-20 grid grid-cols-1 md:grid-cols-2 items-center min-h-screen px-6 md:px-16">
+      <div className="relative grid grid-cols-1 md:grid-cols-2 items-center min-h-screen px-6 md:px-16">
         {/* Left Text Section */}
-        <div className="space-y-6 text-white text-center md:text-left max-w-2xl mx-auto md:mx-0">
+        <div className="z-20 space-y-6 text-white text-center md:text-left max-w-2xl mx-auto md:mx-0">
           <h2 className="text-4xl md:text-5xl font-extrabold leading-tight">
             Your{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400 italic">
-              Digital{" "}
+            <span className="text-transparent pr-2 bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400 italic">
+              Digital {" "}
             </span>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400 italic">
+            <span className="text-transparent pr-2 bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400 italic">
               Partner
             </span>{" "}
             in{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400 italic">
+            <span className="text-transparent pr-2 bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400 italic">
               Growth
             </span>
             .

@@ -28,7 +28,7 @@ export default function WhyChooseUs() {
         {/* <div className="relative flex-shrink-0 w-72 md:w-96 h-72 md:h-96 flex items-center justify-center"> */}
           {/* <div className="absolute inset-0 bg-gradient-to-br from-teal-400 to-cyan-500 opacity-20 rounded-3xl transform rotate-12 scale-110" /> */}
           <h2 className="relative text-white text-5xl md:text-6xl font-extrabold leading-tight text-center md:text-left drop-shadow-lg">
-            What <br /> makes <br /> us stand out?
+            What <br /> makes <br /> us stand out? 
           </h2>
         {/* </div> */}
         {/* Right: Icons + text list */}
