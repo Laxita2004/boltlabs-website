@@ -12,17 +12,10 @@ import UserDashboard from './pages/UserDashboard';
 import EditProfile from './pages/EditProfile';
 import MemberPage from './pages/MemberPage';
 import AdminDashboard, { DashboardOverview } from './components/admin/AdminDashboard';
-import UserManagement from './components/admin/UserManagement';
 import ProjectManagement from './components/admin/ProjectManagement';
 import DomainManagement from './components/admin/DomainManagement';
 import ServiceRequests from './components/admin/ServiceRequests';
-import SettingsLayout from './components/admin/SettingsLayout';
-import CompanySettings from './components/admin/CompanySettings';
 import UserProfile from './components/admin/UserProfile';
-import Notifications from './components/admin/Notifications';
-import Security from './components/admin/Security';
-import Appearance from './components/admin/Appearance';
-import ApiIntegrations from './components/admin/ApiIntegrations';
 import FirstLoginChange from './pages/FirstLoginChange';
 import ProtectedRoute from './components/ProtectedRoute';
 import ForgotPassword from './pages/ForgotPassword';
@@ -79,19 +72,12 @@ const App = () => {
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminDashboard />}>
             <Route index element={<DashboardOverview />} />
-            <Route path="users" element={<UserManagement />} />
             <Route path="projects" element={<ProjectManagement />} />
             <Route path="domains" element={<DomainManagement />} />
             <Route path="service-requests" element={<ServiceRequests />} />
-            <Route path="settings" element={<SettingsLayout />}>
-              <Route index element={<Navigate to="company" replace />} />
-              <Route path="company" element={<CompanySettings />} />
+            
               <Route path="profile" element={<UserProfile />} />
-              <Route path="notifications" element={<Notifications />} />
-              <Route path="security" element={<Security />} />
-              <Route path="appearance" element={<Appearance />} />
-              <Route path="api" element={<ApiIntegrations />} />
-            </Route>
+            
           </Route>
 
           {/* Redirect unknown routes to home */}

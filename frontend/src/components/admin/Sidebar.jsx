@@ -9,24 +9,10 @@ const Sidebar = () => {
       </div>
       
       <nav className="p-4">
-        {/* Only main sidebar item for Service Requests, not in settings/company */}
-        {/* If you want it as a main item, keep this block. If not, remove it. */}
-        {/* <ul className="mb-6 space-y-1">
-          <li>
-            <NavLink 
-              to="/admin/service-requests"
-              className={({ isActive }) => 
-                `block px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-teal-500/10 text-teal-300' : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'}`
-              }
-            >
-              Service Requests
-            </NavLink>
-          </li>
-        </ul> */}
         <div className="mb-6">
           <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Company</h2>
           <ul className="space-y-1">
-            <li>
+            {/* <li>
               <NavLink 
                 to="company"
                 className={({ isActive }) => 
@@ -35,7 +21,7 @@ const Sidebar = () => {
               >
                 Company Information
               </NavLink>
-            </li>
+            </li> */}
             <li>
               <NavLink 
                 to="profile"
@@ -46,7 +32,7 @@ const Sidebar = () => {
                 User Profile
               </NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink 
                 to="notifications"
                 className={({ isActive }) => 
@@ -54,9 +40,9 @@ const Sidebar = () => {
                 }
               >
                 Notifications
-              </NavLink>
-            </li>
-            <li>
+              </NavLink> 
+            </li>  */}
+            {/* <li>
               <NavLink 
                 to="security"
                 className={({ isActive }) => 
@@ -64,9 +50,9 @@ const Sidebar = () => {
                 }
               >
                 Security
-              </NavLink>
-            </li>
-            <li>
+              </NavLink> */}
+            {/* </li> */}
+            {/* <li>
               <NavLink 
                 to="appearance"
                 className={({ isActive }) => 
@@ -75,8 +61,8 @@ const Sidebar = () => {
               >
                 Appearance
               </NavLink>
-            </li>
-            <li>
+            </li> */}
+            {/* <li>
               <NavLink 
                 to="api"
                 className={({ isActive }) => 
@@ -85,8 +71,8 @@ const Sidebar = () => {
               >
                 API & Integrations
               </NavLink>
-            </li>
-            <li>
+            </li> */}
+            {/* <li>
               <NavLink 
                 to="users"
                 className={({ isActive }) => 
@@ -95,7 +81,7 @@ const Sidebar = () => {
               >
                 User Management
               </NavLink>
-            </li>
+            </li> */}
           </ul>
         </div>
       </nav>

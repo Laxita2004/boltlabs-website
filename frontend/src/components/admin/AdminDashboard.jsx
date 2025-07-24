@@ -69,7 +69,7 @@ const DashboardOverview = () => {
 
         <div className="mb-10">
           <h2 className="text-xl font-semibold text-gray-300 mb-6">Dashboard Overview</h2>
-          <p className="text-gray-400 mb-6">Monitor your BolltLabs business metrics and recent activity</p>
+          <p className="text-gray-400 mb-6">Monitor your BoltLabs business metrics and recent activity</p>
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
