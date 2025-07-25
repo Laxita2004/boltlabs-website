@@ -19,6 +19,7 @@ import UserProfile from './components/admin/UserProfile';
 import FirstLoginChange from './pages/FirstLoginChange';
 import ProtectedRoute from './components/ProtectedRoute';
 import ForgotPassword from './pages/ForgotPassword';
+import TeamManagement from './components/admin/TeamManagement';
 
 const App = () => {
   return (
@@ -75,7 +76,7 @@ const App = () => {
             <Route path="projects" element={<ProjectManagement />} />
             <Route path="domains" element={<DomainManagement />} />
             <Route path="service-requests" element={<ServiceRequests />} />
-            
+            <Route path="users" element={<TeamManagement />} />
               <Route path="profile" element={<UserProfile />} />
             
           </Route>
