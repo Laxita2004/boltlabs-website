@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { FiHome, FiUsers, FiFolder, FiMessageSquare, FiFileText, FiSettings, FiLogOut, FiGlobe } from "react-icons/fi";
 import { useAdmin } from "../../hooks/useAdmin.js";
+import AdminSidebar from "./adminSidebar.jsx";
 
 const DashboardOverview = () => {
   const {
@@ -53,7 +54,7 @@ const DashboardOverview = () => {
   return (
     <div className="bg-[#0e1a24] text-white p-6">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-white mb-2">BolltLabs Admin</h1>
+        <h1 className="text-3xl font-bold text-white mb-2">BoltLabs Admin</h1>
 
         {error && (
           <div className="mb-4 p-4 bg-red-500/20 border border-red-500/50 rounded-lg">
@@ -144,9 +145,9 @@ const AdminDashboard = () => {
   return (
     <div className="flex min-h-screen bg-[#0e1a24]">
       {/* Sidebar */}
-      <aside className="w-64 bg-[#1F2937] border-r border-gray-700/50 flex flex-col">
+      {/* <aside className="w-64 bg-[#1F2937] border-r border-gray-700/50 flex flex-col">
         <div className="h-16 flex items-center px-6 text-xl font-bold border-b border-gray-700/50 text-white">
-          BolltLabs
+          BoltLabs
         </div>
         <nav className="flex-1 px-4 py-6 space-y-1">
           <Link
@@ -161,7 +162,7 @@ const AdminDashboard = () => {
             className="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700/50 text-gray-400 hover:text-white transition"
           >
             <FiUsers className="mr-3" />
-            <span>User Management</span>
+            <span>Team Management</span>
           </Link>
           <Link
             to="/admin/projects"
@@ -199,7 +200,8 @@ const AdminDashboard = () => {
             <span>Logout</span>
           </button>
         </div>
-      </aside>
+      </aside> */}
+      <AdminSidebar/>
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-hidden">
