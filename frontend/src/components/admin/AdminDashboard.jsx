@@ -146,7 +146,7 @@ const AdminDashboard = () => {
       {/* Sidebar */}
       <aside className="w-64 bg-[#1F2937] border-r border-gray-700/50 flex flex-col">
         <div className="h-16 flex items-center px-6 text-xl font-bold border-b border-gray-700/50 text-white">
-          BolltLabs
+          BoltLabs
         </div>
         <nav className="flex-1 px-4 py-6 space-y-1">
           <Link
