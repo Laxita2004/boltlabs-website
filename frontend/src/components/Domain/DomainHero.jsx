@@ -5,7 +5,6 @@ const DomainHero = ({ domain = '' }) => {
     'web-development': 'Web Development Team',
     'app-development': 'App Development Team',
     'ui-ux': 'UI/UX Design Team',
-    'graphic-designing': 'Graphic Designing Team',
     'digital-marketing': 'Digital Marketing Team',
     'iot': 'IoT Team',
     'blockchain': 'Blockchain Team',

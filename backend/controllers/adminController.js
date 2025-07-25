@@ -135,12 +135,17 @@ export const deleteMember = async (req, res) => {
   const { member_id } = req.params;
 
   try {
-    await prisma.member.delete({ where: { member_id: parseInt(member_id) } });
+    await prisma.member.delete({
+      where: { member_id } // UUID is a string, no parseInt
+    });
+
     res.json({ message: 'Member deleted successfully' });
   } catch (err) {
+    console.error('Delete member error:', err);
     res.status(500).json({ error: 'Failed to delete member', details: err.message });
   }
 };
+
 
 // 8. Fetch all requests
 export const fetchRequests = async (req, res) => {

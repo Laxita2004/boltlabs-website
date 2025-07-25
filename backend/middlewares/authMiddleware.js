@@ -27,11 +27,9 @@ export const authenticateUser = (req, res, next) => {
     return res.status(401).json({ error: 'Unauthorized: Invalid or expired token.' });
   }
 
-  // Normalize user payload
-  req.user = {
-    id: decoded.id || decoded.user_id || decoded.admin_id || decoded.member_id,
-    role: decoded.role
-  };
+  // ✅ Store all fields and normalize `id`
+  req.user = { ...decoded };
+  req.user.id = decoded.id || decoded.user_id || decoded.admin_id || decoded.member_id;
 
   next();
 };
