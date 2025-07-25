@@ -7,9 +7,10 @@ import Header from '../components/Header'
 const Team = () => {
   return (
     <div>
-     <Header/>
-   <TeamTop/>
-   <Domain/>
+      <Header />
+      <TeamTop />
+      <Domain />
+      {/* <TeamFoot /> */}
 
     </div>
   )

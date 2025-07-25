@@ -1,20 +1,11 @@
-
-
 import { prisma } from '../lib/prisma.js';
-import bcrypt from 'bcryptjs'; // For password hashing
-// 1. Fetch Domains
+import bcrypt from 'bcryptjs';
+
+// 1. Fetch all domains
 export const fetchDomains = async (req, res) => {
   try {
     const domains = await prisma.domain.findMany({
-      include: {
-        members: {
-          include: {
-            member: true
-          }
-        },
-        services: true,
-        serviceRequests: true
-      }
+      select: { domain_id: true, name: true }
     });
     res.json(domains);
   } catch (err) {
@@ -22,14 +13,11 @@ export const fetchDomains = async (req, res) => {
   }
 };
 
-// 2. Create Domain
+// 2. Create domain
 export const createDomain = async (req, res) => {
   const { name } = req.body;
-
   try {
-    const domain = await prisma.domain.create({
-      data: { name }
-    });
+    const domain = await prisma.domain.create({ data: { name } });
     res.status(201).json(domain);
   } catch (err) {
     if (err.code === 'P2002') {
@@ -40,35 +28,24 @@ export const createDomain = async (req, res) => {
   }
 };
 
-// 3. Delete Domain
+// 3. Delete domain
 export const deleteDomain = async (req, res) => {
   const { domain_id } = req.params;
-
   try {
-    await prisma.domain.delete({
-      where: { domain_id }
-    });
+    await prisma.domain.delete({ where: { domain_id } }); // ✅ UUID safe
     res.json({ message: 'Domain deleted successfully' });
   } catch (err) {
     res.status(500).json({ error: 'Failed to delete domain', details: err.message });
   }
 };
 
-// 4. Fetch Members
+// 4. Fetch all members
 export const fetchMembers = async (req, res) => {
   try {
     const members = await prisma.member.findMany({
       include: {
-        domains: {
-          include: {
-            domain: true
-          }
-        },
-        services: {
-          include: {
-            service: true
-          }
-        }
+        domains: { include: { domain: true } },
+        services: { include: { service: true } }
       }
     });
     res.json(members);
@@ -77,32 +54,52 @@ export const fetchMembers = async (req, res) => {
   }
 };
 
-// 5. Delete Members
-export const deleteMember = async (req, res) => {
-  const { member_id } = req.params;
-
+// ✅ 5. Fetch members of a specific domain (FIXED)
+export const fetchDomainMembers = async (req, res) => {
+  const { domain_id } = req.params;
   try {
-    await prisma.member.delete({
-      where: { member_id }
+    const domainMembers = await prisma.memberDomain.findMany({
+      where: { domain_id }, // ✅ removed parseInt
+      include: { member: true }
     });
-    res.json({ message: 'Member deleted successfully' });
+
+    const members = domainMembers.map(dm => ({
+      member_id: dm.member.member_id,
+      name: dm.member.name,
+      empId: dm.member.empId,
+      description: dm.member.description,
+      pic: dm.member.pic,
+      skillTags: dm.member.skillTags
+    }));
+
+    res.json(members);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to delete member', details: err.message });
+    res.status(500).json({ error: 'Failed to fetch domain members', details: err.message });
   }
 };
-
-// 6. Create Members
+// 6. Create new member
 export const createMember = async (req, res) => {
-  const { name, email, password, domain_ids } = req.body;
+  const {
+    name, email, password, domain_ids,
+    empId, pic, description, skillTags
+  } = req.body;
+
+  if (!name || !email || !password || !Array.isArray(domain_ids) || domain_ids.length === 0) {
+    return res.status(400).json({ error: 'Name, email, password, and at least one domain are required.' });
+  }
 
   try {
-    // Check if domains exist
     const existingDomains = await prisma.domain.findMany({
       where: { domain_id: { in: domain_ids } }
     });
 
     if (existingDomains.length !== domain_ids.length) {
       return res.status(400).json({ error: 'One or more domains not found' });
+    }
+
+    const existingMember = await prisma.member.findUnique({ where: { email } });
+    if (existingMember) {
+      return res.status(400).json({ error: 'Email already exists' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -112,6 +109,10 @@ export const createMember = async (req, res) => {
         name,
         email,
         password: hashedPassword,
+        empId,
+        pic,
+        description,
+        skillTags,
         domains: {
           create: domain_ids.map(domain_id => ({
             domain: { connect: { domain_id } }
@@ -119,27 +120,29 @@ export const createMember = async (req, res) => {
         }
       },
       include: {
-        domains: {
-          include: {
-            domain: true
-          }
-        }
+        domains: { include: { domain: true } }
       }
     });
 
     res.status(201).json(member);
   } catch (err) {
-    if (err.code === 'P2002') {
-      res.status(400).json({ error: 'Email already exists' });
-    } else {
-      res.status(500).json({
-        error: 'Failed to create member',
-        details: err.message
-      });
-    }
+    res.status(500).json({ error: 'Failed to create member', details: err.message });
   }
 };
-// 7. Fetch Requests
+
+// 7. Delete member
+export const deleteMember = async (req, res) => {
+  const { member_id } = req.params;
+
+  try {
+    await prisma.member.delete({ where: { member_id: parseInt(member_id) } });
+    res.json({ message: 'Member deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete member', details: err.message });
+  }
+};
+
+// 8. Fetch all requests
 export const fetchRequests = async (req, res) => {
   try {
     const requests = await prisma.serviceRequest.findMany({
@@ -150,63 +153,40 @@ export const fetchRequests = async (req, res) => {
       orderBy: { request_date: 'desc' }
     });
 
-    console.log('Found requests in database:', requests.length);
-    console.log('Request statuses:', requests.map(r => ({ id: r.req_id, status: r.status })));
-
-    res.json({ requests: requests });
+    res.json({ requests });
   } catch (err) {
-    console.error('Fetch requests error:', err);
     res.status(500).json({ error: 'Failed to fetch requests', details: err.message });
   }
 };
 
-// 8. Post Response to Request
+// 9. Respond to a service request
 export const respondToRequest = async (req, res) => {
   const { req_id } = req.params;
   const { status } = req.body;
 
-  console.log('Responding to request:', req_id, 'with status:', status);
-
   try {
-    // First, get the request details
     const serviceRequest = await prisma.serviceRequest.findUnique({
-      where: { req_id },
-      include: {
-        user: true,
-        domain: {
-          include: {
-            members: {
-              include: {
-                member: true
-              }
-            }
-          }
-        }
-      }
-    });
-
-    if (!serviceRequest) {
-      console.log('Request not found:', req_id);
-      return res.status(404).json({ error: 'Request not found' });
-    }
-
-    console.log('Found service request:', serviceRequest.req_id);
-
-    // Update the request status instead of deleting
-    const updatedRequest = await prisma.serviceRequest.update({
-      where: { req_id },
-      data: { status: status },
+      where: { req_id: parseInt(req_id) },
       include: {
         user: true,
         domain: true
       }
     });
 
-    console.log('Request status updated to:', status);
+    if (!serviceRequest) {
+      return res.status(404).json({ error: 'Request not found' });
+    }
 
-    // If approved, also create a service
+    const updatedRequest = await prisma.serviceRequest.update({
+      where: { req_id: parseInt(req_id) },
+      data: { status },
+      include: {
+        user: true,
+        domain: true
+      }
+    });
+
     if (status === 'approved') {
-      console.log('Approving request and creating service...');
       const service = await prisma.service.create({
         data: {
           user_id: serviceRequest.user_id,
@@ -215,55 +195,39 @@ export const respondToRequest = async (req, res) => {
         }
       });
 
-      console.log('Service created:', service.service_id);
-
       return res.json({
         message: 'Request approved and service created',
         service,
         request: updatedRequest
       });
     } else {
-      console.log('Request rejected');
-
       return res.json({
         message: 'Request rejected',
         request: updatedRequest
       });
     }
   } catch (err) {
-    console.error('Respond to request error:', err);
     res.status(500).json({ error: 'Failed to process request', details: err.message });
   }
 };
 
-// 9. Fetch Services with Status and Domain
+// 10. Fetch services (with optional filters)
 export const fetchServices = async (req, res) => {
   const { status, domain_id } = req.query;
 
   try {
-    const whereClause = {};
+    const where = {};
 
-    if (domain_id) {
-      whereClause.domain_id = domain_id;
-    }
-
-    if (status) {
-      whereClause.members = {
-        some: {
-          status: status.toUpperCase() // Convert to match your enum
-        }
-      };
-    }
+    if (domain_id) where.domain_id = parseInt(domain_id);
+    if (status) where.status = status.toUpperCase();
 
     const services = await prisma.service.findMany({
-      where: whereClause,
+      where,
       include: {
         user: true,
         domain: true,
         members: {
-          include: {
-            member: true
-          }
+          include: { member: true }
         },
         payments: true
       }
@@ -274,7 +238,3 @@ export const fetchServices = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch services', details: err.message });
   }
 };
-
-
-
-

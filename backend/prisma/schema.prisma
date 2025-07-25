@@ -43,13 +43,17 @@ model Domain {
 }
 
 model Member {
-  member_id  String          @id @default(uuid())
-  name       String
-  email      String          @unique
-  password   String
-  firstLogin Boolean         @default(true)
-  domains    MemberDomain[]
-  services   MemberService[]
+  member_id   String          @id @default(uuid())
+  name        String
+  email       String          @unique
+  password    String
+  empId       String?         // New: Employee ID
+  pic         String?         // New: Profile picture URL
+  description String?         // New: Bio or summary
+  skillTags   String[]        // New: Skill tags
+  firstLogin  Boolean         @default(true)
+  domains     MemberDomain[]
+  services    MemberService[]
 
   @@schema("public")
 }
@@ -94,7 +98,7 @@ model ServiceRequest {
   service      String
   domain_id    String
   request_date DateTime @default(now())
-  status       String   @default("pending") // Add status field
+  status       String   @default("pending") // pending | approved | rejected etc.
   domain       Domain   @relation(fields: [domain_id], references: [domain_id])
   user         User     @relation(fields: [user_id], references: [user_id])
 
@@ -123,3 +127,4 @@ enum WorkStatus {
 
   @@schema("public")
 }
+  
