@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -24,7 +24,6 @@ import TeamManagement from './components/admin/TeamManagement';
 const App = () => {
   return (
     <>
-      
       <main className='min-h-screen'>
         <Routes>
 
@@ -43,32 +42,44 @@ const App = () => {
           <Route path="/team/:domain/:memberId" element={<Index />} />
 
           {/* User Dashboard - Protected */}
-          <Route path="/user-dashboard" element={
-            <ProtectedRoute allowedRoles={['user']}>
-              <UserDashboard />
-            </ProtectedRoute>
-          } />
+          <Route
+            path="/user-dashboard"
+            element={
+              <ProtectedRoute allowedRoles={['user']}>
+                <UserDashboard />
+              </ProtectedRoute>
+            }
+          />
 
-          {/* User Dashboard - Protected */}
-          <Route path="/dashboard" element={
-            <ProtectedRoute allowedRoles={['user']}>
-              <UserDashboard />
-            </ProtectedRoute>
-          } />
+          {/* Alias for backward compatibility */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute allowedRoles={['user']}>
+                <UserDashboard />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Member Dashboard */}
-          <Route path="/member-home" element={
-            <ProtectedRoute allowedRoles={['member']}>
-              <MemberPage />
-            </ProtectedRoute>
-          } />
+          <Route
+            path="/member-home"
+            element={
+              <ProtectedRoute allowedRoles={['member']}>
+                <MemberPage />
+              </ProtectedRoute>
+            }
+          />
 
           {/* First Login Password Change */}
-          <Route path="/first-login-change" element={
-            <ProtectedRoute allowedRoles={['member']}>
-              <FirstLoginChange />
-            </ProtectedRoute>
-          } />
+          <Route
+            path="/first-login-change"
+            element={
+              <ProtectedRoute allowedRoles={['member']}>
+                <FirstLoginChange />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminDashboard />}>
@@ -77,8 +88,7 @@ const App = () => {
             <Route path="domains" element={<DomainManagement />} />
             <Route path="service-requests" element={<ServiceRequests />} />
             <Route path="users" element={<TeamManagement />} />
-              <Route path="profile" element={<UserProfile />} />
-            
+            <Route path="profile" element={<UserProfile />} />
           </Route>
 
           {/* Redirect unknown routes to home */}

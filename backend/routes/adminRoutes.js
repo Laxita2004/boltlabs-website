@@ -1,4 +1,4 @@
-import express from 'express';
+import express from "express";
 import {
   fetchDomains,
   createDomain,
@@ -14,16 +14,14 @@ import {
 import {
   authenticateUser,
   authorizeRoles,
-  authorizeAdmin
-} from '../middlewares/authMiddleware.js';
+  authorizeAdmin,
+} from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-
-//  Public test endpoints (no auth required)
-router.get('/test', (req, res) => {
-  res.json({ message: 'Admin routes are working!' });
-
+// Public test endpoints (no auth required)
+router.get("/test", (req, res) => {
+  res.json({ message: "Admin routes are working!" });
 });
 
 router.get("/health", (req, res) => {
@@ -34,24 +32,26 @@ router.get("/health", (req, res) => {
   });
 });
 
-// Apply admin authentication and authorization to all routesss
-router.use(authenticateUser, authorizeRoles('admin'));
+// ✅ Public Domains Route (anyone can view)
+router.get("/domains", fetchDomains);
 
-//  Domain Routes
-router.get('/domains', fetchDomains);
-router.post('/domains', createDomain);
-router.delete('/domains/:domain_id', deleteDomain);
+// ✅ All routes below this are admin-protected
+router.use(authenticateUser, authorizeRoles("admin"));
 
-//  Member Routes
-router.get('/members', fetchMembers);
-router.post('/members', createMember);
-router.delete('/members/:member_id', deleteMember);
+// Domain Management Routes
+router.post("/domains", createDomain);
+router.delete("/domains/:domain_id", deleteDomain);
 
-//  Request Handling Routes
-router.get('/requests', fetchRequests);
-router.post('/requests/:req_id/respond', respondToRequest);
+// Member Routes
+router.get("/members", fetchMembers);
+router.post("/members", createMember);
+router.delete("/members/:member_id", deleteMember);
 
-//  Service Routes
-router.get('/services', fetchServices);
+// Request Handling
+router.get("/requests", fetchRequests);
+router.post("/requests/:req_id/respond", respondToRequest);
+
+// Service Routes
+router.get("/services", fetchServices);
 
 export default router;

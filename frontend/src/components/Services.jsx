@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   LayoutDashboard,
@@ -9,7 +9,6 @@ import {
   Server,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { Link } from 'react-router-dom'
 
 export default function Services() {
   const services = [
@@ -100,6 +99,7 @@ export default function Services() {
       shadow: "hover:shadow-indigo-500/30",
     },
   };
+
   const [hoveredCard, setHoveredCard] = useState(null);
   const navigate = useNavigate();
 
@@ -120,31 +120,15 @@ export default function Services() {
             whileInView={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
           >
-            <h2 className="text-3xl md:text-5xl font-extrabold text-center text-white mb-16">
-              Save Time{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400">
-                Managing
-              </span>{" "}
-              Your Business
-              <br /> With Our{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400">
-                Best Services
-              </span>
-            </h2>
-            <motion.span
-              className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400"
-              animate={{
-                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-              }}
-              transition={{
-                duration: 6,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-              style={{
-                backgroundSize: "200% 200%",
-              }}
-            ></motion.span>{" "}
+            Save Time{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400">
+              Managing
+            </span>{" "}
+            Your Business
+            <br /> With Our{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-400">
+              Best Services
+            </span>
           </motion.h2>
           <motion.p
             className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed"
@@ -204,41 +188,17 @@ export default function Services() {
                       duration: 0.6,
                     }}
                   >
-                    <motion.div
-                      animate={{
-                        scale: hoveredCard === index ? [1, 1.2, 1] : 1,
-                        rotate: hoveredCard === index ? [0, 5, 0] : 0,
-                      }}
-                      transition={{
-                        duration: 0.8,
-                        times: [0, 0.2, 1],
-                      }}
-                    >
-                      {React.cloneElement(service.icon, {
-                        className: `${service.icon.props.className} transition-all duration-300`,
-                      })}
-                    </motion.div>
+                    {React.cloneElement(service.icon)}
                   </motion.div>
 
                   {/* Content */}
                   <motion.h3
                     className={`text-xl font-bold text-white mb-3 group-hover:text-${service.color}-400 transition-colors`}
-                    animate={{
-                      color:
-                        hoveredCard === index
-                          ? colorMap[service.color].text
-                          : "#ffffff",
-                    }}
                   >
                     {service.title}
                   </motion.h3>
 
-                  <motion.p
-                    className="text-sm text-gray-300 mb-2 leading-relaxed"
-                    animate={{
-                      opacity: hoveredCard === index ? 1 : 0.9,
-                    }}
-                  >
+                  <motion.p className="text-sm text-gray-300 mb-2 leading-relaxed">
                     {service.description}
                   </motion.p>
 
@@ -248,7 +208,7 @@ export default function Services() {
                       e.preventDefault();
                       e.stopPropagation();
                       const token = localStorage.getItem("token");
-                      navigate(token ? "/service-requests" : "/login");
+                      navigate(token ? "/user-dashboard?section=new-request" : "/login");
                     }}
                   >
                     {service.subtitle}
