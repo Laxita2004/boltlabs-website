@@ -238,3 +238,28 @@ export const fetchServices = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch services', details: err.message });
   }
 };
+
+
+
+// for fetching member details
+export const fetchMemberById = async (req, res) => {
+  const { member_id } = req.params;
+
+  try {
+    const member = await prisma.member.findUnique({
+      where: { member_id },
+      include: {
+        domains: { include: { domain: true } },
+        services: { include: { service: true } }
+      }
+    });
+
+    if (!member) {
+      return res.status(404).json({ error: 'Member not found' });
+    }
+
+    res.json(member);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch member', details: err.message });
+  }
+};

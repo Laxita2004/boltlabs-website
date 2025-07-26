@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import adminAPI from '../../services/api';
@@ -9,29 +9,43 @@ const DomainMembers = () => {
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchDomainMembers = async () => {
-      try {
-        const allDomains = await adminAPI.get('api/admin/domains');
-        const domain = allDomains.data.find(d =>
-          d.name.toLowerCase().replace(/\s+/g, '-') === slug
+ useEffect(() => {
+  const fetchDomainMembers = async () => {
+    try {
+      const allDomains = await adminAPI.get("api/admin/domains");
+      console.log("All Domains:", allDomains.data);
+      console.log("Slug:", slug);
+      allDomains.data.forEach((d) =>
+        console.log(
+          d.name,
+          "->",
+          d.name.toLowerCase().replace(/\s+/g, "-")
+        )
+      );
+
+      const domain = allDomains.data.find(
+  (d) => d.name.trim().toLowerCase().replace(/\s+/g, "-") === slug
+);
+
+      if (domain) {
+        console.log("Domain found:", domain);
+        const res = await adminAPI.get(
+          `api/admin/domains/${domain.domain_id}/members`
         );
-
-        if (domain) {
-          const res = await adminAPI.get(`api/admin/domains/${domain.domain_id}/members`);
-          setMembers(res.data);
-        } else {
-          console.error('Domain not found for slug:', slug);
-        }
-      } catch (err) {
-        console.error('Failed to fetch domain members:', err);
-      } finally {
-        setLoading(false);
+        console.log("Members fetched:", res.data);
+        setMembers(res.data);
+      } else {
+        console.error("Domain not found for slug:", slug);
       }
-    };
+    } catch (err) {
+      console.error("Failed to fetch domain members:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchDomainMembers();
-  }, [slug]);
+  fetchDomainMembers();
+}, [slug]);
 
   if (loading) return <div className="text-center text-white py-10">Loading...</div>;
 
@@ -74,12 +88,32 @@ const DomainMembers = () => {
                 <h3 className="text-2xl font-bold">{member.name}</h3>
                 <p className="text-sm text-gray-700 mb-3">{member.description}</p>
                 <div className="flex flex-wrap gap-2">
-                  {member.skillTags.map((tag, i) => (
+                  {(member.skillTags || []).map((tag, i) => (
                     <span key={i} className="bg-gray-200 text-xs px-3 py-1 rounded-full">
                       {tag}
                     </span>
                   ))}
                 </div>
+                {/* profile button */}
+                <Link
+                  to={`/team/${slug}/${member.member_id}`}
+                  className="w-full bg-black text-white px-4 py-3 rounded-lg text-sm font-semibold hover:bg-[#33FEBF] transition-colors flex items-center justify-center mt-4"
+                >
+                  View Full Profile
+                  <svg
+                    className="w-4 h-4 ml-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    />
+                  </svg>
+                </Link>
               </div>
             </motion.div>
           ))}

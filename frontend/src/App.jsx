@@ -22,6 +22,7 @@ import FirstLoginChange from './pages/FirstLoginChange';
 import ProtectedRoute from './components/ProtectedRoute';
 import ForgotPassword from './pages/ForgotPassword';
 import TeamManagement from './components/admin/TeamManagement';
+import MemberProfile from './components/Member/MemberProfile';
 
 const App = () => {
   return (
@@ -40,7 +41,8 @@ const App = () => {
           {/* ✅ Team & Domain Pages */}
           <Route path="/team" element={<Team />} />
           <Route path="/team/:slug" element={<DomainMembers />} /> {/* Renders members of domain */}
-          <Route path="/team/:slug/:memberId" element={<Index />} /> {/* Specific member detail */}
+         <Route path="/team/:slug/:member_id" element={<MemberProfile />} />
+{/* Specific member detail */}
 
           {/* ✅ User Dashboard */}
           <Route
