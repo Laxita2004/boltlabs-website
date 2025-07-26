@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Mail, Globe, Twitter, MapPin, Calendar, ArrowLeft } from "lucide-react";
-import { adminAPI } from "../services/api";// adjust path if needed
+import { adminAPI } from "../services/api";
 
 const ProfileHeader = () => {
   const navigate = useNavigate();

@@ -6,8 +6,8 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Team from './pages/Team';
 import Domain from './components/Domain';
-import DomainMembers from './components/Domain/DomainMembers'; // ✅ Make sure it's in /pages
-import Index from './pages/Index';
+import DomainMembers from './components/Domain/DomainMembers'; 
+
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 import UserDashboard from './pages/UserDashboard';
@@ -42,7 +42,7 @@ const App = () => {
           <Route path="/team" element={<Team />} />
           <Route path="/team/:slug" element={<DomainMembers />} /> {/* Renders members of domain */}
          <Route path="/team/:slug/:member_id" element={<MemberProfile />} />
-{/* Specific member detail */}
+
 
           {/* ✅ User Dashboard */}
           <Route
