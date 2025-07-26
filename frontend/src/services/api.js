@@ -86,6 +86,14 @@ export const adminAPI = {
   // Services
   getServices: (params) => api.get('api/admin/services', { params }),
 
+  // Clients
+  createClient: (data) => api.post('api/admin/clients', data),
+
+  // Admin Profile
+  getProfile: () => api.get('api/admin/profile'),
+  updateProfile: (data) => api.put('api/admin/profile', data),
+  updatePassword: (data) => api.put('api/admin/password', data),
+
   // Recent Activity
   getRecentActivity: () => api.get('api/admin/activity'),
 };

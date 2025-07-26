@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { FiHome, FiUsers, FiFolder, FiMessageSquare, FiFileText, FiSettings, FiLogOut, FiGlobe } from "react-icons/fi";
 import { useAdmin } from "../../hooks/useAdmin.js";
 import AdminSidebar from "./adminSidebar.jsx";
@@ -15,6 +15,8 @@ const DashboardOverview = () => {
     clearError
   } = useAdmin();
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     fetchDashboardStats();
     fetchRequests();
@@ -28,10 +30,10 @@ const DashboardOverview = () => {
   }));
 
   const quickActions = [
-    "Add New Client",
-    "Create Project",
-    "Support Tickets",
-    "Template"
+    {
+      label: "Add New Client",
+      onClick: () => navigate("/admin/add-client")
+    }
   ];
 
   if (loading) {
@@ -77,7 +79,7 @@ const DashboardOverview = () => {
             <div className="bg-[#1F2937] p-6 rounded-lg shadow-lg border border-gray-700/50">
               <h3 className="text-gray-400 font-medium mb-2">Total Clients</h3>
               <p className="text-3xl font-bold text-white mb-1">{dashboardStats.totalClients}</p>
-              <p className="text-green-400 text-sm">Active clients</p>
+              {/* <p className="text-green-400 text-sm">Active clients</p> */}
             </div>
             <div className="bg-[#1F2937] p-6 rounded-lg shadow-lg border border-gray-700/50">
               <h3 className="text-gray-400 font-medium mb-2">Active Projects</h3>
@@ -104,8 +106,11 @@ const DashboardOverview = () => {
             <ul className="space-y-3">
               {quickActions.map((action, index) => (
                 <li key={index}>
-                  <button className="w-full text-left px-4 py-2 bg-[#0e1a24] text-gray-300 rounded-md hover:bg-gray-700/50 transition-colors">
-                    {action}
+                  <button
+                    className="w-full text-left px-4 py-2 bg-[#0e1a24] text-gray-300 rounded-md hover:bg-gray-700/50 transition-colors"
+                    onClick={action.onClick}
+                  >
+                    {action.label}
                   </button>
                 </li>
               ))}

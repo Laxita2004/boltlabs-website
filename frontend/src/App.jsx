@@ -20,6 +20,8 @@ import FirstLoginChange from './pages/FirstLoginChange';
 import ProtectedRoute from './components/ProtectedRoute';
 import ForgotPassword from './pages/ForgotPassword';
 import TeamManagement from './components/admin/TeamManagement';
+import AddClientPage from './components/admin/AddClientPage';
+import AdminSettingsPage from './components/admin/AdminSettingsPage';
 
 const App = () => {
   return (
@@ -76,9 +78,10 @@ const App = () => {
             <Route path="projects" element={<ProjectManagement />} />
             <Route path="domains" element={<DomainManagement />} />
             <Route path="service-requests" element={<ServiceRequests />} />
-            <Route path="users" element={<TeamManagement />} />
-              <Route path="profile" element={<UserProfile />} />
-            
+            <Route path="users" element={<TeamManagement />} />            
+            <Route path="add-client" element={<AddClientPage />} />
+            <Route path="settings" element={<AdminSettingsPage />} />
+            <Route path="profile" element={<UserProfile />} />
           </Route>
 
           {/* Redirect unknown routes to home */}
