@@ -275,6 +275,177 @@ export const fetchServices = async (req, res) => {
   }
 };
 
+// 9. Create Client (creates a new service request)
+export const createClient = async (req, res) => {
+  const { clientName, domain, description } = req.body;
+
+  try {
+    // Find the domain by name
+    const domainRecord = await prisma.domain.findFirst({
+      where: { name: domain }
+    });
+
+    if (!domainRecord) {
+      return res.status(400).json({ error: 'Domain not found' });
+    }
+
+    // Generate a unique email for the client
+    const baseEmail = `${clientName.toLowerCase().replace(/\s+/g, '.')}@client.com`;
+    let email = baseEmail;
+    let counter = 1;
+    
+    // Check if email already exists and generate a unique one
+    while (true) {
+      const existingUser = await prisma.user.findUnique({
+        where: { email }
+      });
+      if (!existingUser) break;
+      email = `${baseEmail.split('@')[0]}${counter}@client.com`;
+      counter++;
+    }
+
+    // Create a new user record for the client
+    const newUser = await prisma.user.create({
+      data: {
+        name: clientName,
+        email: email,
+        password: 'temp_password_123' // You might want to generate a random password
+        // created_at and updated_at will be automatically set by Prisma
+      }
+    });
+
+    // Create a new service request for the client
+    const serviceRequest = await prisma.serviceRequest.create({
+      data: {
+        user_id: newUser.user_id,
+        service: description,
+        domain_id: domainRecord.domain_id,
+        status: 'pending'
+      },
+      include: {
+        domain: true,
+        user: true
+      }
+    });
+
+    res.status(201).json({
+      message: 'Client added successfully',
+      client: {
+        id: serviceRequest.req_id,
+        name: clientName,
+        domain: domainRecord.name,
+        description: description,
+        status: serviceRequest.status,
+        request_date: serviceRequest.request_date
+      }
+    });
+  } catch (err) {
+    console.error('Create client error:', err);
+    res.status(500).json({ error: 'Failed to create client', details: err.message });
+  }
+};
+
+// 10. Get Admin Profile
+export const getProfile = async (req, res) => {
+  try {
+    const admin = await prisma.admin.findUnique({
+      where: { admin_id: req.user.id },
+      select: {
+        admin_id: true,
+        name: true,
+        email: true
+      }
+    });
+
+    if (!admin) {
+      return res.status(404).json({ error: 'Admin not found' });
+    }
+
+    res.json(admin);
+  } catch (err) {
+    console.error('Get admin profile error:', err);
+    res.status(500).json({ error: 'Failed to get admin profile', details: err.message });
+  }
+};
+
+// 11. Update Admin Profile
+export const updateProfile = async (req, res) => {
+  const { name, email } = req.body;
+
+  try {
+    // Check if email is already taken by another admin
+    if (email) {
+      const existingAdmin = await prisma.admin.findFirst({
+        where: {
+          email: email,
+          admin_id: { not: req.user.id }
+        }
+      });
+
+      if (existingAdmin) {
+        return res.status(400).json({ error: 'Email already exists' });
+      }
+    }
+
+    const updatedAdmin = await prisma.admin.update({
+      where: { admin_id: req.user.id },
+      data: {
+        name: name || undefined,
+        email: email || undefined
+      },
+      select: {
+        admin_id: true,
+        name: true,
+        email: true
+      }
+    });
+
+    res.json({
+      message: 'Profile updated successfully',
+      admin: updatedAdmin
+    });
+  } catch (err) {
+    console.error('Update admin profile error:', err);
+    res.status(500).json({ error: 'Failed to update admin profile', details: err.message });
+  }
+};
+
+// 12. Update Admin Password
+export const updateAdminPassword = async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+
+  try {
+    // Get the admin
+    const admin = await prisma.admin.findUnique({
+      where: { admin_id: req.user.id }
+    });
+
+    if (!admin) {
+      return res.status(404).json({ error: 'Admin not found' });
+    }
+
+    // Check current password
+    const isMatch = await bcrypt.compare(currentPassword, admin.password);
+    if (!isMatch) {
+      return res.status(400).json({ error: 'Current password is incorrect' });
+    }
+
+    // Hash new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update password
+    await prisma.admin.update({
+      where: { admin_id: req.user.id },
+      data: { password: hashedPassword }
+    });
+
+    res.json({ message: 'Password updated successfully' });
+  } catch (err) {
+    console.error('Update admin password error:', err);
+    res.status(500).json({ error: 'Failed to update password', details: err.message });
+  }
+};
+
 
 
 

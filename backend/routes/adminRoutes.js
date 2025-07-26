@@ -9,6 +9,10 @@ import {
   fetchRequests,
   respondToRequest,
   fetchServices,
+  createClient,
+  getProfile,
+  updateProfile,
+  updateAdminPassword,
 } from "../controllers/adminController.js";
 
 import {
@@ -53,5 +57,15 @@ router.post('/requests/:req_id/respond', respondToRequest);
 
 //  Service Routes
 router.get('/services', fetchServices);
+
+//  Client Routes
+router.post('/clients', createClient);
+
+//  Admin Profile Routes
+router.get('/profile', getProfile);
+router.put('/profile', updateProfile);
+
+//  Admin Password Route
+router.put('/password', updateAdminPassword);
 
 export default router;
