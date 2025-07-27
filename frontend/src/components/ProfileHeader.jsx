@@ -60,8 +60,8 @@ const ProfileHeader = () => {
 
         {/* Profile Info */}
         <div className="flex-1">
-          <h1 className="text-4xl font-bold mb-2">{member.name}</h1>
-          <p className="text-xl text-teal-400 mb-4">{member.role || member.description}</p>
+          <h1 className="text-4xl font-bold mb-6">{member.name}</h1>
+          {/* <p className="text-xl text-teal-400 mb-4">{member.role || member.description}</p> */}
 
           {/* Tags */}
           <div className="flex flex-wrap gap-2 mb-4">
@@ -72,40 +72,6 @@ const ProfileHeader = () => {
             ))}
           </div>
 
-          {/* Location and Join Date */}
-          <div className="flex flex-wrap gap-4 mb-6 text-sm text-gray-300">
-            {member.location && (
-              <div className="flex items-center gap-1">
-                <MapPin size={16} className="text-teal-400" />
-                <span>{member.location}</span>
-              </div>
-            )}
-            {member.joinDate && (
-              <div className="flex items-center gap-1">
-                <Calendar size={16} className="text-teal-400" />
-                <span>Joined {new Date(member.joinDate).toLocaleDateString()}</span>
-              </div>
-            )}
-          </div>
-
-          {/* Social Links */}
-          <div className="flex gap-3">
-            {member.email && (
-              <a href={`mailto:${member.email}`} className="p-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors">
-                <Mail size={18} />
-              </a>
-            )}
-            {member.website && (
-              <a href={member.website} target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors">
-                <Globe size={18} />
-              </a>
-            )}
-            {member.twitter && (
-              <a href={member.twitter} target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors">
-                <Twitter size={18} />
-              </a>
-            )}
-          </div>
         </div>
       </div>
     </div>

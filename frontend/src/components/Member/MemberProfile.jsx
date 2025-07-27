@@ -39,7 +39,7 @@ const MemberProfile = () => {
         ).map((tag) => (
           <span key={tag}>{tag}</span>
         ))}
-        languages={["English", "Hindi", "Marathi"]} // replace krna pdega schema seeee
+        languages={["English", "Hindi"]} // replace krna pdega schema seeee
       />
     </div>
   );

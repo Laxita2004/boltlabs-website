@@ -139,17 +139,17 @@ const Footer = () => {
                   href="mailto:hello@boltlabs.in"
                   className="hover:text-[#33FEBF]"
                 >
-                  mail
+                  we.labsbolt@gmail.com
                 </a>
               </li>
               <li>
                 <a href="tel:+9196466xxxxx" className="hover:text-[#33FEBF]">
-                  phone
+                  +91 91356 49926
                 </a>
               </li>
               <li>
                 <a href="map" className="hover:text-[#33FEBF]">
-                  address
+                  SGSITS, Indore
                 </a>
               </li>
             </ul>
