@@ -1,44 +1,43 @@
-import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
-
-import Header from "./components/Header";
+// src/App.jsx
+import Domain from "./components/Domain";
+import DomainMembers from "./components/Domain/DomainMembers";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import DomainTeam from "./pages/DomainTeam";
 import Team from "./pages/Team";
-import Index from './pages/Index';
-import SignUp from './pages/SignUp';
-import Login from './pages/Login';
-import UserDashboard from './pages/UserDashboard';
-import EditProfile from './pages/EditProfile';
-import MemberPage from './pages/MemberPage';
-import AdminDashboard, { DashboardOverview } from './components/admin/AdminDashboard';
-import UserManagement from './components/admin/UserManagement';
-import ProjectManagement from './components/admin/ProjectManagement';
-import DomainManagement from './components/admin/DomainManagement';
-import ServiceRequests from './components/admin/ServiceRequests';
+import Index from "./pages/Index";
+import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
+import UserDashboard from "./pages/UserDashboard";
+import EditProfile from "./pages/EditProfile";
+import MemberPage from "./pages/MemberPage";
+import AdminDashboard, {
+  DashboardOverview,
+} from "./components/admin/AdminDashboard";
+import ProjectManagement from "./components/admin/ProjectManagement";
+import DomainManagement from "./components/admin/DomainManagement";
+import ServiceRequests from "./components/admin/ServiceRequests";
+import UserProfile from "./components/admin/UserProfile";
+import FirstLoginChange from "./pages/FirstLoginChange";
+import ProtectedRoute from "./components/ProtectedRoute";
+import ForgotPassword from "./pages/ForgotPassword";
+import TeamManagement from "./components/admin/TeamManagement";
+import AddClientPage from "./components/admin/AddClientPage";
+import AdminSettingsPage from "./components/admin/AdminSettingsPage";
+import MemberProfile from "./components/Member/MemberProfile";
+import PrivacyPolicy from "./components/PrivacyPolicy";
+import TermsOfService from "./components/TermsOfService";
 
-import SettingsLayout from './components/admin/SettingsLayout';
-import CompanySettings from './components/admin/CompanySettings';
-import UserProfile from './components/admin/UserProfile';
-import Notifications from './components/admin/Notifications';
-import Security from './components/admin/Security';
-import Appearance from './components/admin/Appearance';
-import ApiIntegrations from './components/admin/ApiIntegrations';
-import FirstLoginChange from './pages/FirstLoginChange';
-import ProtectedRoute from './components/ProtectedRoute';
-import ForgotPassword from './pages/ForgotPassword';
 
 const App = () => {
   return (
     <>
-      <Header />
-      <main className='min-h-screen mt-14'>
+      <main className="min-h-screen bg-[#0e1721] text-white">
         <Routes>
-
-          {/* Public Routes */}
+          {/* ✅ Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
@@ -46,61 +45,62 @@ const App = () => {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/edit-profile" element={<EditProfile />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-
-          {/* Team Routes */}
+          {/* ✅ Team & Domain Pages */}
           <Route path="/team" element={<Team />} />
-          <Route path="/team/:domain" element={<DomainTeam />} />
-          <Route path="/team/:domain/:memberId" element={<Index />} />
-
+          <Route path="/team/:slug" element={<DomainMembers />} />{" "}
+          {/* Renders members of domain */}
+          <Route path="/team/:slug/:member_id" element={<MemberProfile />} />
           {/* User Dashboard - Protected */}
-          <Route path="/user-dashboard" element={
-            <ProtectedRoute allowedRoles={['user']}>
-              <UserDashboard />
-            </ProtectedRoute>
-          } />
-
-          {/* User Dashboard - Protected */}
-          <Route path="/dashboard" element={
-            <ProtectedRoute allowedRoles={['user']}>
-              <UserDashboard />
-            </ProtectedRoute>
-          } />
-
+          <Route
+            path="/user-dashboard"
+            element={
+              <ProtectedRoute allowedRoles={["user"]}>
+                <UserDashboard />
+              </ProtectedRoute>
+            }
+          />
+          {/* Alias for backward compatibility */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute allowedRoles={["user"]}>
+                <UserDashboard />
+              </ProtectedRoute>
+            }
+          />
           {/* Member Dashboard */}
-          <Route path="/member-home" element={
-            <ProtectedRoute allowedRoles={['member']}>
-              <MemberPage />
-            </ProtectedRoute>
-          } />
-
+          <Route
+            path="/member-home"
+            element={
+              <ProtectedRoute allowedRoles={["member"]}>
+                <MemberPage />
+              </ProtectedRoute>
+            }
+          />
           {/* First Login Password Change */}
-          <Route path="/first-login-change" element={
-            <ProtectedRoute allowedRoles={['member']}>
-              <FirstLoginChange />
-            </ProtectedRoute>
-          } />
-
+          <Route
+            path="/first-login-change"
+            element={
+              <ProtectedRoute allowedRoles={["member"]}>
+                <FirstLoginChange />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsOfService />} />
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminDashboard />}>
             <Route index element={<DashboardOverview />} />
-            <Route path="users" element={<UserManagement />} />
             <Route path="projects" element={<ProjectManagement />} />
             <Route path="domains" element={<DomainManagement />} />
             <Route path="service-requests" element={<ServiceRequests />} />
-            <Route path="settings" element={<SettingsLayout />}>
-              <Route index element={<Navigate to="company" replace />} />
-              <Route path="company" element={<CompanySettings />} />
-              <Route path="profile" element={<UserProfile />} />
-              <Route path="notifications" element={<Notifications />} />
-              <Route path="security" element={<Security />} />
-              <Route path="appearance" element={<Appearance />} />
-              <Route path="api" element={<ApiIntegrations />} />
-            </Route>
+            <Route path="users" element={<TeamManagement />} />
+            <Route path="add-client" element={<AddClientPage />} />
+            <Route path="settings" element={<AdminSettingsPage />} />
+            <Route path="profile" element={<UserProfile />} />
           </Route>
-
-          {/* Redirect unknown routes to home */}
+          {/* ✅ 404 Catch-All */}
           <Route path="*" element={<Navigate to="/" replace />} />
-
         </Routes>
       </main>
       <Footer />

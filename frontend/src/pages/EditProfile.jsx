@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from '../api/axios';
 import { User, Mail, Phone, Lock, Save, Camera } from 'lucide-react';
+import DashboardHeader from '../components/userDashBoard/userDashHeader';
 
 const InputField = ({ icon, label, type, value, onChange, name, placeholder }) => (
   <div className="relative">
@@ -33,9 +34,6 @@ const EditProfile = () => {
     new: '',
     confirm: '',
   });
-
-  const [profilePicture, setProfilePicture] = useState(null);
-  const fileInputRef = useRef(null);
 
   const userId = localStorage.getItem('user_id');
   // console.log("🔍 user_id from localStorage:", userId);
@@ -127,57 +125,54 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="bg-[#0e1a24] text-white min-h-screen pt-32 p-4 sm:p-6 md:p-8">
-      <div className="max-w-4xl mx-auto">
-        <header className="mb-10">
-          <h1 className="text-3xl font-bold text-white">Edit Profile</h1>
-          <p className="text-gray-400 mt-1">Update your personal information and preferences</p>
-        </header>
+  <div className="bg-[#0e1a24] text-white min-h-screen pt-28 px-4 sm:px-6 md:px-10">
+    <DashboardHeader/>
+    <div className="max-w-5xl mx-auto">
+      {/* Header */}
+      <div className="mb-10 text-center">
+        <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#33FEBF] to-[#0ff]">
+          Edit Your Profile
+        </h1>
+        <p className="text-gray-400 mt-2 text-sm">Manage your personal info and password securely</p>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Personal Info & Password */}
-          <div className="md:col-span-2 space-y-8">
-            <form onSubmit={handleProfileUpdate} className="bg-[#1F2937] rounded-2xl p-6 border border-gray-700/50">
-              <h2 className="text-xl font-semibold text-white mb-6">Personal Information</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <InputField icon={<User size={20} />} label="Full Name" type="text" name="name" value={profile.name} onChange={handleProfileChange} />
-
-              </div>
-              <div className="mt-6">
-                <InputField icon={<Mail size={20} />} label="Email Address" type="email" name="email" value={profile.email} onChange={handleProfileChange} />
-              </div>
-              <div className="mt-6">
-                <InputField icon={<Phone size={20} />} label="Phone Number" type="tel" name="phone" value={profile.phone} onChange={handleProfileChange} />
-              </div>
-              <div className="mt-8 text-right">
-                <button type="submit" className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-6 rounded-lg inline-flex items-center gap-2 transition">
-                  <Save size={18} />
-                  <span>Update Profile</span>
-                </button>
-              </div>
-            </form>
-
-            <form onSubmit={handlePasswordUpdate} className="bg-[#1F2937] rounded-2xl p-6 border border-gray-700/50">
-              <h2 className="text-xl font-semibold text-white mb-6">Change Password</h2>
-              <div className="space-y-6">
-                <InputField icon={<Lock size={20} />} label="Current Password" type="password" name="current" value={password.current} onChange={handlePasswordChange} placeholder="Enter your current password" />
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <InputField icon={<Lock size={20} />} label="New Password" type="password" name="new" value={password.new} onChange={handlePasswordChange} placeholder="Enter new password" />
-                  <InputField icon={<Lock size={20} />} label="Confirm New Password" type="password" name="confirm" value={password.confirm} onChange={handlePasswordChange} placeholder="Confirm new password" />
-                </div>
-              </div>
-              <div className="mt-8 text-right">
-                <button type="submit" className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg inline-flex items-center gap-2 transition">
-                  <Lock size={18} />
-                  <span>Update Password</span>
-                </button>
-              </div>
-            </form>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Profile Section */}
+        <form onSubmit={handleProfileUpdate} className="bg-[#141E28] rounded-2xl p-8 border border-gray-700 shadow-md">
+          <h2 className="text-2xl font-bold mb-6 text-white">Personal Information</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <InputField icon={<User size={20} />} label="Full Name" type="text" name="name" value={profile.name} onChange={handleProfileChange} />
+            <InputField icon={<Phone size={20} />} label="Phone Number" type="tel" name="phone" value={profile.phone} onChange={handleProfileChange} />
+            <InputField icon={<Mail size={20} />} label="Email Address" type="email" name="email" value={profile.email} onChange={handleProfileChange} />
           </div>
-        </div>
+          <div className="mt-8 text-right">
+            <button type="submit" className="bg-gradient-to-r from-[#33FEBF] to-[#0ff] text-[#0e1a24] font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl transition-all">
+              <Save size={18} className="inline mr-2" />
+              Update Profile
+            </button>
+          </div>
+        </form>
+
+        {/* Password Section */}
+        <form onSubmit={handlePasswordUpdate} className="bg-[#141E28] rounded-2xl p-8 border border-gray-700 shadow-md">
+          <h2 className="text-2xl font-bold mb-6 text-white">Change Password</h2>
+          <div className="space-y-6">
+            <InputField icon={<Lock size={20} />} label="Current Password" type="password" name="current" value={password.current} onChange={handlePasswordChange} placeholder="Enter current password" />
+            <InputField icon={<Lock size={20} />} label="New Password" type="password" name="new" value={password.new} onChange={handlePasswordChange} placeholder="New password" />
+            <InputField icon={<Lock size={20} />} label="Confirm New Password" type="password" name="confirm" value={password.confirm} onChange={handlePasswordChange} placeholder="Confirm new password" />
+          </div>
+          <div className="mt-8 text-right">
+            <button type="submit" className="bg-[#0e1a24] text-white border border-[#33FEBF] hover:bg-[#33FEBF] hover:text-[#0e1a24] font-semibold py-3 px-6 rounded-full transition-all">
+              <Lock size={18} className="inline mr-2" />
+              Update Password
+            </button>
+          </div>
+        </form>
       </div>
     </div>
-  );
+  </div>
+);
+
 };
 
 export default EditProfile;

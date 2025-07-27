@@ -1,223 +1,248 @@
-import { useState, useEffect } from 'react';
-import { adminAPI } from '../services/api.js';
+import { useState, useCallback } from "react";
+import { adminAPI } from "../services/api.js";
 
 export const useAdmin = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Dashboard data
   const [dashboardStats, setDashboardStats] = useState({
     totalClients: 0,
     activeProjects: 0,
     teamMembers: 0,
-    completedProjects: 0
+    completedProjects: 0,
   });
 
-  // Domain data
   const [domains, setDomains] = useState([]);
   const [members, setMembers] = useState([]);
   const [requests, setRequests] = useState([]);
   const [services, setServices] = useState([]);
 
-  // Test connection
-  const testConnection = async () => {
+  const testConnection = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
       const response = await adminAPI.testConnection();
-      console.log('Connection test successful:', response.data);
+      console.log("Connection test successful:", response.data);
       return response.data;
     } catch (err) {
-      console.error('Connection test failed:', err);
-      setError(err.response?.data?.error || err.message || 'Failed to connect to server');
+      console.error("Connection test failed:", err);
+      setError(
+        err.response?.data?.error ||
+          err.message ||
+          "Failed to connect to server"
+      );
       throw err;
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  // Fetch dashboard stats
-  const fetchDashboardStats = async () => {
+  const fetchDashboardStats = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
 
-      // First test the connection
       await testConnection();
 
-      // For now, we'll calculate stats from existing data
-      // In a real app, you'd have a dedicated endpoint for this
-      const [domainsRes, membersRes, requestsRes, servicesRes] = await Promise.all([
-        adminAPI.getDomains(),
-        adminAPI.getMembers(),
-        adminAPI.getRequests(),
-        adminAPI.getServices()
-      ]);
+      const [domainsRes, membersRes, requestsRes, servicesRes] =
+        await Promise.all([
+          adminAPI.getDomains(),
+          adminAPI.getMembers(),
+          adminAPI.getRequests(),
+          adminAPI.getServices(),
+        ]);
 
       const stats = {
         totalClients: domainsRes.data.length,
-        activeProjects: servicesRes.data.filter(s => s.status === 'ACTIVE').length,
+        activeProjects: servicesRes.data.services.filter(
+          (s) => s.status === "ACTIVE"
+        ).length,
         teamMembers: membersRes.data.length,
-        completedProjects: servicesRes.data.filter(s => s.status === 'COMPLETED').length
+        completedProjects: servicesRes.data.services.filter(
+          (s) => s.status === "COMPLETED"
+        ).length,
       };
 
       setDashboardStats(stats);
     } catch (err) {
-      console.error('Dashboard stats error:', err);
-      setError(err.response?.data?.error || err.message || 'Failed to fetch dashboard stats');
+      console.error("Dashboard stats error:", err);
+      setError(
+        err.response?.data?.error ||
+          err.message ||
+          "Failed to fetch dashboard stats"
+      );
     } finally {
       setLoading(false);
     }
-  };
+  }, [testConnection]);
 
-  // Fetch domains
-  const fetchDomains = async () => {
+  const fetchDomains = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
       const response = await adminAPI.getDomains();
       setDomains(response.data);
     } catch (err) {
-      console.error('Fetch domains error:', err);
-      setError(err.response?.data?.error || err.message || 'Failed to fetch domains');
+      console.error("Fetch domains error:", err);
+      setError(
+        err.response?.data?.error || err.message || "Failed to fetch domains"
+      );
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  // Create domain
-  const createDomain = async (domainData) => {
+  const createDomain = useCallback(async (domainData) => {
     try {
       setLoading(true);
       setError(null);
       const response = await adminAPI.createDomain(domainData);
-      setDomains(prev => [...prev, response.data]);
+      setDomains((prev) => [...prev, response.data]);
       return response.data;
     } catch (err) {
-      console.error('Create domain error:', err);
-      setError(err.response?.data?.error || err.message || 'Failed to create domain');
+      console.error("Create domain error:", err);
+      setError(
+        err.response?.data?.error || err.message || "Failed to create domain"
+      );
       throw err;
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  // Delete domain
-  const deleteDomain = async (domainId) => {
+  const deleteDomain = useCallback(async (domainId) => {
     try {
       setLoading(true);
       setError(null);
       await adminAPI.deleteDomain(domainId);
-      setDomains(prev => prev.filter(domain => domain.domain_id !== domainId));
+      setDomains((prev) =>
+        prev.filter((domain) => domain.domain_id !== domainId)
+      );
     } catch (err) {
-      console.error('Delete domain error:', err);
-      setError(err.response?.data?.error || err.message || 'Failed to delete domain');
+      console.error("Delete domain error:", err);
+      setError(
+        err.response?.data?.error || err.message || "Failed to delete domain"
+      );
       throw err;
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  // Fetch members
-  const fetchMembers = async () => {
+  const fetchMembers = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
       const response = await adminAPI.getMembers();
       setMembers(response.data);
     } catch (err) {
-      console.error('Fetch members error:', err);
-      setError(err.response?.data?.error || err.message || 'Failed to fetch members');
+      console.error("Fetch members error:", err);
+      setError(
+        err.response?.data?.error || err.message || "Failed to fetch members"
+      );
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  // Create member
-  const createMember = async (memberData) => {
+  const createMember = useCallback(async (memberData) => {
     try {
       setLoading(true);
       setError(null);
       const response = await adminAPI.createMember(memberData);
-      setMembers(prev => [...prev, response.data]);
+      setMembers((prev) => [...prev, response.data]);
       return response.data;
     } catch (err) {
-      console.error('Create member error:', err);
-      setError(err.response?.data?.error || err.message || 'Failed to create member');
+      console.error("Create member error:", err);
+      setError(
+        err.response?.data?.error || err.message || "Failed to create member"
+      );
       throw err;
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  // Delete member
-  const deleteMember = async (memberId) => {
+  const deleteMember = useCallback(async (memberId) => {
     try {
       setLoading(true);
       setError(null);
       await adminAPI.deleteMember(memberId);
-      setMembers(prev => prev.filter(member => member.member_id !== memberId));
+      setMembers((prev) =>
+        prev.filter((member) => member.member_id !== memberId)
+      );
     } catch (err) {
-      console.error('Delete member error:', err);
-      setError(err.response?.data?.error || err.message || 'Failed to delete member');
+      console.error("Delete member error:", err);
+      setError(
+        err.response?.data?.error || err.message || "Failed to delete member"
+      );
       throw err;
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  // Fetch requests
-  const fetchRequests = async () => {
+  const fetchRequests = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
       const response = await adminAPI.getRequests();
-      setRequests(response.data);
+
+      if (response.status === 304) {
+        console.log("No new request data (304 Not Modified)");
+        return;
+      }
+
+      setRequests(response.data?.requests || []);
     } catch (err) {
-      console.error('Fetch requests error:', err);
-      setError(err.response?.data?.error || err.message || 'Failed to fetch requests');
+      console.error("Fetch requests error:", err);
+      setError(
+        err.response?.data?.error || err.message || "Failed to fetch requests"
+      );
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  // Respond to request
-  const respondToRequest = async (reqId, responseData) => {
+  const respondToRequest = useCallback(async (reqId, responseData) => {
     try {
       setLoading(true);
       setError(null);
       const response = await adminAPI.respondToRequest(reqId, responseData);
-      setRequests(prev => prev.filter(req => req.req_id !== reqId));
+      setRequests((prev) => prev.filter((req) => req.req_id !== reqId));
       return response.data;
     } catch (err) {
-      console.error('Respond to request error:', err);
-      setError(err.response?.data?.error || err.message || 'Failed to respond to request');
+      console.error("Respond to request error:", err);
+      setError(
+        err.response?.data?.error ||
+          err.message ||
+          "Failed to respond to request"
+      );
       throw err;
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  // Fetch services
-  const fetchServices = async (params = {}) => {
+  const fetchServices = useCallback(async (params = {}) => {
     try {
       setLoading(true);
       setError(null);
       const response = await adminAPI.getServices(params);
       setServices(response.data);
     } catch (err) {
-      console.error('Fetch services error:', err);
-      setError(err.response?.data?.error || err.message || 'Failed to fetch services');
+      console.error("Fetch services error:", err);
+      setError(
+        err.response?.data?.error || err.message || "Failed to fetch services"
+      );
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  // Clear error
-  const clearError = () => setError(null);
+  const clearError = useCallback(() => setError(null), []);
 
   return {
-    // State
     loading,
     error,
     dashboardStats,
@@ -226,7 +251,6 @@ export const useAdmin = () => {
     requests,
     services,
 
-    // Actions
     testConnection,
     fetchDashboardStats,
     fetchDomains,
@@ -238,7 +262,6 @@ export const useAdmin = () => {
     fetchRequests,
     respondToRequest,
     fetchServices,
-    clearError
+    clearError,
   };
-}; 
-
+};

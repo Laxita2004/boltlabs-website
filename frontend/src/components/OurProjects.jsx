@@ -12,34 +12,48 @@ import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import sample1 from "../assets/sample1.jpg";
-import sample2 from "../assets/sample2.jpg";
-import sample3 from "../assets/sample3.jpg";
+import project1 from "../assets/project1.png";
+import project2 from "../assets/project2.png";
+import project3 from "../assets/project3.png";
+import project4 from "../assets/project4.png";
 
 const projects = [
   {
-    title: "Project 1",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    img: sample1,
+    title: "CURL FITNESS",
+    desc: "Designed the official logo and currently managing the Instagram presence.",
+    img: project1,
+  },
+
+  {
+    title: "MAATIVAN HOMESTAYS",
+    desc: "Created a professional and visually aligned logo design.",
+    img: project3,
   },
   {
-    title: "Project 2",
-    desc: "Ut enim ad minim veniam, quis nostrud exercitation.",
-    img: sample2,
+    title: "SILICON CITY LANDS",
+    desc: "Developed a clean and modern brand identity through logo design.",
+    img: project2,
   },
   {
-    title: "Project 3",
-    desc: "Duis aute irure dolor in reprehenderit in voluptate.",
-    img: sample3,
-  },
+    title: "NEXUS POLYTECH LLP",
+    desc: "Designed the logo and currently developing the official website to enhance digital presence.",
+    img: project4,
+  }, //,{
+  //   title: "Project 2",
+  //   desc: "Ut enim ad minim veniam, quis nostrud exercitation.",
+  //   img: sample2,
+  // },
 ];
 
 export default function OurProjects() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex flex-col items-center justify-center px-6 py-12">
-      <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-12 text-center max-w-3xl">
-        Our <span className="text-teal-400">Projects</span>
+      <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-9 text-center max-w-3xl">
+        Our <span className="text-teal-400">Clientele</span>
       </h2>
+      <p className="text-gray-300 text-center max-w-xl mb-10">
+        We take pride in the trust our clients place in us.
+      </p>
 
       <Swiper
         modules={[Autoplay, EffectCoverflow, Navigation, Pagination]}

@@ -11,7 +11,7 @@ export const useUser = () => {
     email: localStorage.getItem('email'),
     role: localStorage.getItem('role'),
   });
-
+  console.log("🔍 Current user from localStorage:", currentUser);
   // ✅ Existing state you had
   const [domains, setDomains] = useState([]);
   const [userProfile, setUserProfile] = useState(null);
