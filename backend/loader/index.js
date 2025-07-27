@@ -3,6 +3,7 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import nodemailer from 'nodemailer';
 
 // Load env variables
 dotenv.config();
@@ -12,6 +13,7 @@ import adminRoutes from '../routes/adminRoutes.js';
 import authRoutes from '../routes/authRoutes.js';
 import teamMemberRoutes from '../routes/teamMemberRoutes.js';
 import userRoutes from '../routes/userRoutes.js';
+import contactRoutes from "../routes/contact.js";
 
 const loader = async (app) => {
   // Configure CORS to allow requests from frontend
@@ -31,6 +33,7 @@ const loader = async (app) => {
   app.use('/api/admin', adminRoutes);
   app.use('/api/member', teamMemberRoutes);
   app.use('/api/user', userRoutes);
+  app.use("/api", contactRoutes);
 
   // 404 Handler
   app.use((req, res, next) => {
