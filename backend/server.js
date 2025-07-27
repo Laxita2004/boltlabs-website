@@ -28,6 +28,10 @@ const startServer = async () => {
     res.status(500).json({ error: 'Something went wrong on the server!' });
   });
 
+  app.get("/", (req, res) => {
+  res.send("BoltLabs backend is running 🚀");
+});
+
   // ✅ Start the server
   const PORT = process.env.PORT || 8080; // default to 5000
   app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

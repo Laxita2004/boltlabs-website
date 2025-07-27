@@ -24,7 +24,7 @@ const Footer = () => {
 
       <div className="relative z-10">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-10">
-          {/* Logo & Description */}
+          
           <div className="md:col-span-2">
             <img src={logo} alt="BoltLabs Logo" className="w-40 h-auto mb-4" />
             <p className="text-sm text-gray-400 mb-6 leading-relaxed">
@@ -48,14 +48,6 @@ const Footer = () => {
               >
                 <FaLinkedinIn className="text-[#141e28]" size={20} />
               </a>
-              {/* <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-[#33FEBF] p-2 rounded-full hover:opacity-90 transition-colors"
-              >
-                <FaFacebook className="text-[#141e28]" size={20} />
-              </a> */}
               <a
                 href="https://www.instagram.com/bolt.labs?igsh=MWhvd2twaWF3d2VpOA=="
                 target="_blank"
