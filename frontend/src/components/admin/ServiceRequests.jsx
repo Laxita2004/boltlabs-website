@@ -2,20 +2,22 @@ import React, { useState, useEffect } from "react";
 import { useAdmin } from "../../hooks/useAdmin.js";
 
 const ServiceRequests = () => {
-  const { 
-    requests, 
-    loading, 
-    error, 
-    fetchRequests, 
+  const {
+    requests,
+    loading,
+    error,
+    fetchRequests,
     respondToRequest,
-    clearError 
+    clearError
   } = useAdmin();
 
   const [processingRequest, setProcessingRequest] = useState(null);
 
   useEffect(() => {
+    console.log("Fetching service requests...");
     fetchRequests();
-  }, [fetchRequests]);
+  }, []);
+
 
   const handleApprove = async (reqId) => {
     try {
@@ -72,7 +74,7 @@ const ServiceRequests = () => {
         <p className="mb-6 text-gray-300">Review and manage incoming service requests</p>
         <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 mb-6">
           <p className="text-red-400">Error: {error}</p>
-          <button 
+          <button
             onClick={clearError}
             className="mt-2 text-sm text-red-300 hover:text-red-200 underline"
           >
@@ -87,7 +89,7 @@ const ServiceRequests = () => {
     <div className="min-h-screen bg-[#0e1a24] text-white p-8">
       <h1 className="text-3xl font-bold mb-1">Service Requests</h1>
       <p className="mb-6 text-gray-300">Review and manage incoming service requests</p>
-      
+
       {requests.length === 0 ? (
         <div className="text-center py-12">
           <div className="text-gray-400 text-lg mb-2">No service requests found</div>
@@ -95,7 +97,7 @@ const ServiceRequests = () => {
         </div>
       ) : (
         <div className="space-y-8">
-          {requests.map((req) => (
+          {requests.filter((req) => req.status === "PENDING").map((req) => (
             <div key={req.req_id} className="bg-[#232f3e] rounded-xl p-6 shadow flex flex-col md:flex-row md:items-center md:justify-between border border-[#3a4656]">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">

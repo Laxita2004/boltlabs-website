@@ -6,10 +6,12 @@ import Process from "../components/Process";
 import Benefits from "../components/Benefits";
 import CTA from "../components/CTA";
 import ParticleBackground from "../components/ParticleBackground";
+import Header from '../components/Header';
 
 const About = () => {
   return (
     <div className="relative bg-white text-dark overflow-x-hidden">
+      <Header/>
       <ParticleBackground />
       
       <main>

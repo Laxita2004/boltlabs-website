@@ -34,11 +34,11 @@ export default function Header() {
   }, []);
 
   const navLinkBase =
-    "flex items-center gap-2 text-sm px-4 py-2 rounded-md transition-all";
+    "flex items-center gap-2 text-sm px-4 py-2 rounded-full transition-colors transition-shadow duration-500 ease-in-out";
   const activeClasses =
-    "bg-gradient-to-r from-[#33FEBF] to-[#0ff] text-white shadow-md";
+    "bg-gradient-to-r from-[#33FEBF] to-[#0ff] text-[#0e1a24] shadow-md";
   const inactiveClasses =
-    "text-gray-200 hover:bg-gradient-to-r hover:from-[#33FEBF] hover:to-[#0ff] hover:text-white";
+    "text-gray-200 hover:text-[#0e1a24] hover:bg-gradient-to-r hover:from-[#33FEBF] hover:to-[#0ff]";
 
   const navItems = [
     { to: "/", label: "HOME", icon: <FaHome /> },
@@ -72,7 +72,7 @@ export default function Header() {
               <img
                 src={logo}
                 alt="BoltLab Logo"
-                className="h-26 w-auto -mt-6"
+                className="h-10 w-auto mt-2"
               />
             </div>
           </div>
@@ -106,9 +106,9 @@ export default function Header() {
             {!isLoggedIn ? (
               <Link
                 to="/login"
-                className="px-5 py-2 rounded-full bg-teal-500 hover:bg-teal-400 text-white font-semibold transition-colors"
+                className="px-5 py-2 rounded-full bg-[#33FEBF] hover:bg-teal-400 text-white font-semibold transition-colors"
               >
-                Sign In
+                SIGN IN
               </Link>
             ) : (
               <div className="relative" ref={userMenuRef}>

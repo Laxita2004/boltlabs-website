@@ -2,9 +2,9 @@ import { motion } from "framer-motion";
 import { FaBolt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 const Hero = () => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   return (
-    <section className="min-h-screen flex items-center pt-20 bg-white text-[#141E28]">
+    <section className="min-h-screen flex items-center bg-white text-[#141E28]">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -26,16 +26,10 @@ const Hero = () => {
           </p>
           <div className="flex flex-wrap gap-4">
             <button
-              onClick={() => navigate('/login')}
-              className="bg-[#141E28] text-white px-6 py-3 rounded-full font-semibold border-2 border-[#141E28] hover:bg-transparent hover:text-[#141E28] transition-all hover:shadow-[0_0_20px_rgba(51,254,191,0.4)]"
+              onClick={() => navigate("/login")}
+              className="bg-[#33FEBF] text-black px-6 py-3 rounded-full font-semibold border-2 border-[#141E28] transition-all duration-300 hover:bg-white hover:text-[#141E28] hover:shadow-[0_0_20px_rgba(51,254,191,0.4)]"
             >
               Get Started
-            </button>
-            <button
-              type="button"
-              className="bg-transparent text-[#141E28] px-6 py-3 rounded-full font-semibold border-2 border-[#141E28] hover:bg-[#141E28]/5 transition-all"
-            >
-              Learn More
             </button>
           </div>
         </motion.div>

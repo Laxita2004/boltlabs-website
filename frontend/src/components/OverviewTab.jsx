@@ -1,15 +1,7 @@
 import React from 'react';
 import { User, Award } from 'lucide-react';
 
-const OverviewTab = () => {
-  const skills = [
-    'Digital Marketing',
-    'Brand Strategy',
-    'Analytics',
-    'Content Marketing',
-    'SEO'
-  ];
-
+const OverviewTab = ({ about, skills, languages }) => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
       {/* About Section */}
@@ -19,8 +11,7 @@ const OverviewTab = () => {
           <h2 className="text-xl font-semibold">About</h2>
         </div>
         <p className="text-gray-300 leading-relaxed">
-          Driving brand growth through strategic campaigns and digital marketing excellence. Lisa has transformed our market 
-          presence and built lasting customer relationships.
+          {about || 'No bio provided.'}
         </p>
       </div>
 
@@ -31,14 +22,18 @@ const OverviewTab = () => {
           <h2 className="text-xl font-semibold">Skills & Expertise</h2>
         </div>
         <div className="flex flex-wrap gap-2">
-          {skills.map((skill, index) => (
-            <span 
-              key={index} 
-              className="bg-slate-700 border border-slate-600 px-3 py-1 rounded-full text-sm hover:bg-slate-600 transition-colors"
-            >
-              {skill}
-            </span>
-          ))}
+          {skills && skills.length > 0 ? (
+            skills.map((skill, index) => (
+              <span 
+                key={index} 
+                className="bg-slate-700 border border-slate-600 px-3 py-1 rounded-full text-sm hover:bg-slate-600 transition-colors"
+              >
+                {skill}
+              </span>
+            ))
+          ) : (
+            <span className="text-gray-400">No skills listed.</span>
+          )}
         </div>
       </div>
 
@@ -46,15 +41,15 @@ const OverviewTab = () => {
       <div className="bg-slate-800 rounded-lg p-6 lg:col-span-2">
         <h2 className="text-xl font-semibold mb-4">Languages</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
-            <h3 className="font-medium">English (Native)</h3>
-          </div>
-          <div>
-            <h3 className="font-medium">Mandarin (Fluent)</h3>
-          </div>
-          <div>
-            <h3 className="font-medium">German (Intermediate)</h3>
-          </div>
+          {languages && languages.length > 0 ? (
+            languages.map((lang, index) => (
+              <div key={index}>
+                <h3 className="font-medium">{lang}</h3>
+              </div>
+            ))
+          ) : (
+            <span className="text-gray-400">No languages specified.</span>
+          )}
         </div>
       </div>
     </div>

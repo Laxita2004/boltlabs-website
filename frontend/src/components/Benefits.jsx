@@ -37,7 +37,7 @@ const Benefits = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="text-3xl md:text-4xl font-bold text-center mb-12"
+          className="text-[#0e1a24] text-3xl md:text-4xl font-bold text-center mb-12"
         >
           What makes <span className="text-[#33FEBF]">us stand out</span>
         </motion.h2>
@@ -55,7 +55,7 @@ const Benefits = () => {
               <div className="w-14 h-14 rounded-full bg-[#33FEBF1A] flex items-center justify-center mb-6">
                 {benefit.icon}
               </div>
-              <h3 className="text-xl font-bold mb-3">{benefit.title}</h3>
+              <h3 className="text-[#0e1a24] text-xl font-bold mb-3">{benefit.title}</h3>
               <p className="text-gray-600">{benefit.description}</p>
             </motion.div>
           ))}
