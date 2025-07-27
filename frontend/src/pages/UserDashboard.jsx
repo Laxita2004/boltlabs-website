@@ -188,7 +188,7 @@ const UserPanel = () => {
                     name="service"
                     value={form.service}
                     onChange={handleChange}
-                    placeholder="e.g., Web Development"
+                    placeholder="e.g., Digital Presence Management"
                     className="w-full bg-[#232B39] border border-gray-600 rounded-lg text-white px-4 py-3 focus:ring-2 focus:ring-teal-500"
                     required
                   />

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import adminAPI from '../../services/api';
 import DomainHero from './DomainHero';
+import Header from '../Header';
 
 const DomainMembers = () => {
   const { slug } = useParams();
@@ -51,8 +52,9 @@ const DomainMembers = () => {
 
   return (
     <>
+    <Header />
       <DomainHero domain={slug} />
-      <section className="container mx-auto px-6 pb-20">
+      <section className="container mx-auto px-6 pb-20 ">
         <h2 className="text-3xl font-bold text-center text-white mb-10 uppercase">
           {slug.replace(/-/g, ' ')}
         </h2>

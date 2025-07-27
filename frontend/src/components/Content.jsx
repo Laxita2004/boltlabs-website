@@ -45,12 +45,12 @@ const Content = () => {
 
                             <div className="flex items-center gap-4 group">
                                 <img src={call} alt="Phone Icon" className="h-6 w-6 invert group-hover:scale-110 transition" />
-                                <span>+91 00000 00000</span>
+                                <span>+91 91356 49926</span>
                             </div>
 
                             <div className="flex items-center gap-4 group">
                                 <img src={email} alt="Email Icon" className="h-6 w-6 invert group-hover:scale-110 transition" />
-                                <span>boltlabs@gmail.com</span>
+                                <span>we.labsbolt@gmail.com</span>
                             </div>
 
                             <div className="flex items-center gap-4 group">

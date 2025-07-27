@@ -25,7 +25,7 @@ import {
 
 const router = express.Router();
 
-// Public test endpoints (no auth required)
+// ✅ Public routes
 router.get("/test", (req, res) => {
   res.json({ message: "Admin routes are working!" });
 });
@@ -38,20 +38,23 @@ router.get("/health", (req, res) => {
   });
 });
 
-//  Protect all routes below with admin auth
+// ✅ Make fetchDomains and fetchMembers public
+router.get("/domains", fetchDomains);
+router.get("/members", fetchMembers);
+router.get("/members/:member_id", fetchMemberById);
+router.get("/domains/:domain_id/members", fetchDomainMembers);
+
+
+// 🔒 Protect all routes below with admin auth
 router.use(authenticateUser, authorizeRoles("admin"));
 
-//  Domain routes
-router.get("/domains", fetchDomains);
+// Domain routes (admin-protected)
 router.post("/domains", createDomain);
 router.delete("/domains/:domain_id", deleteDomain);
-router.get("/domains/:domain_id/members", fetchDomainMembers); 
 
-// 👥 Member routes
-router.get("/members", fetchMembers);
+// Member routes (admin-protected)
 router.post("/members", createMember);
 router.delete("/members/:member_id", deleteMember);
-router.get("/members/:member_id", fetchMemberById);
 
 // Service request routes
 router.get("/requests", fetchRequests);
@@ -60,17 +63,14 @@ router.post("/requests/:req_id/respond", respondToRequest);
 // Service routes
 router.get("/services", fetchServices);
 
-//  Client Routes
-router.post('/clients', createClient);
+// Client Routes
+router.post("/clients", createClient);
 
-//  Admin Profile Routes
-router.get('/profile', getProfile);
-router.put('/profile', updateProfile);
+// Admin Profile Routes
+router.get("/profile", getProfile);
+router.put("/profile", updateProfile);
 
-//  Admin Password Route
-router.put('/password', updateAdminPassword);
-
-// All routes below this are admin-protected
-router.use(authenticateUser, authorizeRoles("admin"));
+// Admin Password Route
+router.put("/password", updateAdminPassword);
 
 export default router;

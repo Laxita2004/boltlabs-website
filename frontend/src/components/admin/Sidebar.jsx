@@ -32,56 +32,7 @@ const Sidebar = () => {
                 User Profile
               </NavLink>
             </li>
-            {/* <li>
-              <NavLink 
-                to="notifications"
-                className={({ isActive }) => 
-                  `block px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-teal-500/10 text-teal-300' : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'}`
-                }
-              >
-                Notifications
-              </NavLink> 
-            </li>  */}
-            {/* <li>
-              <NavLink 
-                to="security"
-                className={({ isActive }) => 
-                  `block px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-teal-500/10 text-teal-300' : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'}`
-                }
-              >
-                Security
-              </NavLink> */}
-            {/* </li> */}
-            {/* <li>
-              <NavLink 
-                to="appearance"
-                className={({ isActive }) => 
-                  `block px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-teal-500/10 text-teal-300' : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'}`
-                }
-              >
-                Appearance
-              </NavLink>
-            </li> */}
-            {/* <li>
-              <NavLink 
-                to="api"
-                className={({ isActive }) => 
-                  `block px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-teal-500/10 text-teal-300' : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'}`
-                }
-              >
-                API & Integrations
-              </NavLink>
-            </li> */}
-            {/* <li>
-              <NavLink 
-                to="users"
-                className={({ isActive }) => 
-                  `block px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-teal-500/10 text-teal-300' : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'}`
-                }
-              >
-                User Management
-              </NavLink>
-            </li> */}
+            
           </ul>
         </div>
       </nav>

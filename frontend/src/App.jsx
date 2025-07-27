@@ -1,5 +1,4 @@
 // src/App.jsx
-import { Routes, Route, Navigate } from 'react-router-dom';
 import Domain from './components/Domain';
 import DomainMembers from './components/Domain/DomainMembers'; 
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';

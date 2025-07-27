@@ -126,6 +126,7 @@ export const createMember = async (req, res) => {
 
     res.status(201).json(member);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ error: 'Failed to create member', details: err.message });
   }
 };
@@ -163,10 +164,10 @@ export const fetchRequests = async (req, res) => {
 export const respondToRequest = async (req, res) => {
   const { req_id } = req.params;
   const { status } = req.body;
-
+  // console.log(req.params.req_id);
   try {
     const serviceRequest = await prisma.serviceRequest.findUnique({
-      where: { req_id: parseInt(req_id) },
+      where: { req_id },
       include: {
         user: true,
         domain: true

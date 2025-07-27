@@ -15,7 +15,7 @@ const AdminSidebar = () => {
   const navLinks = [
     { to: "/admin", label: "Dashboard", icon: <FiHome /> },
     { to: "/admin/users", label: "Team Management", icon: <FiUsers /> },
-    { to: "/admin/projects", label: "Projects", icon: <FiFolder /> },
+    // { to: "/admin/projects", label: "Projects", icon: <FiFolder /> },
     { to: "/admin/domains", label: "Domain Management", icon: <FiGlobe /> },
     { to: "/admin/service-requests", label: "Service Requests", icon: <FiMessageSquare /> },
     { to: "/admin/settings", label: "Settings", icon: <FiSettings /> }
