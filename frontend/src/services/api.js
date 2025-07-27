@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 // ✅ Create axios instance
 const api = axios.create({
@@ -18,16 +18,22 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// ✅ Response interceptor to handle errors
+// Response interceptor to handle errors
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.code === 'ERR_NETWORK') {
-      return Promise.reject({ message: 'Unable to connect to server. Please try again later.' });
+    if (error.code === "ERR_NETWORK") {
+      console.error("Network Error:", error);
+      // Handle network errors (backend down, CORS issues, etc.)
+      return Promise.reject({
+        message: "Unable to connect to server. Please try again later.",
+      });
     }
+    console.error("API Error:", error.response?.data || error.message);
     if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      window.location.href = '/login';
+      // Handle unauthorized access
+      localStorage.removeItem("token");
+      window.location.href = "/login";
     }
     return Promise.reject(error);
   }
@@ -35,13 +41,15 @@ api.interceptors.response.use(
 
 // 👤 User API
 export const userAPI = {
-  createServiceRequest: (data) => api.post('/users/requests', data),
-  getPreviousRequests: () => api.get('/users/requests/previous'),
-  getDomains: () => api.get('/users/domains'),
+  // Service Requests
+  createServiceRequest: (data) => api.post("/users/requests", data),
+  getPreviousRequests: () => api.get("/users/requests/previous"),
+
+  getDomains: () => api.get("/users/domains"),
   getUserById: (userId) => api.get(`/users/${userId}`),
 };
 
-// 🛠️ Admin API
+// Admin API
 export const adminAPI = {
   // Test & Health
   testConnection: () => api.get('/api/admin/test'),

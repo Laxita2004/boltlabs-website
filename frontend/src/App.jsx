@@ -1,13 +1,15 @@
 // src/App.jsx
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Footer from './components/Footer';
-import Home from './pages/Home';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import Team from './pages/Team';
 import Domain from './components/Domain';
 import DomainMembers from './components/Domain/DomainMembers'; 
-
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import DomainTeam from "./pages/DomainTeam";
+import Team from "./pages/Team";
+import Index from './pages/Index';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 import UserDashboard from './pages/UserDashboard';
@@ -45,8 +47,7 @@ const App = () => {
           <Route path="/team/:slug" element={<DomainMembers />} /> {/* Renders members of domain */}
          <Route path="/team/:slug/:member_id" element={<MemberProfile />} />
 
-
-          {/* ✅ User Dashboard */}
+          {/* User Dashboard - Protected */}
           <Route
             path="/user-dashboard"
             element={
@@ -55,6 +56,8 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+
+          {/* Alias for backward compatibility */}
           <Route
             path="/dashboard"
             element={
@@ -64,7 +67,7 @@ const App = () => {
             }
           />
 
-          {/* ✅ Member Dashboard */}
+          {/* Member Dashboard */}
           <Route
             path="/member-home"
             element={
@@ -73,6 +76,8 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+
+          {/* First Login Password Change */}
           <Route
             path="/first-login-change"
             element={
@@ -82,7 +87,7 @@ const App = () => {
             }
           />
 
-          {/* ✅ Admin Dashboard */}
+          {/* Admin Routes */}
           <Route path="/admin" element={<AdminDashboard />}>
             <Route index element={<DashboardOverview />} />
             <Route path="projects" element={<ProjectManagement />} />

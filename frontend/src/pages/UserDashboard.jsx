@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { User, PlusCircle, Clock, Pencil } from "lucide-react";
 import { useUser } from "../hooks/useUser.js";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import DashboardHeader from "../components/userDashBoard/userDashHeader.jsx";
 
 const TABS = [
@@ -11,7 +11,12 @@ const TABS = [
 ];
 
 const UserPanel = () => {
-  const [activeTab, setActiveTab] = useState("profile");
+  const location = useLocation();
+
+  // Check if navigation triggered to open New Request tab
+  const initialTab = location.state?.openNewRequest ? "new-request" : "profile";
+  const [activeTab, setActiveTab] = useState(initialTab);
+
   const [form, setForm] = useState({
     service: "",
     domain_id: "",
@@ -32,14 +37,20 @@ const UserPanel = () => {
     clearError,
   } = useUser();
 
-  // Fetch data on mount
+  // Fetch profile, requests, and domains
   useEffect(() => {
     fetchUserProfile();
     fetchUserRequests();
     fetchDomains();
   }, []);
 
-  // Profile data priority: local currentUser → fetched userProfile
+  // Clear location state after initial tab load
+  useEffect(() => {
+    if (location.state?.openNewRequest) {
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
+
   const profile = {
     name: userProfile?.name || currentUser.name || "Loading...",
     email: userProfile?.email || currentUser.email || "Loading...",
@@ -102,11 +113,10 @@ const UserPanel = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
-                  activeTab === tab.id
+                className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === tab.id
                     ? "border-[#33FEBF] text-[#33FEBF]"
                     : "border-transparent text-gray-400 hover:text-gray-300"
-                }`}
+                  }`}
               >
                 <tab.icon size={16} />
                 {tab.label}
@@ -149,8 +159,6 @@ const UserPanel = () => {
                       className="w-full bg-[#232B39] border border-gray-600 rounded-lg text-white px-4 py-3 opacity-50"
                     />
                   </div>
-
-                  {/* Edit Button */}
                   <div className="pt-2">
                     <Link
                       to="/edit-profile"
@@ -271,9 +279,7 @@ const UserPanel = () => {
                             </span>
                           </div>
                         </div>
-                        <span
-                          className={`px-3 py-1 rounded-full text-xs font-semibold bg-yellow-600`}
-                        >
+                        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-yellow-600">
                           Submitted
                         </span>
                       </div>

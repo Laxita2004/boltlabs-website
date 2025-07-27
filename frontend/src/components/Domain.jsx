@@ -12,7 +12,12 @@ const Domain = () => {
   useEffect(() => {
     const fetchDomains = async () => {
       try {
-        const res = await adminAPI.get("api/admin/domains");
+        const token = localStorage.getItem('token');
+        const res = await adminAPI.get("/api/admin/domains", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setDomains(res.data || []);
       } catch (err) {
         console.error("Failed to fetch domains", err);
@@ -20,6 +25,7 @@ const Domain = () => {
     };
     fetchDomains();
   }, []);
+
 
   return (
     <div className="bg-[#0e1721] py-24 px-4 flex items-center justify-center relative overflow-hidden">
