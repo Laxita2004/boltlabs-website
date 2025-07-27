@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { adminAPI } from "../../services/api.js";
 
 const initialState = {
@@ -12,14 +12,21 @@ const AddClientPage = () => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [domains, setDomains] = useState([]);
+  const [domainError, setDomainError] = useState("");
 
-  const domains = [
-    "Cloud Services",
-    "Database Design", 
-    "Web Development",
-    "API Integration",
-    "Mobile Development"
-  ];
+  useEffect(() => {
+    const fetchDomainList = async () => {
+      try {
+        const res = await adminAPI.getDomains(); // You’ll define this next
+        setDomains(res.data);
+      } catch (err) {
+        console.error("Failed to fetch domains:", err);
+        setDomainError("Unable to load domains.");
+      }
+    };
+    fetchDomainList();
+  }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -30,14 +37,14 @@ const AddClientPage = () => {
     setMessage("");
     setError("");
     setLoading(true);
-    
+
     // Basic validation
     if (!form.clientName || !form.domain || !form.description) {
       setError("Please fill all required fields.");
       setLoading(false);
       return;
     }
-    
+
     try {
       const response = await adminAPI.createClient(form);
       setMessage("Client added successfully!");
@@ -60,7 +67,9 @@ const AddClientPage = () => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">Add New Client</h1>
-          <p className="text-gray-300">Enter client details and select domain.</p>
+          <p className="text-gray-300">
+            Enter client details and select domain.
+          </p>
         </div>
 
         {/* Messages */}
@@ -79,8 +88,10 @@ const AddClientPage = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Client Information Card */}
           <div className="bg-[#1e293b] rounded-lg p-6 shadow-lg border border-gray-700/50">
-            <h2 className="text-xl font-semibold text-white mb-6">Client Information</h2>
-            
+            <h2 className="text-xl font-semibold text-white mb-6">
+              Client Information
+            </h2>
+
             <div className="space-y-6">
               {/* Client Name */}
               <div>
@@ -111,15 +122,26 @@ const AddClientPage = () => {
                   required
                 >
                   <option value="">Select a domain</option>
-                  {domains.map((domain) => (
-                    <option key={domain} value={domain} className="bg-[#2d3748] text-white">
-                      {domain}
-                    </option>
-                  ))}
+                  {domains.map((d) => (
+  <option key={d.domain_id} value={d.name} className="bg-[#2d3748] text-white">
+    {d.name}
+  </option>
+))}
+
                 </select>
                 <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  <svg
+                    className="w-5 h-5 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
                   </svg>
                 </div>
               </div>
@@ -165,4 +187,4 @@ const AddClientPage = () => {
   );
 };
 
-export default AddClientPage; 
+export default AddClientPage;

@@ -97,7 +97,7 @@ const ServiceRequests = () => {
         </div>
       ) : (
         <div className="space-y-8">
-          {requests.map((req) => (
+          {requests.filter((req) => req.status === "PENDING").map((req) => (
             <div key={req.req_id} className="bg-[#232f3e] rounded-xl p-6 shadow flex flex-col md:flex-row md:items-center md:justify-between border border-[#3a4656]">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">

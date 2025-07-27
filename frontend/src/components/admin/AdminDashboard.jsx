@@ -80,21 +80,21 @@ const DashboardOverview = () => {
               <p className="text-3xl font-bold text-white mb-1">{dashboardStats.totalClients}</p>
               {/* <p className="text-green-400 text-sm">Active clients</p> */}
             </div>
-            <div className="bg-[#1F2937] p-6 rounded-lg shadow-lg border border-gray-700/50">
+            {/* <div className="bg-[#1F2937] p-6 rounded-lg shadow-lg border border-gray-700/50">
               <h3 className="text-gray-400 font-medium mb-2">Active Projects</h3>
               <p className="text-3xl font-bold text-white mb-1">{dashboardStats.activeProjects}</p>
               <p className="text-blue-400 text-sm">Currently running</p>
-            </div>
+            </div> */}
             <div className="bg-[#1F2937] p-6 rounded-lg shadow-lg border border-gray-700/50">
               <h3 className="text-gray-400 font-medium mb-2">Team Members</h3>
               <p className="text-3xl font-bold text-white mb-1">{dashboardStats.teamMembers}</p>
-              <p className="text-purple-400 text-sm">Available members</p>
+              <p className="text-teal-400 text-sm">Available members</p>
             </div>
-            <div className="bg-[#1F2937] p-6 rounded-lg shadow-lg border border-gray-700/50">
+            {/* <div className="bg-[#1F2937] p-6 rounded-lg shadow-lg border border-gray-700/50">
               <h3 className="text-gray-400 font-medium mb-2">Completed Projects</h3>
               <p className="text-3xl font-bold text-white mb-1">{dashboardStats.completedProjects}</p>
               <p className="text-green-400 text-sm">Successfully delivered</p>
-            </div>
+            </div> */}
           </div>
         </div>
 

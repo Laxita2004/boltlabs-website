@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import {
-  FaTwitter,
+  FaWhatsapp,
   FaLinkedinIn,
-  FaFacebook,
+  // FaFacebook,
   FaInstagram,
 } from "react-icons/fa";
 import logo from "../assets/logo.png";
+
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -32,12 +33,12 @@ const Footer = () => {
             </p>
             <div className="flex space-x-3">
               <a
-                href="https://twitter.com"
+                href="https://whatsapp.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-[#33FEBF] p-2 rounded-full hover:opacity-90 transition-colors"
               >
-                <FaTwitter className="text-[#141e28]" size={20} />
+                <FaWhatsapp className="text-[#141e28]" size={20} />
               </a>
               <a
                 href="https://linkedin.com"
@@ -47,16 +48,16 @@ const Footer = () => {
               >
                 <FaLinkedinIn className="text-[#141e28]" size={20} />
               </a>
-              <a
+              {/* <a
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-[#33FEBF] p-2 rounded-full hover:opacity-90 transition-colors"
               >
                 <FaFacebook className="text-[#141e28]" size={20} />
-              </a>
+              </a> */}
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/bolt.labs?igsh=MWhvd2twaWF3d2VpOA=="
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-[#33FEBF] p-2 rounded-full hover:opacity-90 transition-colors"

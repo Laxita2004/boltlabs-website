@@ -182,7 +182,7 @@ export const respondToRequest = async (req, res) => {
     }
 
     const updatedRequest = await prisma.serviceRequest.update({
-      where: { req_id: parseInt(req_id) },
+      where: { req_id },
       data: { status },
       include: {
         user: true,
@@ -211,6 +211,7 @@ export const respondToRequest = async (req, res) => {
       });
     }
   } catch (err) {
+    console.log(err);
     res.status(500).json({ error: 'Failed to process request', details: err.message });
   }
 };
