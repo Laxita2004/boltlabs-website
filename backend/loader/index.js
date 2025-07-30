@@ -17,12 +17,7 @@ import contactRoutes from "../routes/contact.js";
 
 const loader = async (app) => {
   // Configure CORS to allow requests from frontend
-  app.use(cors({
-    origin: ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:5174'],
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token']
-  }));
+ 
   app.use(express.json());
   app.use(morgan('dev'));
 

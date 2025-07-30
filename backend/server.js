@@ -3,7 +3,7 @@ import express from "express";
 import loader from "./loader/index.js";
 import dotenv from "dotenv";
 import cors from "cors";
-import path from "path";
+
 
 // ✅ Load environment variables
 dotenv.config();
@@ -11,8 +11,6 @@ dotenv.config();
 // ✅ Initialize Express app
 const app = express();
 
-//for proper path resolution
-const __dirname = path.resolve();
 
 app.get("/", (req, res) => {
     res.send("BoltLabs backend is running 🚀");
@@ -20,11 +18,32 @@ app.get("/", (req, res) => {
 
 
 // ✅ CORS configuration
+
+const prodOrigins = [
+  getEnvironmentVariable('ORIGIN_1'),
+  getEnvironmentVariable('ORIGIN_2'),
+  getEnvironmentVariable('ORIGIN_3'),
+];
+const devOrigin = ['http://localhost:5173'];
+const allowedOrigins = getEnvironmentVariable('NODE_ENV') === 'production' ? prodOrigins : devOrigin;
 app.use(
   cors({
-    origin: "http://localhost:5173", // frontend URL
-    credentials: true,
-  })
+    origin: (origin, callback) => {
+      if (getEnvironmentVariable('NODE_ENV') === 'production') {
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error(`${origin} not allowed by cors`));
+        }
+      } else {
+        callback(null, true);
+      }
+    },
+     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    optionsSuccessStatus: 200,
+  }),
 );
 
 // Body parser (json)
@@ -40,17 +59,9 @@ const startServer = async () => {
   });
 
   
-  if(process.env.NODE_ENV === "production") {
-    // Serve static files from the React frontend app
-    app.use(express.static(path.join(__dirname, "../frontend/dist")));
-
-    // Handle React routing, return all requests to React app
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
-    });
-  }
+ 
   // Start the server
-  const PORT = process.env.PORT; 
+  const PORT = process.env.PORT || 5001; 
   app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 };
 
