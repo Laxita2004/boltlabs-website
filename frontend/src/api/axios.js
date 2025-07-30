@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { BACKEND_URL } from '../../config/config';
+import { BACKEND_URL } from '../config/config';
+
 
 
 const BASE_URL = import.meta.env.MODE === 'development' ? `${BACKEND_URL}/api` : '/api';

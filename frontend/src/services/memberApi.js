@@ -1,5 +1,6 @@
 import axios from "axios";
-import { BACKEND_URL } from "../../config/config";
+import { BACKEND_URL } from "../config/config";
+
 
 const BASE_URL = `${BACKEND_URL}/api/member`; // 👈 use /api/member to match backend
 
