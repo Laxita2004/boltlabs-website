@@ -20,10 +20,11 @@ app.get("/", (req, res) => {
 // ✅ CORS configuration
 
 const prodOrigins = [
-  getEnvironmentVariable('ORIGIN_1'),
-  getEnvironmentVariable('ORIGIN_2'),
-  getEnvironmentVariable('ORIGIN_3'),
-];
+  process.env.ORIGIN_1,
+  process.env.ORIGIN_2,
+  process.env.ORIGIN_3,
+].filter(Boolean);
+
 const devOrigin = ['http://localhost:5173'];
 const allowedOrigins = getEnvironmentVariable('NODE_ENV') === 'production' ? prodOrigins : devOrigin;
 app.use(
