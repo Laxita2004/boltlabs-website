@@ -16,14 +16,22 @@ app.get("/", (req, res) => {
     res.send("BoltLabs backend is running 🚀");
   });
 
-
-
 // ✅ CORS configuration
+// following this lines if you have specific origins to allow in production
+// ✅ Define allowed origins clearly as of now
 const prodOrigins = [
-  process.env.ORIGIN_1,
-  process.env.ORIGIN_2,
-  process.env.ORIGIN_3,
-].filter(Boolean); // remove undefined entries
+  'https://bolt-labs-demo.vercel.app', 
+];
+
+
+
+// In main server file, set up CORS
+// // ✅ CORS configuration
+// const prodOrigins = [
+//   process.env.ORIGIN_1,
+//   process.env.ORIGIN_2,
+//   process.env.ORIGIN_3,
+// ].filter(Boolean); // remove undefined entries
 
 const devOrigin = ['http://localhost:5173'];
 
