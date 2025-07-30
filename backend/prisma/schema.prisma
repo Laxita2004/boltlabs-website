@@ -1,0 +1,130 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["public"]
+}
+
+model User {
+  user_id         String           @id @default(uuid())
+  name            String
+  email           String           @unique
+  password        String
+  phone           String?
+  created_at      DateTime         @default(now())
+  updated_at      DateTime         @updatedAt
+  services        Service[]
+  serviceRequests ServiceRequest[]
+
+  @@schema("public")
+}
+
+model Admin {
+  admin_id String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
+
+  @@schema("public")
+}
+
+model Domain {
+  domain_id       String           @id @default(uuid())
+  name            String           @unique
+  members         MemberDomain[]
+  services        Service[]
+  serviceRequests ServiceRequest[]
+
+  @@schema("public")
+}
+
+model Member {
+  member_id   String          @id @default(uuid())
+  name        String
+  email       String          @unique
+  password    String
+  empId       String?         // New: Employee ID
+  pic         String?         // New: Profile picture URL
+  description String?         // New: Bio or summary
+  skillTags   String[]        // New: Skill tags
+  firstLogin  Boolean         @default(true)
+  domains     MemberDomain[]
+  services    MemberService[]
+
+  @@schema("public")
+}
+
+model MemberDomain {
+  member_id String
+  domain_id String
+  domain    Domain @relation(fields: [domain_id], references: [domain_id], onDelete: Cascade)
+  member    Member @relation(fields: [member_id], references: [member_id], onDelete: Cascade)
+
+  @@id([member_id, domain_id])
+  @@schema("public")
+}
+
+model Service {
+  service_id String          @id @default(uuid())
+  user_id    String
+  service    String
+  domain_id  String
+  idea_date  DateTime        @default(now())
+  members    MemberService[]
+  payments   Payment[]
+  domain     Domain          @relation(fields: [domain_id], references: [domain_id])
+  user       User            @relation(fields: [user_id], references: [user_id])
+
+  @@schema("public")
+}
+
+model Payment {
+  payment_id       String   @id @default(uuid())
+  payment_provider String
+  service_id       String
+  payment_date     DateTime @default(now())
+  service          Service  @relation(fields: [service_id], references: [service_id])
+
+  @@schema("public")
+}
+
+model ServiceRequest {
+  req_id       String   @id @default(uuid())
+  user_id      String
+  service      String
+  domain_id    String
+  request_date DateTime @default(now())
+  status       String   @default("pending") // pending | approved | rejected etc.
+  domain       Domain   @relation(fields: [domain_id], references: [domain_id])
+  user         User     @relation(fields: [user_id], references: [user_id])
+
+  @@schema("public")
+}
+
+model MemberService {
+  member_id   String
+  service_id  String
+  status      WorkStatus @default(ASSIGNED)
+  completedAt DateTime?
+  rating      Int?
+  feedback    String?
+  member      Member     @relation(fields: [member_id], references: [member_id], onDelete: Cascade)
+  service     Service    @relation(fields: [service_id], references: [service_id], onDelete: Cascade)
+
+  @@id([member_id, service_id])
+  @@schema("public")
+}
+
+enum WorkStatus {
+  ASSIGNED
+  IN_PROGRESS
+  COMPLETED
+  REJECTED
+
+  @@schema("public")
+}
+  
