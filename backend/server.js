@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 // following this lines if you have specific origins to allow in production
 // ✅ Define allowed origins clearly as of now
 const prodOrigins = [
-  'https://bolt-labs-demo.vercel.app', 
+  'https://bolt-labs.vercel.app', 
 ];
 
 
