@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaLock, FaEnvelope } from 'react-icons/fa';
 import axios from '../api/axios';
-import { BACKEND_URL } from '../config/config';
+import { BACKEND_URL } from '../../config/config';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');

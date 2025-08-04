@@ -1,9 +1,8 @@
 import axios from "axios";
-import { BACKEND_URL } from "../config/config";
 
 // ✅ Create axios instance
 const api = axios.create({
-  baseURL: `${BACKEND_URL}`,
+  baseURL: 'http://localhost:8080',
   headers: { 'Content-Type': 'application/json' },
   withCredentials: true,
   timeout: 10000,

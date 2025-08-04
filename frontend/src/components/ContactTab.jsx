@@ -1,6 +1,5 @@
 import React from 'react';
 import { Mail, Phone, MapPin, Globe, Twitter, MessageCircle, Send } from 'lucide-react';
-import { BACKEND_URL } from '../config/config';
 
 const ContactTab = () => {
   // Form state
@@ -46,7 +45,7 @@ const ContactTab = () => {
     try {
       console.log('Submitting form data:', formData);
       
-      const response = await fetch(`${BACKEND_URL}/api/contact`, {
+      const response = await fetch('http://localhost:3000/api/contact', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json'

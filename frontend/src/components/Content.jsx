@@ -2,7 +2,6 @@ import React from "react";
 import call from "../assets/emergency-call.png";
 import email from "../assets/email.png";
 import address from "../assets/location.png";
-import { BACKEND_URL } from "../config/config";
 
 const Content = () => {
   return (
@@ -92,7 +91,7 @@ const Content = () => {
                 };
 
                 try {
-                  const res = await fetch(`${BACKEND_URL}/api/contact`, {
+                  const res = await fetch("http://localhost:8080/api/contact", {
                     method: "POST",
                     headers: {
                       "Content-Type": "application/json",

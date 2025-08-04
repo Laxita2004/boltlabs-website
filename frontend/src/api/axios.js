@@ -1,14 +1,11 @@
 import axios from 'axios';
-import { BACKEND_URL } from '../config/config';
-
-const BASE_URL = `${BACKEND_URL}/api`;
+import { BACKEND_URL } from '../../config/config';
 
 const instance = axios.create({
-  baseURL: BASE_URL,
+  baseURL: `${BACKEND_URL}/api`,
   headers: {
     'Content-Type': 'application/json'
-  },
-  withCredentials: true //as it is important for CORS and cookies
+  }
 });
 
 instance.interceptors.request.use((config) => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useAdmin } from "../../hooks/useAdmin.js";
-import AdminSidebar from "./AdminSidebar.jsx";
+import AdminSidebar from "./adminSidebar.jsx";
 
 const DashboardOverview = () => {
   const {
